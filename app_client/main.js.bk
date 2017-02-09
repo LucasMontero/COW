@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('meanApp', ['ngRoute']);
+  angular.module('cowApp', ['ngRoute']);
 
   function config ($routeProvider, $locationProvider) {
     $routeProvider
@@ -38,7 +38,7 @@
     });
   }
 
-  angular.module('meanApp').config(['$routeProvider', '$locationProvider', config])
+  angular.module('cowApp').config(['$routeProvider', '$locationProvider', config])
     .run(['$rootScope', '$location', 'authentication', run]);
 
 })();

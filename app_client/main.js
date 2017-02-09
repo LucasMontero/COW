@@ -1,31 +1,31 @@
-var cowApp = angular.module('meanApp', ['ngRoute']);
+var cowApp = angular.module('cowApp', ['ngRoute']);
 
-cowApp.config(function ($routeProvider) {
+cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: './views/home.view.html',
+    templateUrl: '/views/home.view.html',
     controller: 'homeCtrl',
     controllerAs: 'vm'
   })
   .when('/register', {
-    templateUrl: './views/register.view.html',
+    templateUrl: '/views/register.view.html',
     controller: 'registerCtrl',
     controllerAs: 'vm'
   })
   .when('/login', {
-    templateUrl: './views/login.view.html',
+    templateUrl: '/views/login.view.html',
     controller: 'loginCtrl',
     controllerAs: 'vm'
   })
   .when('/profile', {
-    templateUrl: './views/profile.view.html',
+    templateUrl: '/views/profile.view.html',
     controller: 'profileCtrl',
     controllerAs: 'vm'
   })
   .otherwise({redirectTo: '/'});
 
   // use the HTML5 History API
-  //$locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true);
 });
 
 cowApp.run(function ($rootScope, $location, $route, authentication) {
@@ -43,8 +43,9 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
 /*
  * Shows in log if controller is running
  */
-angular.module("meanApp").controller("homeCtrl", function(){
-  console.log("Home controller is running")
+angular.module("cowApp").controller("homeCtrl", function(){
+  console.log("Home controller is running");
+
 });
 
 //Profile - profile.controller
@@ -55,7 +56,7 @@ angular.module("meanApp").controller("homeCtrl", function(){
  * @param  object meanData  data.service.js service object
  *
  */
-angular.module("meanApp").controller("profileCtrl",["$location", "meanData" ,function($location, meanData){
+angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,function($location, meanData){
   var vm = this;
 
   vm.user = {};
@@ -78,7 +79,7 @@ angular.module("meanApp").controller("profileCtrl",["$location", "meanData" ,fun
  * @param  object authentication Authentication service object
  *
  */
-angular.module("meanApp").controller("loginCtrl",['$location', 'authentication',function($location, authentication) {
+angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',function($location, authentication) {
     //vm is the controller alias
     var vm = this;
 
@@ -107,7 +108,7 @@ angular.module("meanApp").controller("loginCtrl",['$location', 'authentication',
  * @param  object authentication Authentication service object
  *
  */
-angular.module("meanApp").controller("registerCtrl",["$location", "authentication", function($location, authentication){
+angular.module("cowApp").controller("registerCtrl",["$location", "authentication", function($location, authentication){
   //vm is the controller alias
   var vm = this;
 
@@ -136,12 +137,13 @@ angular.module("meanApp").controller("registerCtrl",["$location", "authenticatio
  * @param  object authentication Authentication service object
  *
  */
-angular.module('meanApp').controller('navigationCtrl', ['$location','authentication', function($location, authentication){
+angular.module('cowApp').controller('navigationCtrl', ['$location','authentication', function($location, authentication){
   //vm is the controller alias
   var vm = this;
 
-  vm.isLoggedIn = authentication.isLoggedIn();
+  vm.isLoggedIn  = authentication.isLoggedIn();
   vm.currentUser = authentication.currentUser();
+  vm.logout      = authentication.logout();
 
 }]);
 
@@ -156,8 +158,7 @@ angular.module('meanApp').controller('navigationCtrl', ['$location','authenticat
  *Signature – An encrypted hash of the header and payload, using the “secret” set on the server
 */
 
-
-angular.module('meanApp').service('authentication', ['$http', '$window', function($http, $window){
+angular.module('cowApp').service('authentication', ['$http', '$window', function($http, $window){
   var saveToken = function (token) {
     $window.localStorage['mean-token'] = token;
   };
@@ -189,7 +190,7 @@ angular.module('meanApp').service('authentication', ['$http', '$window', functio
       payload = JSON.parse(payload);
       return {
         email : payload.email,
-        name : payload.name
+        name  : payload.name
       };
     }
   };
@@ -222,7 +223,7 @@ angular.module('meanApp').service('authentication', ['$http', '$window', functio
 }]);
 
 //data.service
-angular.module('meanApp').service('meanData', ['$http', 'authentication', function($http, authentication){
+angular.module('cowApp').service('meanData', ['$http', 'authentication', function($http, authentication){
     var getProfile = function () {
       return $http.get('/api/profile', {
         headers: {
@@ -237,11 +238,21 @@ angular.module('meanApp').service('meanData', ['$http', 'authentication', functi
 }]);
 
 //#####DIRECTIVES#####
+
 //navigation.service -> See also navigation.controller
-angular.module("meanApp").directive("navigation", function(){
+angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/navigation.view.html",
       controller: "navigationCtrl as navvm"
+  }
+});
+
+//sidebar.service
+angular.module("cowApp").directive("sidebar", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/sidebar.view.html",
+      controller: ""
   }
 });

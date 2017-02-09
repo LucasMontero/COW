@@ -26,13 +26,13 @@
             "/profile" !== e.path() || t.isLoggedIn() || e.path("/")
         })
     }
-    angular.module("meanApp", ["ngRoute"]), angular.module("meanApp").config(["$routeProvider", "$locationProvider", n]).run(["$rootScope", "$location", "authentication", e])
+    angular.module("cowApp", ["ngRoute"]), angular.module("cowApp").config(["$routeProvider", "$locationProvider", n]).run(["$rootScope", "$location", "authentication", e])
 }(),
 function() {
     function n() {
         console.log("Home controller is running")
     }
-    angular.module("meanApp").controller("homeCtrl", n)
+    angular.module("cowApp").controller("homeCtrl", n)
 }(),
 function() {
     function n(n, e) {
@@ -43,7 +43,7 @@ function() {
             console.log(n)
         })
     }
-    angular.module("meanApp").controller("profileCtrl", n), n.$inject = ["$location", "meanData"]
+    angular.module("cowApp").controller("profileCtrl", n), n.$inject = ["$location", "meanData"]
 }(),
 function() {
     function n(n, e) {
@@ -59,7 +59,7 @@ function() {
             })
         }
     }
-    angular.module("meanApp").controller("loginCtrl", n), n.$inject = ["$location", "authentication"]
+    angular.module("cowApp").controller("loginCtrl", n), n.$inject = ["$location", "authentication"]
 }(),
 function() {
     function n(n, e) {
@@ -76,7 +76,7 @@ function() {
             })
         }
     }
-    angular.module("meanApp").controller("registerCtrl", n), n.$inject = ["$location", "authentication"]
+    angular.module("cowApp").controller("registerCtrl", n), n.$inject = ["$location", "authentication"]
 }(),
 function() {
     function n(n, e) {
@@ -120,7 +120,7 @@ function() {
             logout: logout
         }
     }
-    angular.module("meanApp").service("authentication", n), n.$inject = ["$http", "$window"]
+    angular.module("cowApp").service("authentication", n), n.$inject = ["$http", "$window"]
 }(),
 function() {
     function n(n, e) {
@@ -135,14 +135,14 @@ function() {
             getProfile: t
         }
     }
-    angular.module("meanApp").service("meanData", n), n.$inject = ["$http", "authentication"]
+    angular.module("cowApp").service("meanData", n), n.$inject = ["$http", "authentication"]
 }(),
 function() {
     function n(n, e) {
         var t = this;
         t.isLoggedIn = e.isLoggedIn(), t.currentUser = e.currentUser()
     }
-    angular.module("meanApp").controller("navigationCtrl", n), n.$inject = ["$location", "authentication"]
+    angular.module("cowApp").controller("navigationCtrl", n), n.$inject = ["$location", "authentication"]
 }(),
 function() {
     function n() {
@@ -152,5 +152,5 @@ function() {
             controller: "navigationCtrl as navvm"
         }
     }
-    angular.module("meanApp").directive("navigation", n)
+    angular.module("cowApp").directive("navigation", n)
 }();

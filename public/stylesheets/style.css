@@ -1,8 +1,9 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.box{
+  width: 80%;
+  float: right;
 }
 
-a {
-  color: #00B7FF;
+#sidebar-wrapper {
+  width: 20%;
+  float: left;
 }

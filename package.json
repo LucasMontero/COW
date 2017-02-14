@@ -1,6 +1,6 @@
 {
-  "name": "MEAN-stack-authentication",
-  "version": "0.0.1",
+  "name": "COW",
+  "version": "0.0.2-development",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

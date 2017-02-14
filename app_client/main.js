@@ -3,18 +3,13 @@ var cowApp = angular.module('cowApp', ['ngRoute']);
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: '/views/home.view.html',
-    controller: 'homeCtrl',
-    controllerAs: 'vm'
-  })
-  .when('/register', {
-    templateUrl: '/views/register.view.html',
-    controller: 'registerCtrl',
-    controllerAs: 'vm'
-  })
-  .when('/login', {
     templateUrl: '/views/login.view.html',
     controller: 'loginCtrl',
+    controllerAs: 'vm'
+  })
+  .when('/home', {
+    templateUrl: '/views/home.view.html',
+    controller: 'homeCtrl',
     controllerAs: 'vm'
   })
   .when('/logout', {
@@ -49,8 +44,13 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/users', {
     templateUrl: '/views/users.view.html',
-    controller: '',
-    controllerAs: ''
+    controller: 'usersCtrl',
+    controllerAs: 'vm'
+  })
+  .when('/users/newUser', {
+    templateUrl: '/views/register.view.html',
+    controller: 'registerCtrl',
+    controllerAs: 'vm'
   })
   .when('/options', {
     templateUrl: '/views/options.view.html',
@@ -65,8 +65,12 @@ cowApp.config(function ($routeProvider, $locationProvider) {
 
 cowApp.run(function ($rootScope, $location, $route, authentication) {
   $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-    if ($location.path() === '/profile' && !authentication.isLoggedIn()) {
+    if ($location.path() !== '/' && !authentication.isLoggedIn()) {
       $location.path('/');
+    }
+
+    if($location.path() === '/' && authentication.isLoggedIn()){
+      $location.path('/home');
     }
   });
 });
@@ -99,6 +103,7 @@ angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,func
   //Get user data function
   meanData.getProfile()
     .success(function(data) {
+      console.log(data);
       vm.user = data;
     })
     .error(function (e) {
@@ -129,7 +134,7 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
           alert(err);
         })
         .then(function(){
-          $location.path('profile');
+          $location.path('home');
         });
     };
 
@@ -195,6 +200,25 @@ angular.module('cowApp').controller('navigationCtrl', ['$location', 'authenticat
   vm.isLoggedIn  = authentication.isLoggedIn();
   vm.currentUser = authentication.currentUser();
 }]);
+
+
+//users.controller
+
+angular.module("cowApp").controller("usersCtrl",["$location", "meanData" ,function($location, meanData){
+  var vm = this;
+
+  vm.users = {};
+  //Get users data function
+  meanData.getAllUsers()
+    .success(function(data) {
+      console.log(data);
+      vm.users = data;
+    })
+    .error(function (e) {
+      console.log(e);
+    });
+}]);
+
 
 //#####SERVICES#####
 
@@ -281,8 +305,17 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
+    var getAllUsers = function(){
+      return $http.get('/api/users',{
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        }
+      });
+    };
+
     return {
-      getProfile : getProfile
+      getProfile  : getProfile,
+      getAllUsers : getAllUsers
     };
 }]);
 

@@ -1,25 +1,25 @@
 <navigation></navigation>
+<sidebar></sidebar>
 
 <div class="container">
 
   <div class="row">
     <div class="col-md-6">
-      <h1>Register</h1>
-      <p class="lead">Already a member? Please <a href="login">log in</a> instead.</p>
+      <h1>Create a new user:</h1>
       <form ng-submit="vm.onSubmit()">
         <div class="form-group">
           <label for="name">Full name</label>
-          <input type="text" class="form-control" id="name" placeholder="Enter your name" ng-model="vm.credentials.name">
+          <input type="text" class="form-control" id="name" placeholder="Enter user name" ng-model="vm.credentials.name">
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="vm.credentials.email">
+          <input type="email" class="form-control" id="email" placeholder="Enter user email" ng-model="vm.credentials.email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Password" ng-model="vm.credentials.password">
         </div>
-        <button type="submit" class="btn btn-default">Register!</button>
+        <button type="submit" class="btn btn-default">Create</button>
       </form>
     </div>
   </div>

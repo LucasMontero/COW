@@ -17,10 +17,45 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'loginCtrl',
     controllerAs: 'vm'
   })
+  .when('/logout', {
+      templateUrl: '',
+      controller: 'logoutCtrl',
+      controllerAs: 'vm'
+  })
   .when('/profile', {
     templateUrl: '/views/profile.view.html',
     controller: 'profileCtrl',
     controllerAs: 'vm'
+  })
+  .when('/pages', {
+    templateUrl: '/views/pages.view.html',
+    controller: '',
+    controllerAs: ''
+  })
+  .when('/multimedia', {
+    templateUrl: '/views/multimedia.view.html',
+    controller: '',
+    controllerAs: ''
+  })
+  .when('/plugins', {
+    templateUrl: '/views/plugins.view.html',
+    controller: '',
+    controllerAs: ''
+  })
+  .when('/themes', {
+    templateUrl: '/views/themes.view.html',
+    controller: '',
+    controllerAs: ''
+  })
+  .when('/users', {
+    templateUrl: '/views/users.view.html',
+    controller: '',
+    controllerAs: ''
+  })
+  .when('/options', {
+    templateUrl: '/views/options.view.html',
+    controller: '',
+    controllerAs: ''
   })
   .otherwise({redirectTo: '/'});
 
@@ -100,6 +135,22 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
 
 }]);
 
+//Authentication - logout.controller
+/**
+ * Delete the user session on the browser
+ *
+ * @param  object $location Angular path location
+ * @param  object authentication Authentication service object
+ *
+ */
+ angular.module('cowApp').controller('logoutCtrl', ['$location', 'authentication', function($location, authentication){
+   //vm is the controller alias
+   var vm = this;
+
+   vm.logout =  authentication.logout();
+   $location.path('/');
+ }]);
+
 //Authentication - register.controller
 /**
  * Try to register a new user in database
@@ -123,9 +174,9 @@ angular.module("cowApp").controller("registerCtrl",["$location", "authentication
     console.log('Submitting registration');
     authentication.register(vm.credentials).error(function(err){
         alert(err);
-      }).then(function(){
+    }).then(function(){
         $location.path('profile');
-      });
+    });
   };
 }]);
 
@@ -137,14 +188,12 @@ angular.module("cowApp").controller("registerCtrl",["$location", "authentication
  * @param  object authentication Authentication service object
  *
  */
-angular.module('cowApp').controller('navigationCtrl', ['$location','authentication', function($location, authentication){
+angular.module('cowApp').controller('navigationCtrl', ['$location', 'authentication', function($location, authentication){
   //vm is the controller alias
   var vm = this;
 
   vm.isLoggedIn  = authentication.isLoggedIn();
   vm.currentUser = authentication.currentUser();
-  vm.logout      = authentication.logout();
-
 }]);
 
 //#####SERVICES#####
@@ -208,7 +257,7 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
   };
 
   logout = function() {
-    $window.localStorage.removeItem('mean-token');
+     $window.localStorage.removeItem('mean-token');
   };
 
   return {
@@ -239,7 +288,7 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
 
 //#####DIRECTIVES#####
 
-//navigation.service -> See also navigation.controller
+//navigation.directive -> See also navigation.controller
 angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
@@ -248,7 +297,7 @@ angular.module("cowApp").directive("navigation", function(){
   }
 });
 
-//sidebar.service
+//sidebar.directive
 angular.module("cowApp").directive("sidebar", function(){
   return {
       restrict: "EA",

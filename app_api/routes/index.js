@@ -11,7 +11,6 @@ var auth = jwt({
 });
 
 //Required controllers
-var ctrlProfile  = require('../controllers/profile');
 var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
 
@@ -27,9 +26,10 @@ user.setPassword('development');
 user.save();
 
 //Routing
-//  - profile
+//  - users
 router.get('/profile', auth, ctrlUsers.profileRead);
 router.get('/users', auth, ctrlUsers.getAllUsers);
+router.get('/deleteUser', auth, ctrlUsers.deleteUser);
 
 //  - authentication
 router.post('/register', ctrlAuth.register);

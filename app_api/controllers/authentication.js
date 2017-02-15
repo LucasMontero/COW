@@ -3,7 +3,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-//ADD SECURITY//
+//ADD SECURITY - VALIDATION//
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);

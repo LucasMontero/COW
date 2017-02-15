@@ -52,6 +52,11 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'registerCtrl',
     controllerAs: 'vm'
   })
+  .when('/users/deleteUser/:userId', {
+    templateUrl: '',
+    controller: 'deleteUserCtrl',
+    controllerAs: 'vm'
+  })
   .when('/options', {
     templateUrl: '/views/options.view.html',
     controller: '',
@@ -180,9 +185,40 @@ angular.module("cowApp").controller("registerCtrl",["$location", "authentication
     authentication.register(vm.credentials).error(function(err){
         alert(err);
     }).then(function(){
-        $location.path('profile');
+        $location.path('users');
     });
   };
+}]);
+
+//users.controller
+
+angular.module("cowApp").controller("usersCtrl",["$scope","$location", "meanData" ,function($scope,$location, meanData){
+  var vm = this;
+
+  //Get users data function
+  meanData.getAllUsers()
+    .success(function(data) {
+      $scope.users = data;
+    })
+    .error(function (e) {
+      console.log(e);
+    });
+}]);
+
+//deleteUser.controller
+
+angular.module("cowApp").controller("deleteUserCtrl",["$routeParams", "$location", "meanData" ,function($routeParams ,$location, meanData){
+  var vm = this;
+
+  //console.log($routeParams.userId);
+  //Get users data function
+  meanData.deleteUser($routeParams.userId)
+    .success(function(data) {
+      $location.path('users');
+    })
+    .error(function (e) {
+      console.log(e);
+    });
 }]);
 
 //navigation.controller -> See also navigation.service
@@ -201,23 +237,6 @@ angular.module('cowApp').controller('navigationCtrl', ['$location', 'authenticat
   vm.currentUser = authentication.currentUser();
 }]);
 
-
-//users.controller
-
-angular.module("cowApp").controller("usersCtrl",["$location", "meanData" ,function($location, meanData){
-  var vm = this;
-
-  vm.users = {};
-  //Get users data function
-  meanData.getAllUsers()
-    .success(function(data) {
-      console.log(data);
-      vm.users = data;
-    })
-    .error(function (e) {
-      console.log(e);
-    });
-}]);
 
 
 //#####SERVICES#####
@@ -313,9 +332,18 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
+    var deleteUser = function(userId){
+      return $http.get('/api/deleteUser',{
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken(),
+        }
+      }).params({Id: userId});
+    };
+
     return {
       getProfile  : getProfile,
-      getAllUsers : getAllUsers
+      getAllUsers : getAllUsers,
+      deleteUser  : deleteUser
     };
 }]);
 

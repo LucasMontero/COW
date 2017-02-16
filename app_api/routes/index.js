@@ -29,7 +29,7 @@ user.save();
 //  - users
 router.get('/profile', auth, ctrlUsers.profileRead);
 router.get('/users', auth, ctrlUsers.getAllUsers);
-router.get('/deleteUser', auth, ctrlUsers.deleteUser);
+router.delete('/deleteUser',auth,  ctrlUsers.deleteUser);
 
 //  - authentication
 router.post('/register', ctrlAuth.register);

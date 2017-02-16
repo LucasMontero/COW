@@ -5,22 +5,22 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   .when('/', {
     templateUrl: '/views/login.view.html',
     controller: 'loginCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
   })
   .when('/home', {
     templateUrl: '/views/home.view.html',
     controller: 'homeCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
   })
   .when('/logout', {
       templateUrl: '',
       controller: 'logoutCtrl',
-      controllerAs: 'vm'
+      controllerAs: 'ctl'
   })
   .when('/profile', {
     templateUrl: '/views/profile.view.html',
     controller: 'profileCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
   })
   .when('/pages', {
     templateUrl: '/views/pages.view.html',
@@ -45,17 +45,22 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   .when('/users', {
     templateUrl: '/views/users.view.html',
     controller: 'usersCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
   })
   .when('/users/newUser', {
-    templateUrl: '/views/register.view.html',
+    templateUrl: '/views/userForm.view.html',
     controller: 'registerCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
   })
   .when('/users/deleteUser/:userId', {
     templateUrl: '',
     controller: 'deleteUserCtrl',
-    controllerAs: 'vm'
+    controllerAs: 'ctl'
+  })
+  .when('/users/editUser/:userId', {
+    templateUrl: '/views/userForm.view.html',
+    controller: 'editUserCtrl',
+    controllerAs: 'ctl'
   })
   .when('/options', {
     templateUrl: '/views/options.view.html',
@@ -101,15 +106,14 @@ angular.module("cowApp").controller("homeCtrl", function(){
  *
  */
 angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,function($location, meanData){
-  var vm = this;
+  var ctl = this;
 
-  vm.user = {};
+  ctl.user = {};
 
   //Get user data function
   meanData.getProfile()
     .success(function(data) {
-      console.log(data);
-      vm.user = data;
+      ctl.user = data;
     })
     .error(function (e) {
       console.log(e);
@@ -125,16 +129,16 @@ angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,func
  *
  */
 angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',function($location, authentication) {
-    //vm is the controller alias
-    var vm = this;
+    //ctl is the controller alias
+    var ctl = this;
 
-    vm.credentials = {
+    ctl.credentials = {
       email : "",
       password : ""
     };
     //On form submit add input data to credentials variables and try to login with them.
-    vm.onSubmit = function () {
-      authentication.login(vm.credentials)
+    ctl.onSubmit = function () {
+      authentication.login(ctl.credentials)
         .error(function(err){
           alert(err);
         })
@@ -154,10 +158,10 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
  *
  */
  angular.module('cowApp').controller('logoutCtrl', ['$location', 'authentication', function($location, authentication){
-   //vm is the controller alias
-   var vm = this;
+   //ctl is the controller alias
+   var ctl = this;
 
-   vm.logout =  authentication.logout();
+   ctl.logout =  authentication.logout();
    $location.path('/');
  }]);
 
@@ -170,19 +174,20 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
  *
  */
 angular.module("cowApp").controller("registerCtrl",["$location", "authentication", function($location, authentication){
-  //vm is the controller alias
-  var vm = this;
+  //ctl is the controller alias
+  var ctl = this;
+  ctl.isEdit = false;
 
-  vm.credentials = {
+  ctl.credentials = {
     name : "",
     email : "",
     password : ""
   };
 
   //On form submit add input data to variables and try to register the user.
-  vm.onSubmit = function () {
+  ctl.onSubmit = function () {
     console.log('Submitting registration');
-    authentication.register(vm.credentials).error(function(err){
+    authentication.register(ctl.credentials).error(function(err){
         alert(err);
     }).then(function(){
         $location.path('users');
@@ -191,13 +196,21 @@ angular.module("cowApp").controller("registerCtrl",["$location", "authentication
 }]);
 
 //users.controller
-
+/**
+ * Fill users view with users data.
+ *
+ * @param  object $scope object that refers to the application model.
+ * @param  object $location Angular path service
+ * @param  object authentication Authentication service object
+ *
+ */
 angular.module("cowApp").controller("usersCtrl",["$scope","$location", "meanData" ,function($scope,$location, meanData){
-  var vm = this;
+  var ctl = this;
 
   //Get users data function
   meanData.getAllUsers()
     .success(function(data) {
+      console.log(data);
       $scope.users = data;
     })
     .error(function (e) {
@@ -206,11 +219,18 @@ angular.module("cowApp").controller("usersCtrl",["$scope","$location", "meanData
 }]);
 
 //deleteUser.controller
+/**
+ * Delete a specific user by id
+ *
+ * @param  object $routeParams Parameters passed by url
+ * @param  object $location Angular path service
+ * @param  object authentication Authentication service object
+ *
+ */
 
 angular.module("cowApp").controller("deleteUserCtrl",["$routeParams", "$location", "meanData" ,function($routeParams ,$location, meanData){
-  var vm = this;
+  var ctl = this;
 
-  //console.log($routeParams.userId);
   //Get users data function
   meanData.deleteUser($routeParams.userId)
     .success(function(data) {
@@ -219,6 +239,22 @@ angular.module("cowApp").controller("deleteUserCtrl",["$routeParams", "$location
     .error(function (e) {
       console.log(e);
     });
+}]);
+
+//editUser.controller
+/**
+ * Edit a specific user by id
+ *
+ * @param  object $routeParams Parameters passed by url
+ * @param  object $location Angular path service
+ * @param  object authentication Authentication service object
+ *
+ */
+
+angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "meanData" ,function($routeParams ,$location, meanData){
+  var ctl = this;
+  ctl.isEdit = true;
+
 }]);
 
 //navigation.controller -> See also navigation.service
@@ -230,11 +266,11 @@ angular.module("cowApp").controller("deleteUserCtrl",["$routeParams", "$location
  *
  */
 angular.module('cowApp').controller('navigationCtrl', ['$location', 'authentication', function($location, authentication){
-  //vm is the controller alias
-  var vm = this;
+  //ctl is the controller alias
+  var ctl = this;
 
-  vm.isLoggedIn  = authentication.isLoggedIn();
-  vm.currentUser = authentication.currentUser();
+  ctl.isLoggedIn  = authentication.isLoggedIn();
+  ctl.currentUser = authentication.currentUser();
 }]);
 
 
@@ -332,12 +368,26 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
+    var getUser = function (userId) {
+      return $http.get('/api/user', {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        },
+        params: {
+            "userId": userId
+        }
+      });
+    };
+
     var deleteUser = function(userId){
-      return $http.get('/api/deleteUser',{
+      return $http.delete('/api/deleteUser', {
         headers: {
           Authorization: 'Bearer '+ authentication.getToken(),
+        },
+        params: {
+            "userId": userId
         }
-      }).params({Id: userId});
+      });
     };
 
     return {
@@ -354,7 +404,7 @@ angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/navigation.view.html",
-      controller: "navigationCtrl as navvm"
+      controller: "navigationCtrl as navctl"
   }
 });
 

@@ -18,10 +18,10 @@
       </thead>
       <tbody>
           <tr ng-repeat="user in users | orderBy: 'name'">
-            <td>{{user.name}}</td>
+            <td><a ng-href="/users/profile/{{user._id}}">{{user.name}}</a></td>
             <td>{{user.email}} </td>
             <td><a ng-href="/users/editUser/{{user._id}}">edit</a></td>
-            <td><a ng-href="/users/deleteUser/{{user._id}}">delete</a></td>
+            <td><a ng-click="deleteUser(user._id)" role="button">delete</a></td>
           </tr>
       </tbody>
     </table>

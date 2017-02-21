@@ -26,10 +26,13 @@ user.setPassword('development');
 user.save();
 
 //Routing
+//  - user
+router.get('/getUser', auth, ctrlUsers.getUserById);
+router.delete('/deleteUser',auth, ctrlUsers.deleteUserById);
+
 //  - users
-router.get('/profile', auth, ctrlUsers.profileRead);
 router.get('/users', auth, ctrlUsers.getAllUsers);
-router.delete('/deleteUser',auth,  ctrlUsers.deleteUser);
+
 
 //  - authentication
 router.post('/register', ctrlAuth.register);

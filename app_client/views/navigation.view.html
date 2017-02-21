@@ -2,13 +2,12 @@
   <div class="container">
     <div id="navbar-main">
       <ul class="nav navbar-nav">
-        <li><a href="/">COW Administration Panel</a></li>
+        <li><a href="/home">COW Administration Panel</a></li>
       </ul>
       <nav>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-hide="navctl.isLoggedIn"><a href="login">Sign in</a></li>
-          <li ng-show="navctl.isLoggedIn"><a href="profile">{{ navctl.currentUser.name }}</a></li>
-          <li ng-show="navctl.isLoggedIn"><a href="logout">logout</a></li>
+          <li><a ng-href="/users/profile/{{navctl.currentUser._id}}">{{navctl.currentUser.name}}</a></li>
+          <li><a ng-click="logout()" role='button'>logout</a></li>
         </ul>
       </nav>
     </div>

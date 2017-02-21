@@ -12,16 +12,6 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'homeCtrl',
     controllerAs: 'ctl'
   })
-  .when('/logout', {
-      templateUrl: '',
-      controller: 'logoutCtrl',
-      controllerAs: 'ctl'
-  })
-  .when('/profile', {
-    templateUrl: '/views/profile.view.html',
-    controller: 'profileCtrl',
-    controllerAs: 'ctl'
-  })
   .when('/pages', {
     templateUrl: '/views/pages.view.html',
     controller: '',
@@ -47,14 +37,14 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'usersCtrl',
     controllerAs: 'ctl'
   })
+  .when('/users/profile/:userId', {
+    templateUrl: '/views/profile.view.html',
+    controller: 'profileCtrl',
+    controllerAs: 'ctl'
+  })
   .when('/users/newUser', {
     templateUrl: '/views/userForm.view.html',
     controller: 'registerCtrl',
-    controllerAs: 'ctl'
-  })
-  .when('/users/deleteUser/:userId', {
-    templateUrl: '',
-    controller: 'deleteUserCtrl',
     controllerAs: 'ctl'
   })
   .when('/users/editUser/:userId', {
@@ -94,24 +84,24 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
  */
 angular.module("cowApp").controller("homeCtrl", function(){
   console.log("Home controller is running");
-
 });
 
 //Profile - profile.controller
 /**
  * Try to get user data
  *
+ * @param  object $routeParams   Parameters passed by Url
  * @param  object $location Angular path location
  * @param  object meanData  data.service.js service object
  *
  */
-angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,function($location, meanData){
+angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "meanData" ,function($routeParams, $location, meanData){
   var ctl = this;
 
   ctl.user = {};
 
   //Get user data function
-  meanData.getProfile()
+  meanData.getUser($routeParams.userId)
     .success(function(data) {
       ctl.user = data;
     })
@@ -124,8 +114,8 @@ angular.module("cowApp").controller("profileCtrl",["$location", "meanData" ,func
 /**
  * Try to login the user with passed credentials
  *
- * @param  object $location Angular path location
- * @param  object authentication Authentication service object
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
  *
  */
 angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',function($location, authentication) {
@@ -149,28 +139,12 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
 
 }]);
 
-//Authentication - logout.controller
-/**
- * Delete the user session on the browser
- *
- * @param  object $location Angular path location
- * @param  object authentication Authentication service object
- *
- */
- angular.module('cowApp').controller('logoutCtrl', ['$location', 'authentication', function($location, authentication){
-   //ctl is the controller alias
-   var ctl = this;
-
-   ctl.logout =  authentication.logout();
-   $location.path('/');
- }]);
-
 //Authentication - register.controller
 /**
  * Try to register a new user in database
  *
- * @param  object $location Angular path location
- * @param  object authentication Authentication service object
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
  *
  */
 angular.module("cowApp").controller("registerCtrl",["$location", "authentication", function($location, authentication){
@@ -199,42 +173,41 @@ angular.module("cowApp").controller("registerCtrl",["$location", "authentication
 /**
  * Fill users view with users data.
  *
- * @param  object $scope object that refers to the application model.
- * @param  object $location Angular path service
+ * @param  object $scope         Object that refers to the application model.
+ * @param  object $location      Angular path service
+ * @param  object $routeParams   Parameters passed by Url
  * @param  object authentication Authentication service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["$scope","$location", "meanData" ,function($scope,$location, meanData){
+angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "meanData" ,function($routeParams, $scope,$location, meanData){
   var ctl = this;
+
+  /**
+   * Delete a specific user by id and reload the user list
+   *
+   * @param  string userId Id of the user that will be deleted
+   *
+   */
+  $scope.deleteUser = function(userId) {
+    meanData.deleteUser(userId)
+      .success(function(data) {
+        meanData.getAllUsers()
+          .success(function(data) {
+            $scope.users = data;
+          })
+          .error(function (e) {
+            console.log(e);
+          });
+      })
+      .error(function (e) {
+        console.log(e);
+      });
+  };
 
   //Get users data function
   meanData.getAllUsers()
     .success(function(data) {
-      console.log(data);
       $scope.users = data;
-    })
-    .error(function (e) {
-      console.log(e);
-    });
-}]);
-
-//deleteUser.controller
-/**
- * Delete a specific user by id
- *
- * @param  object $routeParams Parameters passed by url
- * @param  object $location Angular path service
- * @param  object authentication Authentication service object
- *
- */
-
-angular.module("cowApp").controller("deleteUserCtrl",["$routeParams", "$location", "meanData" ,function($routeParams ,$location, meanData){
-  var ctl = this;
-
-  //Get users data function
-  meanData.deleteUser($routeParams.userId)
-    .success(function(data) {
-      $location.path('users');
     })
     .error(function (e) {
       console.log(e);
@@ -265,12 +238,20 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
  * @param  object authentication Authentication service object
  *
  */
-angular.module('cowApp').controller('navigationCtrl', ['$location', 'authentication', function($location, authentication){
+angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
 
   ctl.isLoggedIn  = authentication.isLoggedIn();
   ctl.currentUser = authentication.currentUser();
+
+  /**
+   * Delete the user session on the browser
+   */
+  $scope.logout = function(){
+    authentication.logout();
+    $location.path('/');
+  };
 }]);
 
 
@@ -317,6 +298,7 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
       payload = $window.atob(payload);
       payload = JSON.parse(payload);
       return {
+        _id   : payload._id,
         email : payload.email,
         name  : payload.name
       };
@@ -352,13 +334,6 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
 
 //data.service
 angular.module('cowApp').service('meanData', ['$http', 'authentication', function($http, authentication){
-    var getProfile = function () {
-      return $http.get('/api/profile', {
-        headers: {
-          Authorization: 'Bearer '+ authentication.getToken()
-        }
-      });
-    };
 
     var getAllUsers = function(){
       return $http.get('/api/users',{
@@ -369,7 +344,7 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
     };
 
     var getUser = function (userId) {
-      return $http.get('/api/user', {
+      return $http.get('/api/getUser', {
         headers: {
           Authorization: 'Bearer '+ authentication.getToken()
         },
@@ -390,10 +365,22 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
+    var editUser = function(user){
+      return $http.put('/api/updateUser', {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken(),
+        },
+        params: {
+            "user": user
+        }
+      });
+    }
+
     return {
-      getProfile  : getProfile,
+      getUser     : getUser,
       getAllUsers : getAllUsers,
-      deleteUser  : deleteUser
+      deleteUser  : deleteUser,
+      editUser    : editUser
     };
 }]);
 

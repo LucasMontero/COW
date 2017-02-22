@@ -44,7 +44,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/users/newUser', {
     templateUrl: '/views/userForm.view.html',
-    controller: 'registerCtrl',
+    controller: 'newUserCtrl',
     controllerAs: 'ctl'
   })
   .when('/users/editUser/:userId', {
@@ -74,7 +74,6 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
     }
   });
 });
-
 
 //#####CONTROLLERS#####
 
@@ -129,44 +128,15 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
     //On form submit add input data to credentials variables and try to login with them.
     ctl.onSubmit = function () {
       authentication.login(ctl.credentials)
-        .error(function(err){
-          alert(err);
+        .error(function(response){
+          //Add toast
+          alert(response.toast.message);
         })
         .then(function(){
           $location.path('home');
         });
     };
 
-}]);
-
-//Authentication - register.controller
-/**
- * Try to register a new user in database
- *
- * @param  object $location       Angular path location
- * @param  object authentication  Authentication service object
- *
- */
-angular.module("cowApp").controller("registerCtrl",["$location", "authentication", function($location, authentication){
-  //ctl is the controller alias
-  var ctl = this;
-  ctl.isEdit = false;
-
-  ctl.credentials = {
-    name : "",
-    email : "",
-    password : ""
-  };
-
-  //On form submit add input data to variables and try to register the user.
-  ctl.onSubmit = function () {
-    console.log('Submitting registration');
-    authentication.register(ctl.credentials).error(function(err){
-        alert(err);
-    }).then(function(){
-        $location.path('users');
-    });
-  };
 }]);
 
 //users.controller
@@ -212,6 +182,38 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
     .error(function (e) {
       console.log(e);
     });
+}]);
+
+/**
+ * Try to register a new user in database
+ *
+ * @param  object meanData    meanData service object
+ * @param  object $location   Angular path location
+ *
+ */
+angular.module("cowApp").controller("newUserCtrl",["$location", "meanData", function($location, meanData){
+  //ctl is the controller alias
+  var ctl = this;
+  ctl.isEdit = false;
+
+  ctl.credentials = {
+    name : "",
+    email : "",
+    password : ""
+  };
+
+  //On form submit add input data to variables and try to register the user.
+  ctl.onSubmit = function () {
+    console.log('Submitting creation');
+    meanData.createUser(ctl.credentials).error(function(response){
+        //Add toast
+        alert(response.toast.message);
+    }).then(function(response){
+        //Add toast
+        console.log(response.data.toast.message)
+        $location.path('users');
+    });
+  };
 }]);
 
 //editUser.controller
@@ -278,13 +280,9 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
 
   var isLoggedIn = function() {
     var token = getToken();
-    var payload;
 
     if(token){
-      payload = token.split('.')[1];
-      payload = $window.atob(payload);
-      payload = JSON.parse(payload);
-
+      var payload = preparePayload(token);
       return payload.exp > Date.now() / 1000;
     } else {
       return false;
@@ -294,9 +292,7 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
   var currentUser = function() {
     if(isLoggedIn()){
       var token = getToken();
-      var payload = token.split('.')[1];
-      payload = $window.atob(payload);
-      payload = JSON.parse(payload);
+      var payload = preparePayload(token);
       return {
         _id   : payload._id,
         email : payload.email,
@@ -305,11 +301,14 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
     }
   };
 
-  register = function(user) {
-    return $http.post('/api/register', user).success(function(data){
-      saveToken(data.token);
-    });
-  };
+  //private function
+  var preparePayload = function(token){
+    var payload = token.split('.')[1];
+    payload = $window.atob(payload);
+    payload = JSON.parse(payload);
+
+    return payload;
+  }
 
   login = function(user) {
     return $http.post('/api/login', user).success(function(data) {
@@ -326,7 +325,6 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
     saveToken : saveToken,
     getToken : getToken,
     isLoggedIn : isLoggedIn,
-    register : register,
     login : login,
     logout : logout
   };
@@ -354,6 +352,14 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
+    var createUser = function(user){
+      return $http.post('/api/createUser', user, {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        }
+      });
+    }
+
     var deleteUser = function(userId){
       return $http.delete('/api/deleteUser', {
         headers: {
@@ -366,18 +372,16 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
     };
 
     var editUser = function(user){
-      return $http.put('/api/updateUser', {
+      return $http.put('/api/updateUser', user,{
         headers: {
           Authorization: 'Bearer '+ authentication.getToken(),
-        },
-        params: {
-            "user": user
         }
       });
     }
 
     return {
       getUser     : getUser,
+      createUser  : createUser,
       getAllUsers : getAllUsers,
       deleteUser  : deleteUser,
       editUser    : editUser

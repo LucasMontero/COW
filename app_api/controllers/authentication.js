@@ -5,43 +5,6 @@ var User = mongoose.model('User');
 
 //ADD SECURITY - VALIDATION//
 
-var sendJSONresponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
-
-/**
- * Register a new user in DB
- *
- * @param  object req Http request
- * @param  object res Http response
- *
- */
-module.exports.register = function(req, res) {
-
-  if(!req.body.name || !req.body.email || !req.body.password) {
-    res.status(400).json("All fields required");
-    return;
-   }
-
-  var user = new User();
-
-  user.name = req.body.name;
-  user.email = req.body.email;
-
-  user.setPassword(req.body.password);
-
-  user.save(function(err) {
-    var token;
-    token = user.generateJwt();
-    res.status(200);
-    res.json({
-      "token" : token
-    });
-  });
-
-};
-
 /**
  * Login a user in page
  *
@@ -52,7 +15,12 @@ module.exports.register = function(req, res) {
 module.exports.login = function(req, res) {
 
    if(!req.body.email || !req.body.password) {
-     res.status(400).json("All fields required");
+     res.status(400).json({
+       "toast" : {
+           "result": "error",
+           "message":"All fields required."
+       }
+     });
      return;
    }
 
@@ -61,7 +29,13 @@ module.exports.login = function(req, res) {
 
     // If Passport throws/catches an error
     if (err) {
-      res.status(404).json(err);
+      res.status(400).json({
+        "toast" : {
+            "result" : "error",
+            "message": "An error ocurred meanwhile loging. Try again later.",
+            "error"  : err
+        }
+      });
       return;
     }
 

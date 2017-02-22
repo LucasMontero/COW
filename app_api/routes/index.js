@@ -27,15 +27,14 @@ user.save();
 
 //Routing
 //  - user
-router.get('/getUser', auth, ctrlUsers.getUserById);
-router.delete('/deleteUser',auth, ctrlUsers.deleteUserById);
+router.get('/getUser',       auth, ctrlUsers.getUserById);
+router.delete('/deleteUser', auth, ctrlUsers.deleteUserById);
+router.post('/createUser',   auth, ctrlUsers.createUser);
 
 //  - users
 router.get('/users', auth, ctrlUsers.getAllUsers);
 
-
 //  - authentication
-router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 
 module.exports = router;

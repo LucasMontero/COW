@@ -4,7 +4,7 @@
 module.exports.unknownErrorToast = function(err){
   return {
      "toast" : {
-          "result" : "error",
+          "status" : "error",
           "message": "An unknown error has occurred. Try again later.",
           "error"  : err
       }
@@ -14,7 +14,7 @@ module.exports.unknownErrorToast = function(err){
 module.exports.allFieldsRequiredToast = function(){
   return {
     "toast" : {
-        "result" : "error",
+        "status" : "error",
         "message": "All fields required."
     }
   };
@@ -23,8 +23,8 @@ module.exports.allFieldsRequiredToast = function(){
 module.exports.invalidLoginToast = function(){
   return {
     "toast" : {
-        "result" : "error",
-        "message": "Invalid user or password."
+        "status" : "error",
+        "message": "Invalid credentials."
     }
   };
 }
@@ -34,7 +34,7 @@ module.exports.invalidLoginToast = function(){
 module.exports.elementTaskCorrectly = function(element, task){
   return {
     "toast" : {
-        "result" : "ok",
+        "status" : "ok",
         "message": element +" "+ task + " correctly."
     }
   };

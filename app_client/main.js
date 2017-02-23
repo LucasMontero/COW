@@ -125,15 +125,16 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
       email : "",
       password : ""
     };
-    ctl.toast = {
-      message : "Mensaje del toast"
-    }
+
     //On form submit add input data to credentials variables and try to login with them.
     ctl.onSubmit = function () {
       authentication.login(ctl.credentials)
         .error(function(response){
-          //Add toast
-          alert(response.toast.message);
+          ctl.toast = {
+            status  : response.toast.status,
+            message : response.toast.message,
+            error   : response.toast.error
+          }
         })
         .then(function(){
           $location.path('home');
@@ -169,11 +170,19 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
             $scope.users = data;
           })
           .error(function (e) {
-            console.log(response.toast)
+            ctl.toast = {
+              status  : response.toast.status,
+              message : response.toast.message,
+              error   : response.toast.error
+            }
           });
       })
       .error(function (e) {
-        console.log(response.toast)
+        ctl.toast = {
+          status  : response.toast.status,
+          message : response.toast.message,
+          error   : response.toast.error
+        }
       });
   };
 
@@ -183,7 +192,11 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
       $scope.users = data;
     })
     .error(function (e) {
-      console.log(response.toast)
+      ctl.toast = {
+        status  : response.toast.status,
+        message : response.toast.message,
+        error   : response.toast.error
+      }
     });
 }]);
 
@@ -210,7 +223,11 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", func
     console.log('Submitting creation');
     userData.createUser(ctl.credentials).error(function(response){
         //Add toast
-        alert(response.toast.message);
+        ctl.toast = {
+          status  : response.toast.status,
+          message : response.toast.message,
+          error   : response.toast.error
+        }
     }).then(function(response){
         //Add toast
         console.log(response.data.toast.message)
@@ -243,7 +260,11 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
       ctl.credentials = data;
     })
     .error(function (e) {
-      console.log(response.toast)
+      ctl.toast = {
+        status  : response.toast.status,
+        message : response.toast.message,
+        error   : response.toast.error
+      }
     });
 
   //On form submit try to update de user
@@ -251,7 +272,11 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
     console.log('Submitting update');
     userData.updateUser($routeParams.userId, ctl.credentials).error(function(response){
           //Add toast
-          console.log(response.toast)
+          ctl.toast = {
+            status  : response.toast.status,
+            message : response.toast.message,
+            error   : response.toast.error
+          }
     }).then(function(response){
           //Add toast
           console.log(response.data.toast.message)
@@ -436,6 +461,15 @@ angular.module("cowApp").directive("sidebar", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/sidebar.view.html",
+      controller: ""
+  }
+});
+
+//sidebar.directive
+angular.module("cowApp").directive("toast", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/toast.view.html",
       controller: ""
   }
 });

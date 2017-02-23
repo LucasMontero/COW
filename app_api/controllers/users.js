@@ -14,6 +14,23 @@ var User     = mongoose.model('User');
  *  });
  */
 
+
+module.exports.checkAdministrator = function(req, res){
+  User.findOne({}, {}, {sort:{'created_at': 1}}, function(err, user){
+    if(!user){
+      console.log('Creating administration user.');
+      user = new User();
+
+      user.name  = 'administrator';
+      user.email = 'admin@cow.com';
+
+      user.setPassword('development');
+
+      user.save();
+    }
+  });
+}
+
  /**
   * Create a new user in DB
   *
@@ -36,7 +53,7 @@ var User     = mongoose.model('User');
 
    user.save(function(err) {
          if (err) res.status(500).json(toast.unknownErrorToast(err));
-  
+
          res.status(200).json(toast.elementTaskCorrectly("User", "created"));
    });
  };

@@ -2,11 +2,9 @@
 <sidebar></sidebar>
 
 <div class="container">
-
   <div class="row">
     <div class="col-md-6">
-      <h1 ng-hide="ctl.isEdit">Create a new user:</h1>
-      <h1 ng-show="ctl.isEdit">Editing a user:</h1>
+      <h1><span ng-hide="ctl.isEdit">Create a new user</span><span ng-show="ctl.isEdit">Editing {{ctl.credentials.name}}</span></h1>
       <form ng-submit="ctl.onSubmit()">
         <div class="form-group">
           <label for="name">Full name</label>
@@ -20,9 +18,9 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctl.credentials.password">
         </div>
-        <button type="submit" class="btn btn-default">Create</button>
+        <button type="submit" class="btn btn-default"><span ng-hide="ctl.isEdit">Create</span><span ng-show="ctl.isEdit">Update</span></button>
+        <toast></toast>
       </form>
     </div>
   </div>
-
 </div>

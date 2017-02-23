@@ -2,6 +2,7 @@
 var mongoose = require( 'mongoose' );
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken'); //npm install jsonwebtoken --save if not installed
+//var Secret = mongoose.model('Secret');
 
 //MongoDB user schema
 

@@ -4,7 +4,7 @@ var router = express.Router();
 // jwt - connect/express middleware that validates a JsonWebToken (JWT) and set the req.user with the attributes
 var jwt  = require('express-jwt'); //npm install express-jwt --save
 var mongoose = require( 'mongoose' );
-var User = mongoose.model('User');
+
 var auth = jwt({
   secret: 'MY_SECRET',
   userProperty: 'payload'
@@ -13,17 +13,14 @@ var auth = jwt({
 //Required controllers
 var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
+var ctrlSecret   = require('../controllers/secret');
 
-//Create user administrator in Database
+//Create user administrator in Database if not exist.
+ctrlUsers.checkAdministrator();
 
-var user = new User();
+//Create session secret in Database if not exist.
+console.log(ctrlSecret.checkSecret());
 
-user.name  = 'administrator';
-user.email = 'admin@cow.com';
-
-user.setPassword('development');
-
-user.save();
 
 //Routing
 //  - user

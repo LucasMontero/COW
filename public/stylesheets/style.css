@@ -7,3 +7,8 @@
   width: 20%;
   float: left;
 }
+
+#sidebar-nav{
+  list-style: none;
+  padding: 0;
+}

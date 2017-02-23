@@ -30,6 +30,7 @@ user.save();
 router.get('/getUser',       auth, ctrlUsers.getUserById);
 router.delete('/deleteUser', auth, ctrlUsers.deleteUserById);
 router.post('/createUser',   auth, ctrlUsers.createUser);
+router.put('/updateUser',    auth, ctrlUsers.updateUserById);
 
 //  - users
 router.get('/users', auth, ctrlUsers.getAllUsers);

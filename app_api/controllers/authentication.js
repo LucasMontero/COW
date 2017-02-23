@@ -1,7 +1,8 @@
 //required
 var passport = require('passport');
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var toast    = require('./toast.js');
+var User     = mongoose.model('User');
 
 //ADD SECURITY - VALIDATION//
 
@@ -15,12 +16,7 @@ var User = mongoose.model('User');
 module.exports.login = function(req, res) {
 
    if(!req.body.email || !req.body.password) {
-     res.status(400).json({
-       "toast" : {
-           "result": "error",
-           "message":"All fields required."
-       }
-     });
+     res.status(400).json(toast.allFieldsRequiredToast());
      return;
    }
 
@@ -29,13 +25,7 @@ module.exports.login = function(req, res) {
 
     // If Passport throws/catches an error
     if (err) {
-      res.status(400).json({
-        "toast" : {
-            "result" : "error",
-            "message": "An error ocurred meanwhile loging. Try again later.",
-            "error"  : err
-        }
-      });
+      res.status(400).json(toast.unknownErrorToast(err));
       return;
     }
 
@@ -48,7 +38,7 @@ module.exports.login = function(req, res) {
       });
     } else {
       // If user is not found
-      res.status(401).json(info.message);
+      res.status(401).json(toast.invalidLoginToast());
     }
 
   })(req, res);

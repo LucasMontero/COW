@@ -52,8 +52,8 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'editUserCtrl',
     controllerAs: 'ctl'
   })
-  .when('/options', {
-    templateUrl: '/views/options.view.html',
+  .when('/settings', {
+    templateUrl: '/views/settings.view.html',
     controller: '',
     controllerAs: ''
   })
@@ -91,21 +91,21 @@ angular.module("cowApp").controller("homeCtrl", function(){
  *
  * @param  object $routeParams   Parameters passed by Url
  * @param  object $location Angular path location
- * @param  object meanData  data.service.js service object
+ * @param  object userData  data.service.js service object
  *
  */
-angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "meanData" ,function($routeParams, $location, meanData){
+angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData" ,function($routeParams, $location, userData){
   var ctl = this;
 
   ctl.user = {};
 
   //Get user data function
-  meanData.getUser($routeParams.userId)
+  userData.getUser($routeParams.userId)
     .success(function(data) {
       ctl.user = data;
     })
     .error(function (e) {
-      console.log(e);
+      console.log(response.toast.message);
     });
 }]);
 
@@ -125,6 +125,9 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
       email : "",
       password : ""
     };
+    ctl.toast = {
+      message : "Mensaje del toast"
+    }
     //On form submit add input data to credentials variables and try to login with them.
     ctl.onSubmit = function () {
       authentication.login(ctl.credentials)
@@ -149,7 +152,7 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
  * @param  object authentication Authentication service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "meanData" ,function($routeParams, $scope,$location, meanData){
+angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData" ,function($routeParams, $scope,$location, userData){
   var ctl = this;
 
   /**
@@ -159,39 +162,39 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
    *
    */
   $scope.deleteUser = function(userId) {
-    meanData.deleteUser(userId)
+    userData.deleteUser(userId)
       .success(function(data) {
-        meanData.getAllUsers()
+        userData.getAllUsers()
           .success(function(data) {
             $scope.users = data;
           })
           .error(function (e) {
-            console.log(e);
+            console.log(response.toast)
           });
       })
       .error(function (e) {
-        console.log(e);
+        console.log(response.toast)
       });
   };
 
   //Get users data function
-  meanData.getAllUsers()
+  userData.getAllUsers()
     .success(function(data) {
       $scope.users = data;
     })
     .error(function (e) {
-      console.log(e);
+      console.log(response.toast)
     });
 }]);
 
 /**
  * Try to register a new user in database
  *
- * @param  object meanData    meanData service object
+ * @param  object userData    userData service object
  * @param  object $location   Angular path location
  *
  */
-angular.module("cowApp").controller("newUserCtrl",["$location", "meanData", function($location, meanData){
+angular.module("cowApp").controller("newUserCtrl",["$location", "userData", function($location, userData){
   //ctl is the controller alias
   var ctl = this;
   ctl.isEdit = false;
@@ -202,10 +205,10 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "meanData", func
     password : ""
   };
 
-  //On form submit add input data to variables and try to register the user.
+  //On form submit try to register the user.
   ctl.onSubmit = function () {
     console.log('Submitting creation');
-    meanData.createUser(ctl.credentials).error(function(response){
+    userData.createUser(ctl.credentials).error(function(response){
         //Add toast
         alert(response.toast.message);
     }).then(function(response){
@@ -225,10 +228,36 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "meanData", func
  * @param  object authentication Authentication service object
  *
  */
-
-angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "meanData" ,function($routeParams ,$location, meanData){
+angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData" ,function($routeParams ,$location, userData){
   var ctl = this;
   ctl.isEdit = true;
+
+  ctl.credentials = {
+    name : "",
+    email : "",
+    password : ""
+  };
+
+  userData.getUser($routeParams.userId)
+    .success(function(data) {
+      ctl.credentials = data;
+    })
+    .error(function (e) {
+      console.log(response.toast)
+    });
+
+  //On form submit try to update de user
+  ctl.onSubmit = function () {
+    console.log('Submitting update');
+    userData.updateUser($routeParams.userId, ctl.credentials).error(function(response){
+          //Add toast
+          console.log(response.toast)
+    }).then(function(response){
+          //Add toast
+          console.log(response.data.toast.message)
+          $location.path('users');
+    });
+  };
 
 }]);
 
@@ -322,16 +351,16 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
 
   return {
     currentUser : currentUser,
-    saveToken : saveToken,
-    getToken : getToken,
-    isLoggedIn : isLoggedIn,
-    login : login,
-    logout : logout
+    saveToken   : saveToken,
+    getToken    : getToken,
+    isLoggedIn  : isLoggedIn,
+    login       : login,
+    logout      : logout
   };
 }]);
 
-//data.service
-angular.module('cowApp').service('meanData', ['$http', 'authentication', function($http, authentication){
+//userData.service
+angular.module('cowApp').service('userData', ['$http', 'authentication', function($http, authentication){
 
     var getAllUsers = function(){
       return $http.get('/api/users',{
@@ -371,10 +400,13 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       });
     };
 
-    var editUser = function(user){
+    var updateUser = function(userId, user){
       return $http.put('/api/updateUser', user,{
         headers: {
           Authorization: 'Bearer '+ authentication.getToken(),
+        },
+        params: {
+            "userId": userId
         }
       });
     }
@@ -384,7 +416,7 @@ angular.module('cowApp').service('meanData', ['$http', 'authentication', functio
       createUser  : createUser,
       getAllUsers : getAllUsers,
       deleteUser  : deleteUser,
-      editUser    : editUser
+      updateUser  : updateUser
     };
 }]);
 

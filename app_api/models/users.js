@@ -31,6 +31,15 @@ userSchema.methods.setPassword = function(password){
   this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
 };
 
+/**
+ * Update the user schema hash bassed on encrypted password+existing salt
+ *
+ * @param  String  password The new password of the user
+ *
+ */
+userSchema.methods.updatePassword = function(password){
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+};
 
 /**
  * Check if the param password match with the stored user password.

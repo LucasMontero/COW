@@ -1,7 +1,7 @@
 //Requires
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
-
+var toast    = require('./toast.js');
+var User     = mongoose.model('User');
 
 /* Query example
  *  var query = User.find({})
@@ -23,12 +23,7 @@ var User = mongoose.model('User');
   */
  module.exports.createUser = function(req, res) {
    if(!req.body.name || !req.body.email || !req.body.password) {
-     res.status(400).json({
-       "toast" : {
-           "result": "error",
-           "message":"All fields required."
-       }
-     });
+     res.status(400).json(toast.allFieldsRequiredToast());
      return;
     }
 
@@ -40,13 +35,10 @@ var User = mongoose.model('User');
    user.setPassword(req.body.password);
 
    user.save(function(err) {
-     res.status(200).json({
-       "toast" : {
-           "result": "ok",
-           "message":"User created correctly."
-       }
-     });
-   }); 
+         if (err) res.status(500).json(toast.unknownErrorToast(err));
+  
+         res.status(200).json(toast.elementTaskCorrectly("User", "created"));
+   });
  };
 
 /**
@@ -58,7 +50,9 @@ var User = mongoose.model('User');
  */
 module.exports.getUserById = function(req, res) {
     User.findById(req.query.userId).exec(function(err, user) {
-      res.status(200).json(user);
+        if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+        res.status(200).json(user);
     });
 };
 
@@ -71,7 +65,9 @@ module.exports.getUserById = function(req, res) {
  */
 module.exports.getAllUsers = function(req, res) {
   User.find({}, 'name email').exec(function (err, data) {
-    res.status(200).json(data);
+        if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+        res.status(200).json(data);
   });;
 };
 
@@ -87,9 +83,35 @@ module.exports.deleteUserById = function(req, res) {
   User.findById(req.query.userId, function(err, user) {
         if(user != null){
           user.remove(function(err) {
-              if(err) return res.status(500).send(err.message);
+              if(err) return res.status(500).json(toast.unknownErrorToast(err));
               res.status(200).send();
           })
         }
     });
+};
+
+/**
+ * Update a user in DB
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.updateUserById = function(req, res) {
+
+  User.findById(req.query.userId, function (err, user){
+        if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+        if (req.body.name != undefined && user.name != req.body.name) {
+          user.name = req.body.name;
+        }
+        if (req.body.email != undefined && user.email != req.body.email  ) {
+          user.email = req.body.email;
+        }
+        if (req.body.password != undefined) {
+          user.updatePassword(req.body.password);
+        }
+
+        res.status(200).json(toast.elementTaskCorrectly("User", "updated"));
+      });
 };

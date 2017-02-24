@@ -1,7 +1,7 @@
 //required
 var passport = require('passport');
 var mongoose = require('mongoose');
-var toast    = require('./toast.js');
+var toast    = require('../services/toast.js');
 var User     = mongoose.model('User');
 
 //ADD SECURITY - VALIDATION//

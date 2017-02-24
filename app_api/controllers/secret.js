@@ -4,13 +4,19 @@ var Secret   = mongoose.model('Secret');
 
 
 module.exports.checkSecret = function(req, res){
-  return Secret.findOne({}, {}, {sort:{'created_at': 1}}, function(err, secret){
-    if(!secret){
+  Secret.find({}).count().exec(function(err, result){
+    if(result === 0){
       secret = new Secret();
 
-      secret.setSecret();
+      secret.setValue();
 
       secret.save();
     }
+  });
+}
+
+module.exports.getSecret = function(req, res){
+  Secret.findOne({}).sort({'created_at': 1}).exec(function(err, secret){
+  
   });
 }

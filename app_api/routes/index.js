@@ -5,11 +5,6 @@ var router = express.Router();
 var jwt  = require('express-jwt'); //npm install express-jwt --save
 var mongoose = require( 'mongoose' );
 
-var auth = jwt({
-  secret: 'MY_SECRET',
-  userProperty: 'payload'
-});
-
 //Required controllers
 var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
@@ -18,9 +13,14 @@ var ctrlSecret   = require('../controllers/secret');
 //Create user administrator in Database if not exist.
 ctrlUsers.checkAdministrator();
 
-//Create session secret in Database if not exist.
-console.log(ctrlSecret.checkSecret());
+//Create session secret in Database if not exist. IN DEVELOPMENT
+//ctrlSecret.checkSecret();
+//console.log(ctrlSecret.getSecret());
 
+var auth = jwt({
+  secret: 'MY_SECRET',
+  userProperty: 'payload'
+});
 
 //Routing
 //  - user

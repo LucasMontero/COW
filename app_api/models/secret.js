@@ -4,20 +4,20 @@ var crypto = require('crypto');
 
 //MongoDB secret schema
 
-var userSchema = new mongoose.Schema({
-  secret: {
+var secretSchema = new mongoose.Schema({
+  value: {
     type: String,
     unique: true,
     required: true
   },
 });
 
-userSchema.methods.setSecret = function(){
-  this.secret = crypto.randomBytes(16).toString('hex');
+secretSchema.methods.setValue = function(){
+  this.value = crypto.randomBytes(16).toString('hex');
 };
 
-userSchema.methods.getSecret = function(){
-  return this.secret;
+secretSchema.methods.getValue = function(){
+  return this.value;
 }
 
-mongoose.model('Secret', userSchema);
+mongoose.model('Secret', secretSchema);

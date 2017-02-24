@@ -1,6 +1,6 @@
 //Requires
 var mongoose = require('mongoose');
-var toast    = require('./toast.js');
+var toast    = require('../services/toast.js');
 var User     = mongoose.model('User');
 
 /* Query example
@@ -14,11 +14,11 @@ var User     = mongoose.model('User');
  *  });
  */
 
-
 module.exports.checkAdministrator = function(req, res){
-  User.findOne({}, {}, {sort:{'created_at': 1}}, function(err, user){
-    if(!user){
+  User.find({}).count().exec(function(err, result){
+    if(result === 0){
       console.log('Creating administration user.');
+
       user = new User();
 
       user.name  = 'administrator';
@@ -81,7 +81,7 @@ module.exports.getUserById = function(req, res) {
  *
  */
 module.exports.getAllUsers = function(req, res) {
-  User.find({}, 'name email').exec(function (err, data) {
+  User.find({}).select('name email').exec(function (err, data) {
         if (err) res.status(500).json(toast.unknownErrorToast(err));
 
         res.status(200).json(data);
@@ -96,8 +96,7 @@ module.exports.getAllUsers = function(req, res) {
  *
  */
 module.exports.deleteUserById = function(req, res) {
-
-  User.findById(req.query.userId, function(err, user) {
+  User.findById(req.query.userId).exec(function(err, user) {
         if(user != null){
           user.remove(function(err) {
               if(err) return res.status(500).json(toast.unknownErrorToast(err));
@@ -116,19 +115,24 @@ module.exports.deleteUserById = function(req, res) {
  */
 module.exports.updateUserById = function(req, res) {
 
-  User.findById(req.query.userId, function (err, user){
+  User.findById(req.query.userId).exec(function (err, user){
         if (err) res.status(500).json(toast.unknownErrorToast(err));
 
-        if (req.body.name != undefined && user.name != req.body.name) {
+        if (req.body.name != "" && user.name != req.body.name) {
+
           user.name = req.body.name;
         }
-        if (req.body.email != undefined && user.email != req.body.email  ) {
+        if (req.body.email != "" && user.email != req.body.email  ) {
           user.email = req.body.email;
         }
         if (req.body.password != undefined) {
           user.updatePassword(req.body.password);
         }
 
-        res.status(200).json(toast.elementTaskCorrectly("User", "updated"));
+        user.save(function(err) {
+              if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+              res.status(200).json(toast.elementTaskCorrectly("User", "updated"));
+        });
       });
 };

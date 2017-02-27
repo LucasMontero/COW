@@ -288,7 +288,7 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
 
 //navigation.controller -> See also navigation.service
 /**
- * Check if user is authenticated and if it is, shows the current user.
+ * Build the parameters and fuctions used in navigation.view
  *
  * @param  object $location Angular path location
  * @param  object authentication Authentication service object
@@ -298,6 +298,7 @@ angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'a
   //ctl is the controller alias
   var ctl = this;
 
+  //Check if user is authenticated and if it is, shows the current user.
   ctl.isLoggedIn  = authentication.isLoggedIn();
   ctl.currentUser = authentication.currentUser();
 
@@ -310,6 +311,27 @@ angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'a
   };
 }]);
 
+//sidebar.controller -> See also sidebar.service
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $location Angular path location
+ * @param  object authentication Authentication service object
+ *
+ */
+angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+  //ctl is the controller alias
+  var ctl = this;
+
+  ctl.menuView  =  function(){
+    switch (true) {
+      case /users/.test($location.$$path):
+        return "users";
+        break;
+    }
+  }
+
+}]);
 
 
 //#####SERVICES#####
@@ -452,7 +474,7 @@ angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/navigation.view.html",
-      controller: "navigationCtrl as navctl"
+      controller: "navigationCtrl as navCtl"
   }
 });
 
@@ -461,7 +483,7 @@ angular.module("cowApp").directive("sidebar", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/sidebar.view.html",
-      controller: ""
+      controller: "sidebarCtrl as sideCtl"
   }
 });
 

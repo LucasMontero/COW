@@ -17,6 +17,14 @@
         </li>
         <li>
           <a class="list-group-item" href="users"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Users</a>
+          <ul ng-show="sideCtl.menuView() == 'users'">
+            <li>
+              <a class="list-group-item" href="users">All Users</a>
+            </li>
+            <li>
+              <a class="list-group-item" href="users/newUser">New User</a>
+            </li>
+          </ul>
         </li>
         <li>
           <a class="list-group-item" href="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>

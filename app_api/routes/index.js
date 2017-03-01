@@ -15,7 +15,7 @@ ctrlUsers.checkAdministrator();
 
 //Create session secret in Database if not exist. IN DEVELOPMENT
 //ctrlSecret.checkSecret();
-//console.log(ctrlSecret.getSecret());
+//var secret = ctrlSecret.getSecret();
 
 var auth = jwt({
   secret: 'MY_SECRET',

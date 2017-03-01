@@ -1,0 +1,30 @@
+<div id="sidebar-wrapper">
+    <ul id="sidebar-nav">
+        <li>
+          <a class="list-group-item" href="/cow-adm/home"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/pages"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>&nbsp; Pages</a>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/multimedia"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>&nbsp; Multimedia</a>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/plugins"><i class="fa fa-archive fa-fw" aria-hidden="true"></i>&nbsp; Plugins</a>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/themes"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp; Themes</a>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/users"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Users</a>
+          <ul ng-show="sideCtl.menuView() == 'users'">
+            <li>
+              <a class="list-group-item" href="/cow-adm/users/newUser">New User</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="list-group-item" href="/cow-adm/settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>
+        </li>
+    </ul>
+</div>

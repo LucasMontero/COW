@@ -3,74 +3,79 @@ var cowApp = angular.module('cowApp', ['ngRoute']);
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: '/views/login.view.html',
+    templateUrl: '/views/front/page.view.html',
+    controller: '',
+    controllerAs: 'ctl'
+  })
+  .when('/cow-adm', {
+    templateUrl: '/views/adm/login.view.html',
     controller: 'loginCtrl',
     controllerAs: 'ctl'
   })
-  .when('/home', {
-    templateUrl: '/views/home.view.html',
+  .when('/cow-adm/home', {
+    templateUrl: '/views/adm/home.view.html',
     controller: 'homeCtrl',
     controllerAs: 'ctl'
   })
-  .when('/pages', {
-    templateUrl: '/views/pages.view.html',
+  .when('/cow-adm/pages', {
+    templateUrl: '/views/adm/pages.view.html',
     controller: '',
-    controllerAs: ''
+    controllerAs: 'ctl'
   })
-  .when('/multimedia', {
-    templateUrl: '/views/multimedia.view.html',
+  .when('/cow-adm/multimedia', {
+    templateUrl: '/views/adm/multimedia.view.html',
     controller: '',
-    controllerAs: ''
+    controllerAs: 'ctl'
   })
-  .when('/plugins', {
-    templateUrl: '/views/plugins.view.html',
+  .when('/cow-adm/plugins', {
+    templateUrl: '/views/adm/plugins.view.html',
     controller: '',
-    controllerAs: ''
+    controllerAs: 'ctl'
   })
-  .when('/themes', {
-    templateUrl: '/views/themes.view.html',
+  .when('/cow-adm/themes', {
+    templateUrl: '/views/adm/themes.view.html',
     controller: '',
-    controllerAs: ''
+    controllerAs: 'ctl'
   })
-  .when('/users', {
-    templateUrl: '/views/users.view.html',
+  .when('/cow-adm/users', {
+    templateUrl: '/views/adm/users.view.html',
     controller: 'usersCtrl',
     controllerAs: 'ctl'
   })
-  .when('/users/profile/:userId', {
-    templateUrl: '/views/profile.view.html',
+  .when('/cow-adm/users/profile/:userId', {
+    templateUrl: '/views/adm/profile.view.html',
     controller: 'profileCtrl',
     controllerAs: 'ctl'
   })
-  .when('/users/newUser', {
-    templateUrl: '/views/userForm.view.html',
+  .when('/cow-adm/users/newUser', {
+    templateUrl: '/views/adm/userForm.view.html',
     controller: 'newUserCtrl',
     controllerAs: 'ctl'
   })
-  .when('/users/editUser/:userId', {
-    templateUrl: '/views/userForm.view.html',
+  .when('/cow-adm/users/editUser/:userId', {
+    templateUrl: '/views/adm/userForm.view.html',
     controller: 'editUserCtrl',
     controllerAs: 'ctl'
   })
-  .when('/settings', {
-    templateUrl: '/views/settings.view.html',
+  .when('/cow-adm/settings', {
+    templateUrl: '/views/adm/settings.view.html',
     controller: '',
-    controllerAs: ''
+    controllerAs: 'ctl'
   })
   .otherwise({redirectTo: '/'});
 
-  // use the HTML5 History API
+  //Use the HTML5 History API
   $locationProvider.html5Mode(true);
 });
 
 cowApp.run(function ($rootScope, $location, $route, authentication) {
   $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-    if ($location.path() !== '/' && !authentication.isLoggedIn()) {
-      $location.path('/');
+    if (/cow-adm/.test($location.$$path) && !authentication.isLoggedIn()) {
+      $location.path('/cow-adm');
     }
 
-    if($location.path() === '/' && authentication.isLoggedIn()){
-      $location.path('/home');
+    if($location.path() === '/cow-adm' && authentication.isLoggedIn()){
+      $location.path('/cow-adm/home');
     }
   });
 });
@@ -81,9 +86,10 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
 /*
  * Shows in log if controller is running
  */
-angular.module("cowApp").controller("homeCtrl", function(){
+angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage){
   console.log("Home controller is running");
-});
+  titlePage.setTitle("COW Administration panel");
+}]);
 
 //Profile - profile.controller
 /**
@@ -94,8 +100,10 @@ angular.module("cowApp").controller("homeCtrl", function(){
  * @param  object userData  data.service.js service object
  *
  */
-angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData" ,function($routeParams, $location, userData){
+angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams, $location, userData, titlePage){
   var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - Profile");
 
   ctl.user = {};
 
@@ -117,9 +125,11 @@ angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", 
  * @param  object authentication  Authentication service object
  *
  */
-angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',function($location, authentication) {
+angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "titlePage",function($location, authentication, titlePage) {
     //ctl is the controller alias
     var ctl = this;
+
+    titlePage.setTitle("COW Administration panel - Login");
 
     ctl.credentials = {
       email : "",
@@ -137,7 +147,7 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
           }
         })
         .then(function(){
-          $location.path('home');
+          $location.path('/cow-adm/home');
         });
     };
 
@@ -153,8 +163,11 @@ angular.module("cowApp").controller("loginCtrl",['$location', 'authentication',f
  * @param  object authentication Authentication service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData" ,function($routeParams, $scope,$location, userData){
+angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "titlePage" ,function($routeParams, $scope,$location, userData, titlePage){
   var ctl = this;
+
+
+  titlePage.setTitle("COW Administration panel - Users");
 
   /**
    * Delete a specific user by id and reload the user list
@@ -207,9 +220,12 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
  * @param  object $location   Angular path location
  *
  */
-angular.module("cowApp").controller("newUserCtrl",["$location", "userData", function($location, userData){
+angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "titlePage", function($location, userData, titlePage){
   //ctl is the controller alias
   var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - New User");
+
   ctl.isEdit = false;
 
   ctl.credentials = {
@@ -231,7 +247,7 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", func
     }).then(function(response){
         //Add toast
         console.log(response.data.toast.message)
-        $location.path('users');
+        $location.path('/cow-adm/users');
     });
   };
 }]);
@@ -245,8 +261,11 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", func
  * @param  object authentication Authentication service object
  *
  */
-angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData" ,function($routeParams ,$location, userData){
+angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams ,$location, userData, titlePage){
   var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - Edit User");
+
   ctl.isEdit = true;
 
   ctl.credentials = {
@@ -280,7 +299,7 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
     }).then(function(response){
           //Add toast
           console.log(response.data.toast.message)
-          $location.path('users');
+          $location.path('/cow-adm/users');
     });
   };
 
@@ -467,22 +486,34 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
     };
 }]);
 
+angular.module('cowApp').service('titlePage', ['$window', function($window){
+   var setTitle = function(title){
+     $window.document.title = title;
+   }
+
+   return {
+     setTitle: setTitle
+   };
+}]);
+
 //#####DIRECTIVES#####
+
+//***ADM PANEL***
 
 //navigation.directive -> See also navigation.controller
 angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/navigation.view.html",
+      templateUrl: "/views/adm/navigation.view.html",
       controller: "navigationCtrl as navCtl"
   }
 });
 
-//sidebar.directive
+//sidebar.directive -> See also sidebar.controller
 angular.module("cowApp").directive("sidebar", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/sidebar.view.html",
+      templateUrl: "/views/adm/sidebar.view.html",
       controller: "sidebarCtrl as sideCtl"
   }
 });
@@ -491,7 +522,26 @@ angular.module("cowApp").directive("sidebar", function(){
 angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/toast.view.html",
+      templateUrl: "/views/adm/toast.view.html",
+      controller: ""
+  }
+});
+
+//***FRONT PAGE***
+
+angular.module("cowApp").directive("cowheader", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/front/header.view.html",
+      controller: ""
+  }
+});
+
+
+angular.module("cowApp").directive("cowfooter", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/front/footer.view.html",
       controller: ""
   }
 });

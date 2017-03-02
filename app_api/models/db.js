@@ -46,5 +46,6 @@ process.on('SIGTERM', function() {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
+require('./pages');
 require('./users');
-require('./secret')
+require('./secret');

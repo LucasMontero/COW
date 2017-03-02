@@ -19,7 +19,7 @@ module.exports.checkAdministrator = function(req, res){
     if(result === 0){
       console.log('Creating administration user.');
 
-      user = new User();
+      var user = new User();
 
       user.name  = 'administrator';
       user.email = 'admin@cow.com';
@@ -58,6 +58,21 @@ module.exports.checkAdministrator = function(req, res){
    });
  };
 
+ /**
+  * Get -> Get all users data
+  *
+  * @param  object req Http request
+  * @param  object res Http response
+  *
+  */
+ module.exports.getAllUsers = function(req, res) {
+   User.find({}).select('name email').exec(function (err, data) {
+         if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+         res.status(200).json(data);
+   });;
+ };
+
 /**
  * Get -> Get user data
  *
@@ -71,21 +86,6 @@ module.exports.getUserById = function(req, res) {
 
         res.status(200).json(user);
     });
-};
-
-/**
- * Get -> Get all users data
- *
- * @param  object req Http request
- * @param  object res Http response
- *
- */
-module.exports.getAllUsers = function(req, res) {
-  User.find({}).select('name email').exec(function (err, data) {
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
-
-        res.status(200).json(data);
-  });;
 };
 
 /**

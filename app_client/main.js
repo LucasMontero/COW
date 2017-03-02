@@ -19,7 +19,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/pages', {
     templateUrl: '/views/adm/pages.view.html',
-    controller: '',
+    controller: 'pagesCtrl',
     controllerAs: 'ctl'
   })
   .when('/cow-adm/multimedia', {
@@ -95,9 +95,9 @@ angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage)
 /**
  * Try to get user data
  *
- * @param  object $routeParams   Parameters passed by Url
- * @param  object $location Angular path location
- * @param  object userData  data.service.js service object
+ * @param  object $routeParams    Parameters passed by Url
+ * @param  object $location       Angular path location
+ * @param  object userData        data.service.js service object
  *
  */
 angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams, $location, userData, titlePage){
@@ -153,6 +153,74 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
 
 }]);
 
+//pages.controller
+/**
+ * Fill pages view with pages data.
+ *
+ * @param  object $scope         Object that refers to the application model.
+ * @param  object $location      Angular path service
+ * @param  object $routeParams   Parameters passed by Url
+ * @param  object authentication Authentication service object
+ *
+ */
+angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$location", "pageData", "titlePage" ,function($routeParams, $scope,$location, pageData, titlePage){
+  var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - Pages");
+
+  console.log('pages');
+
+  /**
+   * Delete a specific page by id and reload the pages list
+   *
+   * @param  string userId Id of the user that will be deleted
+   *
+   */
+   /*
+  $scope.deleteUser = function(userId) {
+    userData.deleteUser(userId)
+      .success(function(data) {
+        userData.getAllUsers()
+          .success(function(data) {
+            $scope.users = data;
+          })
+          .error(function (error) {
+            ctl.toast = {
+              status  : error.toast.status,
+              message : error.toast.message,
+              error   : error.toast.error
+            }
+          });
+          ctl.toast = {
+            status  : data.toast.status,
+            message : data.toast.message,
+            error   : data.toast.error
+          }
+      })
+      .error(function (error) {
+        ctl.toast = {
+          status  : error.toast.status,
+          message : error.toast.message,
+          error   : error.toast.error
+        }
+      });
+  }; */
+
+  //Get users data function
+  pageData.getAllPages()
+    .success(function(data) {
+      $scope.pages = data;
+      console.log(data);
+    })
+    .error(function (error) {
+      ctl.toast = {
+        status  : error.toast.status,
+        message : error.toast.message,
+        error   : error.toast.error
+      }
+    });
+}]);
+
 //users.controller
 /**
  * Fill users view with users data.
@@ -170,7 +238,7 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
   titlePage.setTitle("COW Administration panel - Users");
 
   /**
-   * Delete a specific user by id and reload the user list
+   * Delete a specific user by id and reload the users list
    *
    * @param  string userId Id of the user that will be deleted
    *
@@ -491,6 +559,68 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
     };
 }]);
 
+//pageData.service
+
+angular.module('cowApp').service('pageData', ['$http', 'authentication', function($http, authentication){
+
+    var getAllPages = function(){
+      return $http.get('/api/pages',{
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        }
+      });
+    };
+
+  /*
+    var getPage = function (pageId) {
+      return $http.get('/api/getPage', {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        },
+        params: {
+            "pageId": pageId
+        }
+      });
+    }; */
+
+    var createPage = function(page){
+      return $http.post('/api/createPage', page, {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        }
+      });
+    }
+
+/*
+    var deletePage = function(pageId){
+      return $http.delete('/api/deletePage', {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken(),
+        },
+        params: {
+            "pageId": pageId
+        }
+      });
+    };
+
+    var updatePage = function(pageId, page){
+      return $http.put('/api/updatePage', page,{
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken(),
+        },
+        params: {
+            "pageId": pageId
+        }
+      });
+    } */
+
+    return {
+      createPage  : createPage,
+      getAllPages : getAllPages,
+    };
+}]);
+
+//titlePage.service
 angular.module('cowApp').service('titlePage', ['$window', function($window){
    var setTitle = function(title){
      $window.document.title = title;

@@ -9,9 +9,12 @@ var mongoose = require( 'mongoose' );
 var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
 var ctrlSecret   = require('../controllers/secret');
+var ctrlPages    = require('../controllers/pages');
 
 //Create user administrator in Database if not exist.
 ctrlUsers.checkAdministrator();
+
+ctrlPages.checkPages();
 
 //Create session secret in Database if not exist. IN DEVELOPMENT
 //ctrlSecret.checkSecret();
@@ -23,16 +26,27 @@ var auth = jwt({
 });
 
 //Routing
+//  - authentication
+
+router.post('/login', ctrlAuth.login);
+
+//  - pages
+
+router.get('/pages',         auth, ctrlPages.getAllPages);
+//router.get('/getPage',       auth, ctrlPages.getUserById);
+router.post('/createPage',   auth, ctrlPages.createPage);
+//router.delete('/deletePage', auth, ctrlPages.deleteUserById);
+//router.put('/updatePage',    auth, ctrlPages.updateUserById);
+
 //  - user
+
+router.get('/users',         auth, ctrlUsers.getAllUsers);
 router.get('/getUser',       auth, ctrlUsers.getUserById);
-router.delete('/deleteUser', auth, ctrlUsers.deleteUserById);
 router.post('/createUser',   auth, ctrlUsers.createUser);
+router.delete('/deleteUser', auth, ctrlUsers.deleteUserById);
 router.put('/updateUser',    auth, ctrlUsers.updateUserById);
 
-//  - users
-router.get('/users', auth, ctrlUsers.getAllUsers);
 
-//  - authentication
-router.post('/login', ctrlAuth.login);
+
 
 module.exports = router;

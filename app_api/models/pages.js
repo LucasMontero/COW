@@ -3,30 +3,32 @@ var mongoose = require('mongoose');
 
 //MongoDB pages schema
 
-var pagesSchema = new mongoose.Schema({
-  path: {
-    type: String,
-    unique: true,
-    required: true
-  },
+var pageSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
     required: true
   },
-  body: {
+  path: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  content: {
     type: String
-  }
+  },
   footer:{
     type: Boolean
-  }
+  },
   header:{
     type: Boolean
-  }
+  },
+  index:{
+    type: Boolean
+  },
   public:{
     type: Boolean
   }
 });
 
-
-mongoose.model('Pages', pagesSchema);
+mongoose.model('Page', pageSchema);

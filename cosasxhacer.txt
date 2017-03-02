@@ -1,0 +1,2 @@
+1.: Hacer funcionar la llamada al secret de la base de datos en app_api/routes/index.js
+2.: Hacer un servicio que permita mostrar toast de una página a otra.

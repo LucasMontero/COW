@@ -5,7 +5,7 @@ module.exports.unknownErrorToast = function(err){
   return {
      "toast" : {
           "status" : "error",
-          "message": "An unknown error has occurred. Try again later.",
+          "message": "Holy cow! An unknown error has occurred. Try again later.",
           "error"  : err
       }
     };

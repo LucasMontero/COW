@@ -100,7 +100,7 @@ module.exports.deleteUserById = function(req, res) {
         if(user != null){
           user.remove(function(err) {
               if(err) return res.status(500).json(toast.unknownErrorToast(err));
-              res.status(200).send();
+              res.status(200).json(toast.elementTaskCorrectly("User", "removed"));
           })
         }
     });

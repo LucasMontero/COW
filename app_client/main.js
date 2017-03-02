@@ -112,8 +112,8 @@ angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", 
     .success(function(data) {
       ctl.user = data;
     })
-    .error(function (e) {
-      console.log(response.toast.message);
+    .error(function (error) {
+      console.log(error.toast.message);
     });
 }]);
 
@@ -139,11 +139,11 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
     //On form submit add input data to credentials variables and try to login with them.
     ctl.onSubmit = function () {
       authentication.login(ctl.credentials)
-        .error(function(response){
+        .error(function(error){
           ctl.toast = {
-            status  : response.toast.status,
-            message : response.toast.message,
-            error   : response.toast.error
+            status  : error.toast.status,
+            message : error.toast.message,
+            error   : error.toast.error
           }
         })
         .then(function(){
@@ -182,19 +182,24 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
           .success(function(data) {
             $scope.users = data;
           })
-          .error(function (e) {
+          .error(function (error) {
             ctl.toast = {
-              status  : response.toast.status,
-              message : response.toast.message,
-              error   : response.toast.error
+              status  : error.toast.status,
+              message : error.toast.message,
+              error   : error.toast.error
             }
           });
+          ctl.toast = {
+            status  : data.toast.status,
+            message : data.toast.message,
+            error   : data.toast.error
+          }
       })
-      .error(function (e) {
+      .error(function (error) {
         ctl.toast = {
-          status  : response.toast.status,
-          message : response.toast.message,
-          error   : response.toast.error
+          status  : error.toast.status,
+          message : error.toast.message,
+          error   : error.toast.error
         }
       });
   };
@@ -204,11 +209,11 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
     .success(function(data) {
       $scope.users = data;
     })
-    .error(function (e) {
+    .error(function (error) {
       ctl.toast = {
-        status  : response.toast.status,
-        message : response.toast.message,
-        error   : response.toast.error
+        status  : error.toast.status,
+        message : error.toast.message,
+        error   : error.toast.error
       }
     });
 }]);
@@ -237,12 +242,12 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "tit
   //On form submit try to register the user.
   ctl.onSubmit = function () {
     console.log('Submitting creation');
-    userData.createUser(ctl.credentials).error(function(response){
+    userData.createUser(ctl.credentials).error(function(error){
         //Add toast
         ctl.toast = {
-          status  : response.toast.status,
-          message : response.toast.message,
-          error   : response.toast.error
+          status  : error.toast.status,
+          message : error.toast.message,
+          error   : error.toast.error
         }
     }).then(function(response){
         //Add toast
@@ -278,23 +283,23 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
     .success(function(data) {
       ctl.credentials = data;
     })
-    .error(function (e) {
+    .error(function (error) {
       ctl.toast = {
-        status  : response.toast.status,
-        message : response.toast.message,
-        error   : response.toast.error
+        status  : error.toast.status,
+        message : error.toast.message,
+        error   : error.toast.error
       }
     });
 
   //On form submit try to update de user
   ctl.onSubmit = function () {
     console.log('Submitting update');
-    userData.updateUser($routeParams.userId, ctl.credentials).error(function(response){
+    userData.updateUser($routeParams.userId, ctl.credentials).error(function(error){
           //Add toast
           ctl.toast = {
-            status  : response.toast.status,
-            message : response.toast.message,
-            error   : response.toast.error
+            status  : error.toast.status,
+            message : error.toast.message,
+            error   : error.toast.error
           }
     }).then(function(response){
           //Add toast

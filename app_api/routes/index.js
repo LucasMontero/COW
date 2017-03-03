@@ -32,11 +32,11 @@ router.post('/login', ctrlAuth.login);
 
 //  - pages
 
-router.get('/pages',         auth, ctrlPages.getAllPages);
-//router.get('/getPage',       auth, ctrlPages.getUserById);
-router.post('/createPage',   auth, ctrlPages.createPage);
-//router.delete('/deletePage', auth, ctrlPages.deleteUserById);
-//router.put('/updatePage',    auth, ctrlPages.updateUserById);
+router.get('/pages',           auth, ctrlPages.getAllPages);
+router.get('/getPage',         auth, ctrlPages.getPageById);
+router.post('/createPage',     auth, ctrlPages.createPage);
+router.delete('/deletePage',   auth, ctrlPages.deletePageById);
+router.put('/updatePage',      auth, ctrlPages.updatePageById);
 
 //  - user
 

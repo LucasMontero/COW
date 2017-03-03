@@ -6,7 +6,7 @@ var Page     = mongoose.model('Page');
 module.exports.checkPages = function(req, res){
   Page.find({}).count().exec(function(err, result){
     if(result === 0){
-      console.log('Test page.');
+      console.log('Creating main page.');
 
       var page = new Page();
 
@@ -61,10 +61,73 @@ module.exports.createPage = function(req, res) {
  *
  */
 module.exports.getAllPages = function(req, res) {
-  console.log('dentro');
-  Pages.find({}).select('title').exec(function (err, data) {
+  Page.find({}).select('title').exec(function (err, data) {
         if (err) res.status(500).json(toast.unknownErrorToast(err));
         res.status(200).json(data);
-        console.log(data);
   });;
+};
+
+/**
+ * Get -> Get page data
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.getPageById = function(req, res) {
+    Page.findById(req.query.pageId).exec(function(err, page) {
+        if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+        res.status(200).json(page);
+    });
+};
+
+
+/**
+ * Update a page in DB
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.updatePageById = function(req, res) {
+
+  Page.findById(req.query.pageId).exec(function (err, page){
+        if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+      /*  if (req.body.name != "" && user.name != req.body.name) {
+
+          user.name = req.body.name;
+        }
+        if (req.body.email != "" && user.email != req.body.email  ) {
+          user.email = req.body.email;
+        }
+        if (req.body.password != undefined) {
+          user.updatePassword(req.body.password);
+        } */
+
+        page.save(function(err) {
+              if (err) res.status(500).json(toast.unknownErrorToast(err));
+
+              res.status(200).json(toast.elementTaskCorrectly("Page", "updated"));
+        });
+      });
+};
+
+/**
+ * Delete -> Remove a page from DB
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.deletePageById = function(req, res) {
+  Page.findById(req.query.pageId).exec(function(err, page) {
+        if(page != null){
+          page.remove(function(err) {
+              if(err) return res.status(500).json(toast.unknownErrorToast(err));
+              res.status(200).json(toast.elementTaskCorrectly("Page", "removed"));
+          })
+        }
+    });
 };

@@ -1,4 +1,4 @@
-<div id="sidebar-wrapper">
+<div class="col-md-2">
     <ul id="sidebar-nav">
         <li>
           <a class="list-group-item" href="/cow-adm/home"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
@@ -17,11 +17,9 @@
         </li>
         <li>
           <a class="list-group-item" href="/cow-adm/users"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Users</a>
-          <ul ng-show="sideCtl.menuView() == 'users'">
-            <li>
-              <a class="list-group-item" href="/cow-adm/users/newUser">New User</a>
-            </li>
-          </ul>
+        </li>
+        <li ng-show="sideCtl.menuView() == 'users'">
+          <a class="list-group-item" href="/cow-adm/users/newUser">New User</a>
         </li>
         <li>
           <a class="list-group-item" href="/cow-adm/settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>

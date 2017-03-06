@@ -31,47 +31,47 @@ module.exports.checkAdministrator = function(req, res){
   });
 }
 
- /**
-  * Create a new user in DB
-  *
-  * @param  object req Http request
-  * @param  object res Http response
-  *
-  */
- module.exports.createUser = function(req, res) {
-   if(!req.body.name || !req.body.email || !req.body.password) {
-     res.status(400).json(toast.allFieldsRequiredToast());
-     return;
-    }
+/**
+* Create a new user in DB
+*
+* @param  object req Http request
+* @param  object res Http response
+*
+*/
+module.exports.createUser = function(req, res) {
+ if(!req.body.name || !req.body.email || !req.body.password) {
+   res.status(400).json(toast.allFieldsRequiredToast());
+   return;
+  }
 
-   var user = new User();
+ var user = new User();
 
-   user.name = req.body.name;
-   user.email = req.body.email;
+ user.name = req.body.name;
+ user.email = req.body.email;
 
-   user.setPassword(req.body.password);
+ user.setPassword(req.body.password);
 
-   user.save(function(err) {
-         if (err) res.status(500).json(toast.unknownErrorToast(err));
+ user.save(function(err) {
+       if (err) res.status(500).json(toast.unknownErrorToast(err));
 
-         res.status(200).json(toast.elementTaskCorrectly("User", "created"));
-   });
- };
+       res.status(200).json(toast.elementTaskCorrectly("User", "created"));
+ });
+};
 
- /**
-  * Get -> Get all users data
-  *
-  * @param  object req Http request
-  * @param  object res Http response
-  *
-  */
- module.exports.getAllUsers = function(req, res) {
-   User.find({}).select('name email').exec(function (err, data) {
-         if (err) res.status(500).json(toast.unknownErrorToast(err));
+/**
+* Get -> Get all users data
+*
+* @param  object req Http request
+* @param  object res Http response
+*
+*/
+module.exports.getAllUsers = function(req, res) {
+ User.find({}).select('name email').exec(function (err, data) {
+       if (err) res.status(500).json(toast.unknownErrorToast(err));
 
-         res.status(200).json(data);
-   });;
- };
+       res.status(200).json(data);
+ });;
+};
 
 /**
  * Get -> Get user data

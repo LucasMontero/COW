@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -30,7 +30,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   .when('/cow-adm/pages/editPage/:pageId', {
     templateUrl: '/views/adm/pageForm.view.html',
     controller: 'editPageCtrl',
-    controllerAs: 'ctl'
+    controllerAs: 'ctl',
   })
   .when('/cow-adm/multimedia', {
     templateUrl: '/views/adm/multimedia.view.html',
@@ -80,7 +80,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
 
 cowApp.run(function ($rootScope, $location, $route, authentication) {
   $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-    if (/cow-adm/.test($location.$$path) && !authentication.isLoggedIn()) {
+    if (/cow-adm/.test($location.path()) && !authentication.isLoggedIn()) {
       $location.path('/cow-adm');
     }
 
@@ -108,6 +108,7 @@ angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage)
  * @param  object $routeParams    Parameters passed by Url
  * @param  object $location       Angular path location
  * @param  object userData        data.service.js service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams, $location, userData, titlePage){
@@ -133,6 +134,7 @@ angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", 
  *
  * @param  object $location       Angular path location
  * @param  object authentication  Authentication service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "titlePage",function($location, authentication, titlePage) {
@@ -169,7 +171,8 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
  * @param  object $scope         Object that refers to the application model.
  * @param  object $location      Angular path service
  * @param  object $routeParams   Parameters passed by Url
- * @param  object authentication Authentication service object
+ * @param  object pageData       pageData service object
+ * @param  object titlePage      titlePage service object
  *
  */
 angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$location", "pageData", "titlePage" ,function($routeParams, $scope,$location, pageData, titlePage){
@@ -230,8 +233,9 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
 /**
  * Try to register a new page in database
  *
- * @param  object userData    userData service object
  * @param  object $location   Angular path location
+ * @param  object pageData    pageData service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "titlePage", function($location, pageData, titlePage){
@@ -274,12 +278,15 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "tit
 /**
  * Edit a specific page by id
  *
- * @param  object $routeParams Parameters passed by url
- * @param  object $location Angular path service
- * @param  object authentication Authentication service object
+ * @param  object $scope         Object that refers to the application model.
+ * @param  object $routeParams   Parameters passed by url
+ * @param  object $location      Angular path service
+ * @param  object pageData       pageData service object
+ * @param  object $routeParams   Parameters passed by Url
+  * @param  object titlePage     titlePage service object
  *
  */
-angular.module("cowApp").controller("editPageCtrl",["$routeParams", "$location", "pageData", "titlePage" ,function($routeParams ,$location, pageData, titlePage){
+angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$location", "pageData", "titlePage" ,function($scope, $routeParams ,$location, pageData, titlePage){
   var ctl = this;
 
   titlePage.setTitle("COW Administration panel - Edit Page");
@@ -331,10 +338,12 @@ angular.module("cowApp").controller("editPageCtrl",["$routeParams", "$location",
 /**
  * Fill users view with users data.
  *
+ * @param  object $routeParams   Parameters passed by Url
  * @param  object $scope         Object that refers to the application model.
  * @param  object $location      Angular path service
  * @param  object $routeParams   Parameters passed by Url
  * @param  object authentication Authentication service object
+  * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "titlePage" ,function($routeParams, $scope,$location, userData, titlePage){
@@ -397,8 +406,9 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
 /**
  * Try to register a new user in database
  *
- * @param  object userData    userData service object
  * @param  object $location   Angular path location
+ * @param  object userData    userData service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "titlePage", function($location, userData, titlePage){
@@ -437,9 +447,10 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "tit
 /**
  * Edit a specific user by id
  *
- * @param  object $routeParams Parameters passed by url
- * @param  object $location Angular path service
- * @param  object authentication Authentication service object
+ * @param  object $routeParams  Parameters passed by url
+ * @param  object $location     Angular path service
+ * @param  object userData      userData service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams ,$location, userData, titlePage){
@@ -490,8 +501,9 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
 /**
  * Build the parameters and fuctions used in navigation.view
  *
- * @param  object $location Angular path location
- * @param  object authentication Authentication service object
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
  *
  */
 angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
@@ -515,8 +527,9 @@ angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'a
 /**
  * Build the parameters and fuctions used in navigation.view
  *
- * @param  object $location Angular path location
- * @param  object authentication Authentication service object
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
  *
  */
 angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
@@ -533,6 +546,22 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
 
 }]);
 
+//codemirror.controller
+/**
+ * Set codemirror editor options
+ *
+ * @param  object $scope          Object that refers to the application model.
+ *
+ */
+angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope){
+  $scope.editorOptions = {
+      lineNumbers: true,
+      mode: 'xml',
+      htmlMode: true,
+      smartIndent: true,
+      theme : 'material'
+  };
+}]);
 
 //#####SERVICES#####
 
@@ -712,14 +741,15 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
     };
 
     var updatePage = function(pageId, page){
-      return $http.put('/api/updatePage', page,{
+      console.log(page);
+      /*return $http.put('/api/updatePage', page,{
         headers: {
           Authorization: 'Bearer '+ authentication.getToken(),
         },
         params: {
             "pageId": pageId
         }
-      });
+      });*/
     }
 
     return {
@@ -750,7 +780,7 @@ angular.module('cowApp').service('titlePage', ['$window', function($window){
 angular.module("cowApp").directive("navigation", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/navigation.view.html",
+      templateUrl: "/views/adm/directives/navigation.view.html",
       controller: "navigationCtrl as navCtl"
   }
 });
@@ -759,35 +789,46 @@ angular.module("cowApp").directive("navigation", function(){
 angular.module("cowApp").directive("sidebar", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/sidebar.view.html",
+      templateUrl: "/views/adm/directives/sidebar.view.html",
       controller: "sidebarCtrl as sideCtl"
   }
 });
 
-//sidebar.directive
+//toast.directive
 angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/toast.view.html",
+      templateUrl: "/views/adm/directives/toast.view.html",
       controller: ""
   }
 });
+
+//codemirror.directive
+angular.module("cowApp").directive("codemirror", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/adm/directives/codemirror.view.html",
+      controller: "codemirrorCtrl as cmCtl"
+  }
+});
+
 
 //***FRONT PAGE***
 
+//cowheader.directive
 angular.module("cowApp").directive("cowheader", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/front/header.view.html",
+      templateUrl: "/views/front/directives/header.view.html",
       controller: ""
   }
 });
 
-
+//cowfooter.directive
 angular.module("cowApp").directive("cowfooter", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/front/footer.view.html",
+      templateUrl: "/views/front/directives/footer.view.html",
       controller: ""
   }
 });

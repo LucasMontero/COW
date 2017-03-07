@@ -8,10 +8,10 @@ module.exports.checkPages = function(req, res){
     if(result === 0){
       console.log('Creating main page.');
 
-      var page =  pagePoputalion(new Page(),{
+      var page =  pagePopulation(new Page(),{
                                              title: 'Main page',
                                              path: 'mainPage',
-                                             content: "<h1>Welcome to COW</h1><p>Go to <a href="/cow-adm">admin panel</a></p>",
+                                             content: "<h1>Welcome to COW</h1><p>Go to <a href='/cow-adm'>admin panel</a></p>",
                                              header: true,
                                              footer: true,
                                              index: true,

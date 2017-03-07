@@ -4,6 +4,11 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
   .when('/', {
     templateUrl: '/views/front/page.view.html',
+    controller: 'frontPageCtrl',
+    controllerAs: 'ctl'
+  })
+  .when('/404', {
+    templateUrl: '/views/front/404.view.html',
     controller: '',
     controllerAs: 'ctl'
   })
@@ -72,7 +77,12 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: '',
     controllerAs: 'ctl'
   })
-  .otherwise({redirectTo: '/'});
+  .when('/:pageId', {
+    templateUrl: '/views/front/page.view.html',
+    controller: 'frontPageCtrl',
+    controllerAs: 'ctl'
+  })
+  .otherwise({redirectTo: '/404'});
 
   //Use the HTML5 History API
   $locationProvider.html5Mode(true);
@@ -102,6 +112,21 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
 angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage){
   console.log("Home controller is running");
   titlePage.setTitle("COW Administration panel");
+}]);
+
+//frontPageCtrl.controller
+/**
+ * Cronstruct the front page of the cms
+ *
+ * @param  object titlePage     titlePage service object
+ *
+ */
+angular.module("cowApp").controller("frontPageCtrl",["titlePage", "pageData", function(titlePage, pageData){
+  if($location.path() === '/'){
+    titlePage.setTitle("Home");
+  }else{
+    title.Page.setTitle("Another page");
+  }
 }]);
 
 //Profile - profile.controller

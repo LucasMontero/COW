@@ -8,22 +8,20 @@ module.exports.checkPages = function(req, res){
     if(result === 0){
       console.log('Creating main page.');
 
-      var page = new Page();
-
-      page.title   = 'Main page';
-      page.path    = 'mainPage';
-      page.content = "<h1>Welcome to COW</h1>";
-      page.header  = true;
-      page.footer  = true;
-      page.index   = true;
-      page.public  = true;
+      var page =  pagePoputalion(new Page(),{
+                                             title: 'Main page',
+                                             path: 'mainPage',
+                                             content: "<h1>Welcome to COW</h1><p>Go to <a href="/cow-adm">admin panel</a></p>",
+                                             header: true,
+                                             footer: true,
+                                             index: true,
+                                             public: true }
+                                  );
 
       page.save();
     }
   });
 }
-
-
 
 /**
  * Create a new page in DB
@@ -33,19 +31,9 @@ module.exports.checkPages = function(req, res){
  *
  */
 module.exports.createPage = function(req, res) {
-  if(!req.body.title || !req.body.path) {
-    res.status(400).json(toast.allFieldsRequiredToast());
-    return;
-   }
+  if (!checkPageConstruction(req, res)) return;
 
-  var page = new Page();
-
-  page.title  = req.body.title;
-  page.path   = req.body.path;
-  page.body   = req.body.content;
-  page.footer = req.body.footer;
-  page.header = req.body.header;
-  page.public = req.body.public;
+  var page = pagePopulation(new Page(), req.body);
 
   page.save(function(err) {
         if (err) res.status(500).json(toast.unknownErrorToast(err));
@@ -95,16 +83,9 @@ module.exports.updatePageById = function(req, res) {
   Page.findById(req.query.pageId).exec(function (err, page){
         if (err) res.status(500).json(toast.unknownErrorToast(err));
 
-      /*  if (req.body.name != "" && user.name != req.body.name) {
+        if (!checkPageConstruction(req, res)) return;
 
-          user.name = req.body.name;
-        }
-        if (req.body.email != "" && user.email != req.body.email  ) {
-          user.email = req.body.email;
-        }
-        if (req.body.password != undefined) {
-          user.updatePassword(req.body.password);
-        } */
+        page = pagePopulation(page, req.body);
 
         page.save(function(err) {
               if (err) res.status(500).json(toast.unknownErrorToast(err));
@@ -131,3 +112,49 @@ module.exports.deletePageById = function(req, res) {
         }
     });
 };
+
+/**
+ * Check if page values are constructed correctly
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+function checkPageConstruction(req, res) {
+    if (req.body.title === "") {
+        res.status(400).json(toast.fieldRequiredToast("Title"));
+        return false;
+    }
+
+    if (req.body.path === "") {
+        res.status(400).json(toast.fieldRequiredToast("Path"));
+        return false;
+    }
+
+    if (!(/^[A-Za-z0-9/_&]*$/.test(req.body.path))) {
+        res.status(400).json(toast.errorInPath());
+        return false;
+    }
+
+    return true;
+}
+
+
+/**
+ * Populate page object with passed values
+ *
+ * @param  object page     page object to save in db
+ * @param  object values   Http request body
+ *
+ */
+function pagePopulation(page, values) {
+  page.title    = values.title;
+  page.path     = values.path;
+  page.content  = values.content;
+  page.header   = values.header;
+  page.footer   = values.footer;
+  page.index    = values.index;
+  page.public   = values.public;
+
+  return page;
+}

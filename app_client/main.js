@@ -93,8 +93,11 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
 //#####CONTROLLERS#####
 
 //home.controller
-/*
+/**
  * Shows in log if controller is running
+ *
+ * @param  object titlePage     titlePage service object
+ *
  */
 angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage){
   console.log("Home controller is running");
@@ -283,7 +286,7 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "tit
  * @param  object $location      Angular path service
  * @param  object pageData       pageData service object
  * @param  object $routeParams   Parameters passed by Url
-  * @param  object titlePage     titlePage service object
+ * @param  object titlePage      titlePage service object
  *
  */
 angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$location", "pageData", "titlePage" ,function($scope, $routeParams ,$location, pageData, titlePage){
@@ -293,15 +296,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
 
   ctl.isEdit = true;
 
-  ctl.pageForm = {
-    title   : "",
-    path    : "",
-    content : "",
-    header  : false,
-    footer  : false,
-    index   : false,
-    public  : false
-   };
+  ctl.pageForm = {};
 
   pageData.getPage($routeParams.pageId)
     .success(function(data) {
@@ -317,7 +312,11 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
 
   //On form submit try to update de user
   ctl.onSubmit = function () {
-    console.log('Submitting update');
+    ctl.pageForm.header = document.getElementById('header').checked;
+    ctl.pageForm.footer = document.getElementById('footer').checked;
+    ctl.pageForm.index  = document.getElementById('index').checked;
+    ctl.pageForm.public = document.getElementById('public').checked;
+
     pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
           //Add toast
           ctl.toast = {
@@ -728,7 +727,6 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
       });
     }
 
-
     var deletePage = function(pageId){
       return $http.delete('/api/deletePage', {
         headers: {
@@ -741,15 +739,14 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
     };
 
     var updatePage = function(pageId, page){
-      console.log(page);
-      /*return $http.put('/api/updatePage', page,{
+      return $http.put('/api/updatePage', page,{
         headers: {
           Authorization: 'Bearer '+ authentication.getToken(),
         },
         params: {
             "pageId": pageId
         }
-      });*/
+      });
     }
 
     return {

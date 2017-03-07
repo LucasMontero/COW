@@ -11,6 +11,15 @@ module.exports.unknownErrorToast = function(err){
     };
 }
 
+module.exports.fieldRequiredToast = function(field){
+  return {
+    "toast" : {
+        "status" : "error",
+        "message": field + " field is required."
+    }
+  };
+}
+
 module.exports.allFieldsRequiredToast = function(){
   return {
     "toast" : {
@@ -25,6 +34,17 @@ module.exports.invalidLoginToast = function(){
     "toast" : {
         "status" : "error",
         "message": "Invalid credentials."
+    }
+  };
+}
+
+//**pages**
+
+module.exports.errorInPath = function(){
+  return {
+    "toast" : {
+        "status" : "error",
+        "message": "Path can only containt alphanumeric characters, & and  _"
     }
   };
 }

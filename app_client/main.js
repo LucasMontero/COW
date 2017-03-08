@@ -8,7 +8,12 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controllerAs: 'ctl'
   })
   .when('/404', {
-    templateUrl: '/views/front/404.view.html',
+    templateUrl: '/views/front/errors/404.view.html',
+    controller: '',
+    controllerAs: 'ctl'
+  })
+  .when('/500', {
+    templateUrl: '/views/front/errors/500.view.html',
     controller: '',
     controllerAs: 'ctl'
   })
@@ -112,21 +117,6 @@ cowApp.run(function ($rootScope, $location, $route, authentication) {
 angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage){
   console.log("Home controller is running");
   titlePage.setTitle("COW Administration panel");
-}]);
-
-//frontPageCtrl.controller
-/**
- * Cronstruct the front page of the cms
- *
- * @param  object titlePage     titlePage service object
- *
- */
-angular.module("cowApp").controller("frontPageCtrl",["titlePage", "pageData", function(titlePage, pageData){
-  if($location.path() === '/'){
-    titlePage.setTitle("Home");
-  }else{
-    title.Page.setTitle("Another page");
-  }
 }]);
 
 //Profile - profile.controller
@@ -323,7 +313,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
 
   ctl.pageForm = {};
 
-  pageData.getPage($routeParams.pageId)
+  pageData.getPageById($routeParams.pageId)
     .success(function(data) {
       ctl.pageForm = data;
     })
@@ -358,6 +348,49 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
 
 }]);
 
+//frontPageCtrl.controller
+/**
+ * Cronstruct the front page of the cms
+ *
+ * @param  object titlePage     titlePage service object
+ * @param  object $location     Angular path service
+ * @param  object pageData      pageData service object
+ *
+ */
+angular.module("cowApp").controller("frontPageCtrl",["titlePage", "pageData", "$location", "$scope", "$sce", function(titlePage, pageData, $location, $scope, $sce){
+  //controller alias
+  var ctl = this;
+
+  if($location.path() === '/'){
+    pageData.getIndexPage()
+     .success(function(data) {
+         setPage(data);
+      })
+      .error(function (error) {
+          $location.path('/500');
+      });
+  }else{
+    pageData.getPageByPath($location.path())
+     .success(function(data) {
+          if (data.length === 1) {
+              setPage(data);
+          }else{
+              $location.path('/404');
+          }
+      })
+      .error(function (error) {
+          $location.path('/500');
+      });
+  }
+
+  var setPage = function(data){
+    ctl.pageData = data[0];
+    titlePage.setTitle(ctl.pageData.title);
+    $scope.content = $sce.trustAsHtml(ctl.pageData.content);
+  }
+
+}]);
+
 //users.controller
 /**
  * Fill users view with users data.
@@ -367,7 +400,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
  * @param  object $location      Angular path service
  * @param  object $routeParams   Parameters passed by Url
  * @param  object authentication Authentication service object
-  * @param  object titlePage     titlePage service object
+ * @param  object titlePage     titlePage service object
  *
  */
 angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "titlePage" ,function($routeParams, $scope,$location, userData, titlePage){
@@ -721,7 +754,6 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
 }]);
 
 //pageData.service
-
 angular.module('cowApp').service('pageData', ['$http', 'authentication', function($http, authentication){
 
     var getAllPages = function(){
@@ -733,13 +765,25 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
     };
 
 
-    var getPage = function (pageId) {
-      return $http.get('/api/getPage', {
+    var getPageById = function (pageId) {
+      return $http.get('/api/getPageById', {
         headers: {
           Authorization: 'Bearer '+ authentication.getToken()
         },
         params: {
             "pageId": pageId
+        }
+      });
+    };
+
+    var getIndexPage = function(){
+      return $http.get('/api/getIndexPage');
+    };
+
+    var getPageByPath = function(pagePath){
+      return $http.get('/api/getPageByPath', {
+        params: {
+            "pagePath": pagePath
         }
       });
     };
@@ -775,11 +819,13 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
     }
 
     return {
-      createPage  : createPage,
-      getAllPages : getAllPages,
-      getPage     : getPage,
-      deletePage  : deletePage,
-      updatePage  : updatePage
+      createPage      : createPage,
+      getAllPages     : getAllPages,
+      getPageById     : getPageById,
+      getIndexPage    : getIndexPage,
+      getPageByPath   : getPageByPath,
+      deletePage      : deletePage,
+      updatePage      : updatePage
     };
 }]);
 

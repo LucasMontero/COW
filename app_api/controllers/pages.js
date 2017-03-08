@@ -1,4 +1,5 @@
 //Requires
+var passport = require('passport');
 var mongoose = require('mongoose');
 var toast    = require('../services/toast.js');
 var Page     = mongoose.model('Page');
@@ -8,16 +9,16 @@ module.exports.checkPages = function(req, res){
     if(result === 0){
       console.log('Creating main page.');
 
-      var page =  pagePopulation(new Page(),{
-                                             title: 'Main page',
-                                             path: 'mainPage',
+      var page =  pagePopulate(new Page(),{
+                                             title:   'Main page',
+                                             path:    'mainPage',
                                              content: "<h1>Welcome to COW</h1><p>Go to <a href='/cow-adm'>admin panel</a></p>",
-                                             header: true,
-                                             footer: true,
-                                             index: true,
-                                             public: true }
+                                             header:  true,
+                                             footer:  true,
+                                             index:   true,
+                                             public:  true
+                                           }
                                   );
-
       page.save();
     }
   });
@@ -33,7 +34,7 @@ module.exports.checkPages = function(req, res){
 module.exports.createPage = function(req, res) {
   if (!checkPageConstruction(req, res)) return;
 
-  var page = pagePopulation(new Page(), req.body);
+  var page = pagePopulate(new Page(), req.body);
 
   page.save(function(err) {
         if (err) res.status(500).json(toast.unknownErrorToast(err));
@@ -49,7 +50,7 @@ module.exports.createPage = function(req, res) {
  *
  */
 module.exports.getAllPages = function(req, res) {
-  Page.find({}).select('title').exec(function (err, data) {
+  Page.find({}).select('title index').exec(function (err, data) {
         if (err) res.status(500).json(toast.unknownErrorToast(err));
         res.status(200).json(data);
   });;
@@ -70,6 +71,35 @@ module.exports.getPageById = function(req, res) {
     });
 };
 
+/**
+ * Get -> Get page data
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.getIndexPage = function(req, res) {
+  passport.authenticate('local');
+
+  Page.find().select('title content footer header').where('index', true).exec(function (err, data) {
+    res.status(200).json(data);
+  });
+};
+
+/**
+ * Get -> Get page data
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.getPageByPath = function(req, res) {
+  passport.authenticate('local');
+
+  Page.find().select('title content footer header').where({'path': req.query.pagePath.slice(1), 'public': true, 'index': false}).exec(function (err, data) {
+    res.status(200).json(data);
+  });
+};
 
 /**
  * Update a page in DB
@@ -85,7 +115,7 @@ module.exports.updatePageById = function(req, res) {
 
         if (!checkPageConstruction(req, res)) return;
 
-        page = pagePopulation(page, req.body);
+        page = pagePopulate(page, req.body);
 
         page.save(function(err) {
               if (err) res.status(500).json(toast.unknownErrorToast(err));
@@ -147,7 +177,7 @@ function checkPageConstruction(req, res) {
  * @param  object values   Http request body
  *
  */
-function pagePopulation(page, values) {
+function pagePopulate(page, values) {
   page.title    = values.title;
   page.path     = values.path;
   page.content  = values.content;

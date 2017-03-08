@@ -33,7 +33,9 @@ router.post('/login', ctrlAuth.login);
 //  - pages
 
 router.get('/pages',           auth, ctrlPages.getAllPages);
-router.get('/getPage',         auth, ctrlPages.getPageById);
+router.get('/getPageById',     auth, ctrlPages.getPageById);
+router.get('/getIndexpage',    ctrlPages.getIndexPage);
+router.get('/getPageByPath',   ctrlPages.getPageByPath);
 router.post('/createPage',     auth, ctrlPages.createPage);
 router.delete('/deletePage',   auth, ctrlPages.deletePageById);
 router.put('/updatePage',      auth, ctrlPages.updatePageById);

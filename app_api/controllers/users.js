@@ -19,13 +19,12 @@ module.exports.checkAdministrator = function(req, res){
     if(result === 0){
       console.log('Creating administration user.');
 
-      var user = new User();
-
-      user.name  = 'administrator';
-      user.email = 'admin@cow.com';
-
-      user.setPassword('development');
-
+      var user = userPopulate(new User(),{
+                                              name:     'administrator',
+                                              email:    'admin@cow.com',
+                                              password: "development",
+                                           }
+                               );
       user.save();
     }
   });
@@ -39,23 +38,18 @@ module.exports.checkAdministrator = function(req, res){
 *
 */
 module.exports.createUser = function(req, res) {
- if(!req.body.name || !req.body.email || !req.body.password) {
-   res.status(400).json(toast.allFieldsRequiredToast());
-   return;
-  }
+   if(!req.body.name || !req.body.email || !req.body.password) {
+     res.status(400).json(toast.allFieldsRequiredToast());
+     return;
+    }
 
- var user = new User();
+   var user = userPopulate(new User(), req.body);
 
- user.name = req.body.name;
- user.email = req.body.email;
+   user.save(function(err) {
+         if (err) res.status(500).json(toast.unknownErrorToast(err));
 
- user.setPassword(req.body.password);
-
- user.save(function(err) {
-       if (err) res.status(500).json(toast.unknownErrorToast(err));
-
-       res.status(200).json(toast.elementTaskCorrectly("User", "created"));
- });
+         res.status(200).json(toast.elementTaskCorrectly("User", "created"));
+   });
 };
 
 /**
@@ -135,3 +129,19 @@ module.exports.updateUserById = function(req, res) {
         });
       });
 };
+
+
+/**
+ * Populate page object with passed values
+ *
+ * @param  object page     page object to save in db
+ * @param  object values   Http request body
+ *
+ */
+function userPopulate(user, values) {
+  user.name  = values.name;
+  user.email = values.email;
+  user.setPassword(values.password);
+
+  return user;
+}

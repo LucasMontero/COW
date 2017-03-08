@@ -1,9 +1,5 @@
-<cowheader></cowheader>
+<cowheader ng-show="ctl.pageData.header"></cowheader>
 
-<main>
-  <p>Front page</p>
+<main ng-bind-html="content"></main>
 
-  <p>Go to <a href="/cow-adm">Admin panel</a></p>
-</main>
-
-<cowfooter></cowfooter>
+<cowfooter ng-show="ctl.pageData.footer"></cowfooter>

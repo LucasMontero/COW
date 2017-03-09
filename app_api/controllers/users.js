@@ -3,16 +3,6 @@ var mongoose = require('mongoose');
 var toast    = require('../services/toast.js');
 var User     = mongoose.model('User');
 
-/* Query example
- *  var query = User.find({})
- *  query.select('name email');
- *  query.where('name', administrator);
- *  query.limit(5);
- *  query.skip(100);
- *  query.exec(function (err, data) {
- *     res.status(200).json(data);
- *  });
- */
 
 module.exports.checkAdministrator = function(req, res){
   User.find({}).count().exec(function(err, result){
@@ -39,16 +29,18 @@ module.exports.checkAdministrator = function(req, res){
 */
 module.exports.createUser = function(req, res) {
    if(!req.body.name || !req.body.email || !req.body.password) {
-     res.status(400).json(toast.allFieldsRequiredToast());
-     return;
+     return res.status(400).json(toast.allFieldsRequiredToast());
     }
 
    var user = userPopulate(new User(), req.body);
 
    user.save(function(err) {
-         if (err) res.status(500).json(toast.unknownErrorToast(err));
+         if (err){
+           console.log("## ERROR ## --> " + err);
+           return res.status(500).json(toast.unknownErrorToast());
+         }
 
-         res.status(200).json(toast.elementTaskCorrectly("User", "created"));
+         return res.status(200).json(toast.elementTaskCorrectly("User", "created"));
    });
 };
 
@@ -61,9 +53,12 @@ module.exports.createUser = function(req, res) {
 */
 module.exports.getAllUsers = function(req, res) {
  User.find({}).select('name email').exec(function (err, data) {
-       if (err) res.status(500).json(toast.unknownErrorToast(err));
+       if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+       }
 
-       res.status(200).json(data);
+       return res.status(200).json(data);
  });;
 };
 
@@ -76,9 +71,12 @@ module.exports.getAllUsers = function(req, res) {
  */
 module.exports.getUserById = function(req, res) {
     User.findById(req.query.userId).exec(function(err, user) {
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
     });
 };
 
@@ -90,14 +88,13 @@ module.exports.getUserById = function(req, res) {
  *
  */
 module.exports.deleteUserById = function(req, res) {
-  User.findById(req.query.userId).exec(function(err, user) {
-        if(user != null){
-          user.remove(function(err) {
-              if(err) return res.status(500).json(toast.unknownErrorToast(err));
-              res.status(200).json(toast.elementTaskCorrectly("User", "removed"));
-          })
-        }
-    });
+  User.findOneAndRemove({ _id: req.query.userId }, function(err, user) {
+    if (err){
+      console.log("## ERROR ## --> " + err);
+      return res.status(500).json(toast.unknownErrorToast());
+    }
+    return res.status(200).json(toast.elementTaskCorrectly("User", "removed"));
+  });
 };
 
 /**
@@ -108,9 +105,11 @@ module.exports.deleteUserById = function(req, res) {
  *
  */
 module.exports.updateUserById = function(req, res) {
-
   User.findById(req.query.userId).exec(function (err, user){
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
 
         if (req.body.name != "" && user.name != req.body.name) {
           user.name = req.body.name;
@@ -123,9 +122,11 @@ module.exports.updateUserById = function(req, res) {
         }
 
         user.save(function(err) {
-              if (err) res.status(500).json(toast.unknownErrorToast(err));
-
-              res.status(200).json(toast.elementTaskCorrectly("User", "updated"));
+              if (err){
+                console.log("## ERROR ## --> " + err);
+                return res.status(500).json(toast.unknownErrorToast());
+              }
+              return res.status(200).json(toast.elementTaskCorrectly("User", "updated"));
         });
       });
 };

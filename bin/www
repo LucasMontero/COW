@@ -89,3 +89,12 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Prevent server stop by an error and display the esception in console.
+ * Comment for more especific error data
+ */
+ 
+process.on('uncaughtException', function (err) {
+  console.log('## Caught exception ## --> ' + err);
+});

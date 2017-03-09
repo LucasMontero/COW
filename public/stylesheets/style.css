@@ -6,3 +6,12 @@
 .fa-circle{
     color: green;
 }
+
+.logo-big{
+  width: 250px;
+  height: auto;
+}
+
+.user-menu{
+  margin-right: 20px;
+}

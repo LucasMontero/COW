@@ -1,15 +1,14 @@
-<div class="navbar navbar-default">
-  <div class="container">
+<div class="navbar navbar-default col-md-12">
     <div id="navbar-main">
       <ul class="nav navbar-nav">
+        <li><img src="img/cow-logo.svg" alt="Changue our web"></li>
         <li><a href="/home">COW Administration Panel</a></li>
       </ul>
       <nav>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right user-menu">
           <li><a ng-href="/cow-adm/users/profile/{{navCtl.currentUser._id}}">{{navCtl.currentUser.name}}</a></li>
           <li><a ng-click="logout()" role='button'>logout</a></li>
         </ul>
       </nav>
     </div>
-  </div>
 </div>

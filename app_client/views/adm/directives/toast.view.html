@@ -1,4 +1,7 @@
-<div id="toast">
-  <p ng-show="ctl.toast.status == 'error'" class="alert alert-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"><span id="message" ng-bind="ctl.toast.message"></span></i></p>
-  <p ng-show="ctl.toast.status == 'ok'" class="alert alert-success"><i class="fa fa-check" aria-hidden="true"><span id="message" ng-bind="ctl.toast.message"></span></i></p>
+<div id="toast" class="alert alert-danger" ng-show="ctl.toast.status == 'error'">
+  <i class="fa fa-exclamation-circle" aria-hidden="true"><span id="message" ng-bind="ctl.toast.message"></span></i>
+</div>
+
+<div id="toast" class="alert alert-success" ng-show="ctl.toast.status == 'ok'">
+  <i class="fa fa-check" aria-hidden="true"><span id="message" ng-bind="ctl.toast.message"></span></i>
 </div>

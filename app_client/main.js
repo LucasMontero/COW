@@ -172,8 +172,7 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
         .error(function(error){
           ctl.toast = {
             status  : error.toast.status,
-            message : error.toast.message,
-            error   : error.toast.error
+            message : error.toast.message
           }
         })
         .then(function(){
@@ -214,21 +213,18 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
           .error(function (error) {
             ctl.toast = {
               status  : error.toast.status,
-              message : error.toast.message,
-              error   : error.toast.error
+              message : error.toast.message
             }
           });
           ctl.toast = {
             status  : data.toast.status,
-            message : data.toast.message,
-            error   : data.toast.error
+            message : data.toast.message
           }
       })
       .error(function (error) {
         ctl.toast = {
           status  : error.toast.status,
-          message : error.toast.message,
-          error   : error.toast.error
+          message : error.toast.message
         }
       });
   };
@@ -241,8 +237,7 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
     .error(function (error) {
       ctl.toast = {
         status  : error.toast.status,
-        message : error.toast.message,
-        error   : error.toast.error
+        message : error.toast.message
       }
     });
 }]);
@@ -277,12 +272,17 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "tit
   //On form submit try to register the user.
   ctl.onSubmit = function () {
     console.log('Submitting creation');
+
+    ctl.pageForm.header = document.getElementById('header').checked;
+    ctl.pageForm.footer = document.getElementById('footer').checked;
+    ctl.pageForm.index  = document.getElementById('index').checked;
+    ctl.pageForm.public = document.getElementById('public').checked;
+
     pageData.createPage(ctl.pageForm).error(function(error){
         //Add toast
         ctl.toast = {
           status  : error.toast.status,
-          message : error.toast.message,
-          error   : error.toast.error
+          message : error.toast.message
         }
     }).then(function(response){
         //Add toast
@@ -320,13 +320,13 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
     .error(function (error) {
       ctl.toast = {
         status  : error.toast.status,
-        message : error.toast.message,
-        error   : error.toast.error
+        message : error.toast.message
       }
     });
 
   //On form submit try to update de user
   ctl.onSubmit = function () {
+    console.log('Updating page');
     ctl.pageForm.header = document.getElementById('header').checked;
     ctl.pageForm.footer = document.getElementById('footer').checked;
     ctl.pageForm.index  = document.getElementById('index').checked;
@@ -336,8 +336,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
           //Add toast
           ctl.toast = {
             status  : error.toast.status,
-            message : error.toast.message,
-            error   : error.toast.error
+            message : error.toast.message
           }
     }).then(function(response){
           //Add toast
@@ -425,21 +424,18 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
           .error(function (error) {
             ctl.toast = {
               status  : error.toast.status,
-              message : error.toast.message,
-              error   : error.toast.error
+              message : error.toast.message
             }
           });
           ctl.toast = {
             status  : data.toast.status,
-            message : data.toast.message,
-            error   : data.toast.error
+            message : data.toast.message
           }
       })
       .error(function (error) {
         ctl.toast = {
           status  : error.toast.status,
-          message : error.toast.message,
-          error   : error.toast.error
+          message : error.toast.message
         }
       });
   };
@@ -452,8 +448,7 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
     .error(function (error) {
       ctl.toast = {
         status  : error.toast.status,
-        message : error.toast.message,
-        error   : error.toast.error
+        message : error.toast.message
       }
     });
 }]);
@@ -489,8 +484,7 @@ angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "tit
         //Add toast
         ctl.toast = {
           status  : error.toast.status,
-          message : error.toast.message,
-          error   : error.toast.error
+          message : error.toast.message
         }
     }).then(function(response){
         //Add toast
@@ -530,8 +524,7 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
     .error(function (error) {
       ctl.toast = {
         status  : error.toast.status,
-        message : error.toast.message,
-        error   : error.toast.error
+        message : error.toast.message
       }
     });
 
@@ -542,8 +535,7 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
           //Add toast
           ctl.toast = {
             status  : error.toast.status,
-            message : error.toast.message,
-            error   : error.toast.error
+            message : error.toast.message
           }
     }).then(function(response){
           //Add toast

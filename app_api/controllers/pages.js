@@ -32,14 +32,19 @@ module.exports.checkPages = function(req, res){
  *
  */
 module.exports.createPage = function(req, res) {
-  if (!checkPageConstruction(req, res)) return;
+    if (!checkPageConstruction(req, res)) return;
 
-  var page = pagePopulate(new Page(), req.body);
+    checkIndex(Page, res, null, req.body.index);
 
-  page.save(function(err) {
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
-        res.status(200).json(toast.elementTaskCorrectly("Page", "created"));
-  });
+    var page = pagePopulate(new Page(), req.body);
+
+    page.save(function(err) {
+          if (err){
+            console.log("## ERROR ## --> " + err);
+            return res.status(500).json(toast.unknownErrorToast());
+          }
+          return res.status(200).json(toast.elementTaskCorrectly("Page", "created"));
+    });
 };
 
 /**
@@ -51,8 +56,11 @@ module.exports.createPage = function(req, res) {
  */
 module.exports.getAllPages = function(req, res) {
   Page.find({}).select('title index').exec(function (err, data) {
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
-        res.status(200).json(data);
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
+        return res.status(200).json(data);
   });;
 };
 
@@ -65,9 +73,11 @@ module.exports.getAllPages = function(req, res) {
  */
 module.exports.getPageById = function(req, res) {
     Page.findById(req.query.pageId).exec(function(err, page) {
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
-
-        res.status(200).json(page);
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
+        return res.status(200).json(page);
     });
 };
 
@@ -81,8 +91,8 @@ module.exports.getPageById = function(req, res) {
 module.exports.getIndexPage = function(req, res) {
   passport.authenticate('local');
 
-  Page.find().select('title content footer header').where('index', true).exec(function (err, data) {
-    res.status(200).json(data);
+  Page.find().select('title content footer header').where('index', true).exec(function (err, page) {
+    return res.status(200).json(page);
   });
 };
 
@@ -96,8 +106,8 @@ module.exports.getIndexPage = function(req, res) {
 module.exports.getPageByPath = function(req, res) {
   passport.authenticate('local');
 
-  Page.find().select('title content footer header').where({'path': req.query.pagePath.slice(1), 'public': true, 'index': false}).exec(function (err, data) {
-    res.status(200).json(data);
+  Page.find().select('title content footer header').where({'path': req.query.pagePath.slice(1), 'public': true, 'index': false}).exec(function (err, page) {
+    return res.status(200).json(page);
   });
 };
 
@@ -109,19 +119,26 @@ module.exports.getPageByPath = function(req, res) {
  *
  */
 module.exports.updatePageById = function(req, res) {
-
   Page.findById(req.query.pageId).exec(function (err, page){
-        if (err) res.status(500).json(toast.unknownErrorToast(err));
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
 
-        if (!checkPageConstruction(req, res)) return;
+        if(!checkPageConstruction(req, res)) return;
+
+        checkIndex(Page, res, req.query.pageId, req.body.index);
 
         page = pagePopulate(page, req.body);
 
         page.save(function(err) {
-              if (err) res.status(500).json(toast.unknownErrorToast(err));
-
-              res.status(200).json(toast.elementTaskCorrectly("Page", "updated"));
+                if (err){
+                  console.log("## ERROR ## --> " + err);
+                  return res.status(500).json(toast.unknownErrorToast());
+                }
+                return res.status(200).json(toast.elementTaskCorrectly("Page", "updated"));
         });
+
       });
 };
 
@@ -134,13 +151,20 @@ module.exports.updatePageById = function(req, res) {
  */
 module.exports.deletePageById = function(req, res) {
   Page.findById(req.query.pageId).exec(function(err, page) {
-        if(page != null){
-          page.remove(function(err) {
-              if(err) return res.status(500).json(toast.unknownErrorToast(err));
-              res.status(200).json(toast.elementTaskCorrectly("Page", "removed"));
-          })
-        }
-    });
+          if(page != null){
+            if (page.index === true) {
+              return res.status(409).json(toast.cantDeleteIndex());
+            }
+
+            page.remove(function(err) {
+              if (err){
+                console.log("## ERROR ## --> " + err);
+                return res.status(500).json(toast.unknownErrorToast());
+              }
+                return res.status(200).json(toast.elementTaskCorrectly("Page", "removed"));
+            })
+          }
+      });
 };
 
 /**
@@ -187,4 +211,16 @@ function pagePopulate(page, values) {
   page.public   = values.public;
 
   return page;
+}
+
+
+function checkIndex(Page, res, id, index){
+  if (index === true){
+    Page.findOneAndUpdate({_id: {$ne: id},'index': true}, {$set:{'index':false}}, function (err, page) {
+        if (err){
+          console.log("## ERROR ## --> " + err);
+          return res.status(500).json(toast.unknownErrorToast());
+        }
+    });
+  }
 }

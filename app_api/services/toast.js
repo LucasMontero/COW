@@ -6,7 +6,6 @@ module.exports.unknownErrorToast = function(err){
      "toast" : {
           "status" : "error",
           "message": "Holy cow! An unknown error has occurred. Try again later.",
-          "error"  : err
       }
     };
 }
@@ -45,6 +44,15 @@ module.exports.errorInPath = function(){
     "toast" : {
         "status" : "error",
         "message": "Path can only containt alphanumeric characters, & and  _"
+    }
+  };
+}
+
+module.exports.cantDeleteIndex = function(){
+  return {
+    "toast" : {
+        "status" : "error",
+        "message": "The index page cant be deleted"
     }
   };
 }

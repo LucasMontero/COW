@@ -4,6 +4,13 @@ var mongoose = require('mongoose');
 var toast    = require('../services/toast.js');
 var Page     = mongoose.model('Page');
 
+/**
+ * Check if any page exist on DB and if not, create ones
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
 module.exports.checkPages = function(req, res){
   Page.find({}).count().exec(function(err, result){
     if(result === 0){

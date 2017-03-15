@@ -52,9 +52,9 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: '',
     controllerAs: 'ctl'
   })
-  .when('/cow-adm/themes', {
-    templateUrl: '/views/adm/themes.view.html',
-    controller: '',
+  .when('/cow-adm/design', {
+    templateUrl: '/views/adm/design.view.html',
+    controller: 'designCtrl',
     controllerAs: 'ctl'
   })
   .when('/cow-adm/users', {
@@ -595,6 +595,36 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
 
 }]);
 
+//design.controller
+/**
+ *
+ * @param  object $scope          Object that refers to the application model.
+ *
+ */
+angular.module('cowApp').controller('designCtrl', ['$scope', function($scope){
+  $scope.menuItems = ['Css', 'Javascript', 'Header', 'Footer'];
+
+  $scope.activeMenu = $scope.menuItems[0];
+
+  $scope.setActive = function(menuItem) {
+    $scope.activeMenu = menuItem
+    switch (menuItem) {
+      case 'Css':
+        console.log("Css");
+        break;
+      case 'Javascript':
+        console.log("Javascript");
+        break;
+      case 'Header':
+        console.log("Header");
+        break;
+      case 'Footer':
+        console.log("Footer");
+        break;
+    }
+ }
+}]);
+
 //codemirror.controller
 /**
  * Set codemirror editor options
@@ -603,13 +633,31 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
  *
  */
 angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope){
-  $scope.editorOptions = {
+  $scope.htmlOptions = {
       lineNumbers: true,
       mode: 'xml',
       htmlMode: true,
       smartIndent: true,
       theme : 'material'
   };
+  $scope.cssOptions = {
+      lineNumbers: true,
+      mode: 'css',
+      htmlMode: true,
+      smartIndent: true,
+      theme : 'material'
+  };
+  $scope.jsOptions = {
+      lineNumbers: true,
+      mode: 'javascript',
+      smartIndent: true,
+      theme : 'material'
+  };
+
+  $scope.setOption = function(mode) {
+    console.log($scope.editor + mode);
+    //$scope.setOption("mode", <new mode>);
+  }
 }]);
 
 //#####SERVICES#####

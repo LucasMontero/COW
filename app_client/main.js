@@ -528,7 +528,7 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
       }
     });
 
-  //On form submit try to update de user
+  //On form submit try to update the user
   ctl.onSubmit = function () {
     console.log('Submitting update');
     userData.updateUser($routeParams.userId, ctl.credentials).error(function(error){
@@ -541,6 +541,68 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
           //Add toast
           console.log(response.data.toast.message)
           $location.path('/cow-adm/users');
+    });
+  };
+
+}]);
+
+//design.controller
+/**
+ *
+ * @param  object $scope          Object that refers to the application model.
+ *
+ */
+angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'designData', function($scope, $location, designData){
+  var ctl = this;
+
+  $scope.menuItems = [['Css', 'css'], ['Javascript', 'javascript'], ['Header', 'xml'], ['Footer', 'xml']];
+
+  designData.getDocument('Css')
+    .success(function(data) {
+        ctl.design.content = data;
+    })
+    .error(function (error) {
+      ctl.toast = {
+        status  : error.toast.status,
+        message : error.toast.message
+      }
+    });
+
+
+  ctl.design = {};
+
+  $scope.activeMenu = $scope.menuItems[0];
+
+  $scope.setActive = function(menuItem) {
+    $scope.activeMenu = menuItem;
+
+    designData.getDocument(menuItem[0])
+      .success(function(data) {
+          ctl.design.content = data;
+      })
+      .error(function (error) {
+        ctl.toast = {
+          status  : error.toast.status,
+          message : error.toast.message
+        }
+      });
+  }
+
+  //On form submit try to save the document
+  ctl.onSubmit = function () {
+    console.log('Submitting update');
+    designData.saveDocument2($scope.activeMenu[0], ctl.design.content)
+      .error(function(error){
+          ctl.toast = {
+            status  : error.toast.status,
+            message : error.toast.message
+          }
+      })
+      .then(function(response){
+          ctl.toast = {
+            status  : response.data.toast.status,
+            message : response.data.toast.message
+          }
     });
   };
 
@@ -595,36 +657,6 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
 
 }]);
 
-//design.controller
-/**
- *
- * @param  object $scope          Object that refers to the application model.
- *
- */
-angular.module('cowApp').controller('designCtrl', ['$scope', function($scope){
-  $scope.menuItems = ['Css', 'Javascript', 'Header', 'Footer'];
-
-  $scope.activeMenu = $scope.menuItems[0];
-
-  $scope.setActive = function(menuItem) {
-    $scope.activeMenu = menuItem
-    switch (menuItem) {
-      case 'Css':
-        console.log("Css");
-        break;
-      case 'Javascript':
-        console.log("Javascript");
-        break;
-      case 'Header':
-        console.log("Header");
-        break;
-      case 'Footer':
-        console.log("Footer");
-        break;
-    }
- }
-}]);
-
 //codemirror.controller
 /**
  * Set codemirror editor options
@@ -633,31 +665,24 @@ angular.module('cowApp').controller('designCtrl', ['$scope', function($scope){
  *
  */
 angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope){
-  $scope.htmlOptions = {
-      lineNumbers: true,
-      mode: 'xml',
-      htmlMode: true,
-      smartIndent: true,
-      theme : 'material'
-  };
-  $scope.cssOptions = {
-      lineNumbers: true,
-      mode: 'css',
-      htmlMode: true,
-      smartIndent: true,
-      theme : 'material'
-  };
-  $scope.jsOptions = {
-      lineNumbers: true,
-      mode: 'javascript',
-      smartIndent: true,
-      theme : 'material'
-  };
+  // The modes 'css', 'xml', 'javascript';
 
-  $scope.setOption = function(mode) {
-    console.log($scope.editor + mode);
-    //$scope.setOption("mode", <new mode>);
-  }
+ // The ui-codemirror options
+ $scope.cmOptions = {
+   lineNumbers: true,
+   htmlMode: true,
+   smartIndent: true,
+   indentWithTabs: true,
+   theme : 'material',
+   onLoad : function(_cm){
+     // HACK to have the codemirror instance in the scope...
+     $scope.setMode = function(mode){
+       _cm.setOption("mode", mode);
+     };
+   }
+ };
+
+
 }]);
 
 //#####SERVICES#####
@@ -710,7 +735,7 @@ angular.module('cowApp').service('authentication', ['$http', '$window', function
     payload = JSON.parse(payload);
 
     return payload;
-  }
+  };
 
   login = function(user) {
     return $http.post('/api/login', user).success(function(data) {
@@ -760,7 +785,7 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
           Authorization: 'Bearer '+ authentication.getToken()
         }
       });
-    }
+    };
 
     var deleteUser = function(userId){
       return $http.delete('/api/deleteUser', {
@@ -782,7 +807,7 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
             "userId": userId
         }
       });
-    }
+    };
 
     return {
       getUser     : getUser,
@@ -834,7 +859,7 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
           Authorization: 'Bearer '+ authentication.getToken()
         }
       });
-    }
+    };
 
     var deletePage = function(pageId){
       return $http.delete('/api/deletePage', {
@@ -856,7 +881,7 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
             "pageId": pageId
         }
       });
-    }
+    };
 
     return {
       createPage      : createPage,
@@ -869,11 +894,56 @@ angular.module('cowApp').service('pageData', ['$http', 'authentication', functio
     };
 }]);
 
+//designData.service
+angular.module('cowApp').service('designData', ['$http', 'authentication', function($http, authentication){
+
+   var getDocument = function(type){
+     return $http.get('/api/getDocument', {
+       headers: {
+         Authorization: 'Bearer '+ authentication.getToken(),
+       },
+       params: {
+           "documentType": type
+       }
+     });
+   };
+
+   var saveDocument2 = function(type, content){
+     return $http.get('/api/saveDocument2', {
+       headers: {
+         Authorization: 'Bearer '+ authentication.getToken(),
+       },
+       params: {
+           "documentType": type,
+           "documentContent": content
+       }
+     });
+   };
+
+   var saveDocument = function(type, content){
+     return $http.put('/api/saveDocument', {
+       headers: {
+         Authorization: 'Bearer '+ authentication.getToken(),
+       },
+       params: {
+           "documentType": type,
+           "documentContent": content
+       }
+     });
+   };
+
+   return {
+     getDocument  : getDocument,
+     saveDocument2 : saveDocument2,
+     saveDocument : saveDocument
+   };
+}]);
+
 //titlePage.service
 angular.module('cowApp').service('titlePage', ['$window', function($window){
    var setTitle = function(title){
      $window.document.title = title;
-   }
+   };
 
    return {
      setTitle: setTitle

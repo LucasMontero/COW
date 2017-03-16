@@ -10,10 +10,12 @@ var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
 var ctrlSecret   = require('../controllers/secret');
 var ctrlPages    = require('../controllers/pages');
+var ctrlDesign   = require('../controllers/design');
 
 //Create user administrator in Database if not exist.
 ctrlUsers.checkAdministrator();
 
+//Create main page in Database if not exist.
 ctrlPages.checkPages();
 
 //Create session secret in Database if not exist. IN DEVELOPMENT
@@ -48,5 +50,10 @@ router.post('/createUser',   auth, ctrlUsers.createUser);
 router.delete('/deleteUser', auth, ctrlUsers.deleteUserById);
 router.put('/updateUser',    auth, ctrlUsers.updateUserById);
 
+//  - design
+
+router.get('/getDocument',  auth, ctrlDesign.getDocument);
+router.get('/saveDocument2',  auth, ctrlDesign.saveDocument2);
+router.put('/saveDocument', auth, ctrlDesign.saveDocument);
 
 module.exports = router;

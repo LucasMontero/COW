@@ -10,7 +10,7 @@
         <div class="col-md-9">
             <div class="form-group">
                 <label for="path">Content</label>
-                <codemirror ui-codemirror="htmlOptions" ng-model="ctl.pageForm.content"></codemirror>
+                <codemirror  ui-codemirror="cmOptions" ng-init="setMode('xml')" ng-model="ctl.pageForm.content"></codemirror>
             </div>
         </div>
 

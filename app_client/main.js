@@ -568,7 +568,6 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
       }
     });
 
-
   ctl.design = {};
 
   $scope.activeMenu = $scope.menuItems[0];
@@ -591,7 +590,7 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
   //On form submit try to save the document
   ctl.onSubmit = function () {
     console.log('Submitting update');
-    designData.saveDocument2($scope.activeMenu[0], ctl.design.content)
+    designData.saveDocument($scope.activeMenu[0], ctl.design.content)
       .error(function(error){
           ctl.toast = {
             status  : error.toast.status,
@@ -667,6 +666,8 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
 angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope){
   // The modes 'css', 'xml', 'javascript';
 
+  $scope.initMode = "xml"
+
  // The ui-codemirror options
  $scope.cmOptions = {
    lineNumbers: true,
@@ -679,8 +680,11 @@ angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope
      $scope.setMode = function(mode){
        _cm.setOption("mode", mode);
      };
+     
+     $scope.setMode($scope.initMode);
    }
  };
+
 
 
 }]);
@@ -908,20 +912,8 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
      });
    };
 
-   var saveDocument2 = function(type, content){
-     return $http.get('/api/saveDocument2', {
-       headers: {
-         Authorization: 'Bearer '+ authentication.getToken(),
-       },
-       params: {
-           "documentType": type,
-           "documentContent": content
-       }
-     });
-   };
-
    var saveDocument = function(type, content){
-     return $http.put('/api/saveDocument', {
+     return $http.get('/api/saveDocument', {
        headers: {
          Authorization: 'Bearer '+ authentication.getToken(),
        },
@@ -934,8 +926,7 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
 
    return {
      getDocument  : getDocument,
-     saveDocument2 : saveDocument2,
-     saveDocument : saveDocument
+     saveDocument : saveDocument,
    };
 }]);
 

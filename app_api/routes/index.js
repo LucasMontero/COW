@@ -53,7 +53,6 @@ router.put('/updateUser',    auth, ctrlUsers.updateUserById);
 //  - design
 
 router.get('/getDocument',  auth, ctrlDesign.getDocument);
-router.get('/saveDocument2',  auth, ctrlDesign.saveDocument2);
-router.put('/saveDocument', auth, ctrlDesign.saveDocument);
+router.get('/saveDocument', auth, ctrlDesign.saveDocument);
 
 module.exports = router;

@@ -11,7 +11,7 @@
   </ul>
   <form ng-submit="ctl.onSubmit()">
     <div class="form-group">
-        <codemirror  ui-codemirror='cmOptions' ng-init="setMode('css')" ng-model="ctl.design.content"></codemirror>
+        <codemirror  ng-init="initMode='css'" ui-codemirror='cmOptions' ng-model="ctl.design.content"></codemirror>
     </div>
     <button type="submit" class="btn btn-default">Save</button>
   </form>

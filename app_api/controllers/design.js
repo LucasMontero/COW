@@ -8,18 +8,6 @@ var toast    = require('../services/toast.js');
  *
  */
 module.exports.saveDocument = function(req, res) {
-   console.log(req.body.params.documentType);
-   console.log(req.body.params.documentContent);
-  /*fs.writeFile(req.body.file, req.body.content, function(err) {
-    if (err){
-      console.log("## ERROR ## --> " + err);
-      return res.status(500).json(toast.unknownErrorToast());
-    }
-    return res.status(200).json(toast.elementTaskCorrectly("Page", "updated"));
-  }); */
-};
-
-module.exports.saveDocument2 = function(req, res) {
   var doc = getDocumentByType(req.query.documentType);
 
   fs.writeFile(doc, req.query.documentContent, function(err) {
@@ -27,7 +15,7 @@ module.exports.saveDocument2 = function(req, res) {
       console.log("## ERROR ## --> " + err);
       return res.status(500).json(toast.unknownErrorToast());
     }
-    return res.status(200).json(toast.elementTaskCorrectly("Data", "saved"));
+    return res.status(200).json(toast.elementTaskCorrectly("Data", "updated"));
   }); 
 };
 

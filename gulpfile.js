@@ -6,9 +6,9 @@ var sourcemaps  = require('gulp-sourcemaps');
 var ngHtml2Js   = require("gulp-ng-html2js");
 
 gulp.task('scripts', function() {
-  gulp.src(['./app_client/*.js', './app_client/controllers/*.js', './app_client/services/*.js', './app_client/directives/*.js', '!./app_client/app.min.js'])
+  gulp.src(['./app_client/*.js', './app_client/controllers/*.js', './app_client/services/*.js', './app_client/directives/*.js', '!./app_client/app.js'])
     .pipe(sourcemaps.init())
-    .pipe(concat('./app.min.js'))
+    .pipe(concat('./app.js'))
     //.pipe(uglify({mangle: true})) //Uncomment on production
     .pipe(gulp.dest('app_client'))
     .pipe(sourcemaps.write('./'))
@@ -17,7 +17,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('watch', function() {
-  watch(['./app_client/*.js', './app_client/controllers/*.js', './app_client/services/*.js', './app_client/directives/*.js', '!./app_client/app.min.js'], function () {
+  watch(['./app_client/*.js', './app_client/controllers/*.js', './app_client/services/*.js', './app_client/directives/*.js', '!./app_client/app.js'], function () {
     gulp.start('scripts');
   })
 });

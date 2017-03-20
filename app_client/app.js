@@ -989,4 +989,4 @@ angular.module("cowApp").directive("cowfooter", function(){
   }
 });
 
-//# sourceMappingURL=app.min.js.map
+//# sourceMappingURL=app.js.map

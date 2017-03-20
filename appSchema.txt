@@ -54,6 +54,6 @@ app_api -> Directorio back-end de la aplicación. Los archivos de este directori
 
  LICENSE --> Licencia de la aplicación.
 
- nodemon.json --> Archivo de configuración de nodemon. permite hacer cambios en la aplicación sin reiniciar el servidor. Necesita instalar npm install -g nodemon
+ nodemon.json --> Archivo de configuración de nodemon. Permite hacer cambios en la aplicación sin reiniciar el servidor. Necesitas instalar -> npm install -g nodemon
 
  package.json --> Aquí se especifican los módulos instalados así como la información base de la aplicación.

@@ -1,0 +1,59 @@
+app_api -> Directorio back-end de la aplicación. Los archivos de este directorio se ejecutan en servidor.
+ |
+ |--> config --> Ficheros de configuración.
+ |     |
+ |     |--> passport.js Fichero de configuración de passport para autenticar contra la base de datos
+ |
+ |
+ |--> controllers --> Archivos que responden a una llamada desde el cliente a una petición concreta.
+ |      |
+ |      |--> *****.js --> Controlador que ejecuta x acción en respuesta a la petición adquirida.
+ |
+ |
+ |--> models --> Estos archivos corresponden a los modelos de los objetos en la base de datos.
+ |      |
+ |      |--> db.js --> Archivo de configuración de las conexiones con la bd y donde se tienen que importar los archivos de modelo ("require('****');").
+ |      |
+ |      |--> ****.js --> Archivo de modelo de un objeto en la bd y funciones para trabajar sobre sus datos. (No inserciones ni cosas asi, eso en el controlador).
+ |
+ |--> routes/index.js --> Archivo de enrutamiento de la aplicación aquí redirigimos la petición entrante el controlador correspondiente.
+ |
+ |
+ |--> services --> Archivos de servicio que proveen de funciones específicas a los controladores.
+ |      |
+ |      |--> toast.js --> Provee de funciones de alerta para el cliente en función de el resultado de la acción en el controlador.
+
+ app_client --> Directorio front-end de la aplicación. Los archivos de este directorio se ejecutan en el cliente.
+ |
+ |--> views --> Archivos html
+ |
+ |--> controllers --> Estas funciones se lanzan al cargar la vista y proveen a la misma del codigo provisto en ellas.
+ |
+ |--> services --> Provee al controlador de las funciones del servicio al importarlo en el mismo
+ |
+ |--> directives --> Crea una etiqueta html con su mismo nombre que cargará la vista asociada junto con su controlador.
+ |
+ |--> index.html --> Html principal, las vistas se cargan en el body de este archivo.
+ |
+ |--> route.js --> Relaciona las vistas con los controladores y los carga cuando se pide su url específica.
+ |
+ |--> app.min.js --> Archivo js principal. Aquí están concatenados todos los archivos descritos anteriormente.
+
+
+ bin --> Directorio de configuración del servidor web de la aplicación
+ |
+ |--> www --> Archivo de configuración
+
+ node_modules --> Modulos instalados que proveen de funcionalidades a la aplicación.
+
+ public --> Librerias, archivos multimedia, css y cosas así.
+
+ app.js --> Primer archivo que se lanza al iniciar la aplicación. Aquí van configuraciones iniciales de la aplicación y cosas que queramos lanzar al iniciarla.
+
+ gulpfile.js --> Concatena todos los archivos js del directorio app_client en uno solo. Necesitas instalar gulp --> https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
+
+ LICENSE --> Licencia de la aplicación.
+
+ nodemon.json --> Archivo de configuración de nodemon. permite hacer cambios en la aplicación sin reiniciar el servidor. Necesita instalar npm install -g nodemon
+
+ package.json --> Aquí se especifican los módulos instalados así como la información base de la aplicación.

@@ -8,20 +8,10 @@ var mongoose = require( 'mongoose' );
 //Required controllers
 var ctrlAuth     = require('../controllers/authentication');
 var ctrlUsers    = require('../controllers/users');
-var ctrlSecret   = require('../controllers/secret');
 var ctrlPages    = require('../controllers/pages');
 var ctrlDesign   = require('../controllers/design');
 
-//Create user administrator in Database if not exist.
-ctrlUsers.checkAdministrator();
-
-//Create main page in Database if not exist.
-ctrlPages.checkPages();
-
-//Create session secret in Database if not exist. IN DEVELOPMENT
-//ctrlSecret.checkSecret();
 //var secret = ctrlSecret.getSecret();
-
 var auth = jwt({
   secret: 'MY_SECRET',
   userProperty: 'payload'

@@ -80,5 +80,18 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// [COW] Set init app configuration
+var ctrlUsers    = require('./app_api/controllers/users');
+var ctrlPages    = require('./app_api/controllers/pages');
+//var ctrlSecret   = require('../controllers/secret');
+
+//Create session secret in Database if not exist. IN DEVELOPMENT
+//ctrlSecret.checkSecret();
+
+// [COW] Create user administrator in Database if not exist.
+ctrlUsers.checkAdministrator();
+
+// [COW] Create main page in Database if not exist.
+ctrlPages.checkPages();
 
 module.exports = app;

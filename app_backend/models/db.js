@@ -50,6 +50,7 @@ process.on('SIGTERM', function() {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
+require('./mail');
 require('./pages');
 require('./users');
 require('./secret');

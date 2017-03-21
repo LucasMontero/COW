@@ -29,7 +29,7 @@ APP.use(BODY_PARSER.urlencoded({ extended: false }));
 APP.use(COOKIE_PARSER());
 APP.use(EXPRESS.static(PATH.join(__dirname, 'public')));
 
-// [COW] Set the app_client folder to serve static resources
+// [COW] Set the app_frontend folder to serve static resources
 APP.use(EXPRESS.static(PATH.join(__dirname, 'app_frontend')));
 // [COW] Initialise Passport before using the route middleware
 APP.use(PASSPORT.initialize());

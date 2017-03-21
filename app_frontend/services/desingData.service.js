@@ -26,6 +26,6 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
 
    return {
      getDocument  : getDocument,
-     saveDocument : saveDocument,
+     saveDocument : saveDocument
    };
 }]);

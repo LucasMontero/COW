@@ -53,8 +53,7 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
           ctl.toast = {
             status  : response.data.toast.status,
             message : response.data.toast.message
-          }
+      }
     });
   };
-
 }]);

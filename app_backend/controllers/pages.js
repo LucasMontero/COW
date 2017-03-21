@@ -2,16 +2,12 @@
 const PASSPORT = require('passport');
 const MONGOOSE = require('mongoose');
 const TOAST    = require('../services/toast.js');
-const PAGE     = MONGOOSE.model('Page');
+let   PAGE     = MONGOOSE.model('Page');
 
 /**
  * Check if any page exist on DB and if not, create ones
- *
- * @param  object req Http request
- * @param  object res Http response
- *
  */
-module.exports.checkPages = function(req, res){
+module.exports.checkPages = function(){
   PAGE.find({}).count().exec(function(err, result){
     if(result === 0){
       console.log('Creating main page.');
@@ -41,7 +37,7 @@ module.exports.checkPages = function(req, res){
 module.exports.createPage = function(req, res) {
     if (!checkPageConstruction(req, res)) return;
 
-    checkIndex(PAGE, res, null, req.body.index);
+    checkIndex(res, null, req.body.index);
 
     var page = pagePopulate(new PAGE(), req.body);
 
@@ -134,7 +130,7 @@ module.exports.updatePageById = function(req, res) {
 
         if(!checkPageConstruction(req, res)) return;
 
-        checkIndex(PAGE, res, req.query.pageId, req.body.index);
+        checkIndex(res, req.query.pageId, req.body.index);
 
         page = pagePopulate(page, req.body);
 
@@ -229,7 +225,7 @@ function pagePopulate(page, values) {
  * @param  boolean index    Indicate is new/updated page is index
  *
  */
-function checkIndex(PAGE, res, id, index){
+function checkIndex(res, id, index){
   if (index === true){
     PAGE.findOneAndUpdate({_id: {$ne: id},'index': true}, {$set:{'index':false}}, function (err, page) {
         if (err){

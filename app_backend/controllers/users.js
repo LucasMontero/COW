@@ -3,18 +3,20 @@ const MONGOOSE = require('mongoose');
 const TOAST    = require('../services/toast.js');
 const USER     = MONGOOSE.model('User');
 
-
-module.exports.checkAdministrator = function(req, res){
+/**
+ * Check if any user exist on DB and if not, create ones
+ */
+module.exports.checkAdministrator = function(){
   USER.find({}).count().exec(function(err, result){
     if(result === 0){
       console.log('Creating administration user.');
 
       var user = userPopulate(new USER(),{
-                                              name:     'administrator',
-                                              email:    'admin@cow.com',
-                                              password: "development",
-                                           }
-                               );
+                                            name:     'administrator',
+                                            email:    'admin@cow.com',
+                                            password: 'development',
+                                         }
+      );
       user.save();
     }
   });

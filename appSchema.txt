@@ -1,4 +1,4 @@
-app_api -> Directorio back-end de la aplicación. Los archivos de este directorio se ejecutan en servidor.
+app_backend --> Directorio back-end de la aplicación. Los archivos de este directorio se ejecutan en servidor.
  |
  |--> config --> Ficheros de configuración.
  |     |
@@ -23,7 +23,7 @@ app_api -> Directorio back-end de la aplicación. Los archivos de este directori
  |      |
  |      |--> toast.js --> Provee de funciones de alerta para el cliente en función de el resultado de la acción en el controlador.
 
- app_client --> Directorio front-end de la aplicación. Los archivos de este directorio se ejecutan en el cliente.
+ app_frontend --> Directorio front-end de la aplicación. Los archivos de este directorio se ejecutan en el cliente.
  |
  |--> views --> Archivos html
  |
@@ -50,7 +50,7 @@ app_api -> Directorio back-end de la aplicación. Los archivos de este directori
 
  app.js --> Primer archivo que se lanza al iniciar la aplicación. Aquí van configuraciones iniciales de la aplicación y cosas que queramos lanzar al iniciarla.
 
- gulpfile.js --> Concatena todos los archivos js del directorio app_client en uno solo. Necesitas instalar gulp --> https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
+ gulpfile.js --> Concatena todos los archivos js del directorio app_frontend en uno solo. Necesitas instalar gulp --> https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
 
  LICENSE --> Licencia de la aplicación.
 

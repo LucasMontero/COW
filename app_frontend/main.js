@@ -82,6 +82,11 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: '',
     controllerAs: 'ctl'
   })
+  .when('/cow-adm/settings/mailing', {
+    templateUrl: '/views/adm/mailing.view.html',
+    controller: 'mailingCtrl',
+    controllerAs: 'ctl'
+  })
   .when('/:pageId', {
     templateUrl: '/views/front/page.view.html',
     controller: 'frontPageCtrl',
@@ -116,7 +121,7 @@ angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope
   // The modes 'css', 'xml', 'javascript';
 
   $scope.initMode = "xml"
-
+ 
  // The ui-codemirror options
  $scope.cmOptions = {
    lineNumbers: true,
@@ -190,10 +195,9 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
           ctl.toast = {
             status  : response.data.toast.status,
             message : response.data.toast.message
-          }
+      }
     });
   };
-
 }]);
 
 
@@ -393,6 +397,53 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
           $location.path('/cow-adm/home');
         });
     };
+}]);
+
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
+ *
+ */
+angular.module('cowApp').controller('mailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
+  //ctl is the controller alias
+  var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - Mailing Settings");
+
+  //GET MAIL PARAMETERS
+
+  ctl.mailForm = {
+    host      : "",
+    port      : "",
+    secure    : false,
+    username  : "",
+    password  : ""
+   };
+
+  //On form submit try to register the user.
+  ctl.onSubmit = function () {
+    console.log('Saving mailing parameters');
+
+    //ctl.mailForm.secure = document.getElementById('mailSecure').checked;
+
+    /*saveMailParameters().error(function(error){
+        //Add toast
+        ctl.toast = {
+          status  : error.toast.status,
+          message : error.toast.message
+        }
+    }).then(function(response){
+        //Add toast
+        console.log(response.data.toast.message)
+        $location.path('/cow-adm/settings/mailing');
+    }); */
+  };
+
+  //ON MAIL TEST
+
 }]);
 
 //navigation.controller -> See also navigation.service
@@ -782,7 +833,24 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
 
    return {
      getDocument  : getDocument,
-     saveDocument : saveDocument,
+     saveDocument : saveDocument
+   };
+}]);
+
+//designData.service
+angular.module('cowApp').service('mailData', ['$http', 'authentication', function($http, authentication){
+
+  var saveMailParameters = function(){
+    console.log("saveMailParameters");
+    /*return $http.put('/api/saveMailParameters', ctl.mailForm, {
+      headers: {
+        Authorization: 'Bearer '+ authentication.getToken(),
+      }
+    });*/
+  };
+
+   return {
+     saveMailParameters  : saveMailParameters
    };
 }]);
 
@@ -989,4 +1057,4 @@ angular.module("cowApp").directive("cowfooter", function(){
   }
 });
 
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=main.js.map

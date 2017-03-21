@@ -1,12 +1,12 @@
 //required
-var mongoose = require( 'mongoose' );
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken'); //npm install jsonwebtoken --save if not installed
+const MONGOOSE = require( 'mongoose' );
+const CRYPTO   = require('crypto');
+const JWT      = require('jsonwebtoken'); //npm install jsonwebtoken --save if not installed
 //var Secret = mongoose.model('Secret');
 
 //MongoDB user schema
 
-var userSchema = new mongoose.Schema({
+var userSchema = new MONGOOSE.Schema({
   email: {
     type: String,
     unique: true,
@@ -28,8 +28,8 @@ var userSchema = new mongoose.Schema({
  *
  */
 userSchema.methods.setPassword = function(password){
-  this.salt = crypto.randomBytes(16).toString('hex');
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.salt = CRYPTO.randomBytes(16).toString('hex');
+  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
 };
 
 /**
@@ -39,7 +39,7 @@ userSchema.methods.setPassword = function(password){
  *
  */
 userSchema.methods.updatePassword = function(password){
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
 };
 
 /**
@@ -50,7 +50,7 @@ userSchema.methods.updatePassword = function(password){
  * @return Boolean Passwords match
  */
 userSchema.methods.validPassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  var hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
   return this.hash === hash;
 };
 
@@ -63,7 +63,7 @@ userSchema.methods.generateJwt = function() {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
-  return jwt.sign({
+  return JWT.sign({
     _id: this._id,
     email: this.email,
     name: this.name,
@@ -71,4 +71,4 @@ userSchema.methods.generateJwt = function() {
   }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE! Create mongodbmodel for secret.
 };
 
-mongoose.model('User', userSchema);
+MONGOOSE.model('User', userSchema);

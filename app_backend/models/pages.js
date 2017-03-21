@@ -1,9 +1,9 @@
 //required
-var mongoose = require('mongoose');
+const MONGOOSE = require('mongoose');
 
 //MongoDB pages schema
 
-var pageSchema = new mongoose.Schema({
+var pageSchema = new MONGOOSE.Schema({
     title: {
         type: String,
         unique: true,
@@ -31,4 +31,4 @@ var pageSchema = new mongoose.Schema({
     }
 });
 
-mongoose.model('Page', pageSchema);
+MONGOOSE.model('Page', pageSchema);

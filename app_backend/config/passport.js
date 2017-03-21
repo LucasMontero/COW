@@ -5,12 +5,12 @@
 */
 
 //required
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+const PASSPORT        = require('passport');
+const LOCAL_STRATEGY  = require('passport-local').Strategy;
+const MONGOOSE        = require('mongoose');
+const USER            = MONGOOSE.model('User');
 
-passport.use(new LocalStrategy({
+PASSPORT.use(new LOCAL_STRATEGY({
     usernameField: 'email' //Asign email schema fields as username
   },
   /**
@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({
    * @return Object User object or Error
    */
   function(username, password, done) {
-    User.findOne({ email: username }, function (err, user) {
+    USER.findOne({ email: username }, function (err, user) {
       if (err) { return done(err); }
       // Return if user not found in database
       if (!user) {

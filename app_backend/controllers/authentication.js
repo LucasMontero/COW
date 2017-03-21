@@ -1,8 +1,8 @@
 //required
-var passport = require('passport');
-var mongoose = require('mongoose');
-var toast    = require('../services/toast.js');
-var User     = mongoose.model('User');
+const PASSPORT = require('passport');
+const MONGOOSE = require('mongoose');
+const TOAST    = require('../services/toast.js');
+const USER     = MONGOOSE.model('User');
 
 //ADD SECURITY - VALIDATION//
 
@@ -16,16 +16,16 @@ var User     = mongoose.model('User');
 module.exports.login = function(req, res) {
 
    if(!req.body.email || !req.body.password) {
-     res.status(400).json(toast.allFieldsRequiredToast());
+     res.status(400).json(TOAST.allFieldsRequiredToast());
      return;
    }
 
-  passport.authenticate('local', function(err, user, info){
+  PASSPORT.authenticate('local', function(err, user, info){
     var token;
 
     // If Passport throws/catches an error
     if (err) {
-      res.status(400).json(toast.unknownErrorToast(err));
+      res.status(400).json(TOAST.unknownErrorToast(err));
       return;
     }
 
@@ -38,7 +38,7 @@ module.exports.login = function(req, res) {
       });
     } else {
       // If user is not found
-      res.status(401).json(toast.invalidLoginToast());
+      res.status(401).json(TOAST.invalidLoginToast());
     }
 
   })(req, res);

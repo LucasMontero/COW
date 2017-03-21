@@ -1,10 +1,10 @@
 //required
-var mongoose = require( 'mongoose' );
-var crypto = require('crypto');
+const MONGOOSE = require( 'mongoose' );
+const CRYPTO   = require('crypto');
 
 //MongoDB secret schema
 
-var secretSchema = new mongoose.Schema({
+var secretSchema = new MONGOOSE.Schema({
   value: {
     type: String,
     unique: true,
@@ -13,11 +13,11 @@ var secretSchema = new mongoose.Schema({
 });
 
 secretSchema.methods.setValue = function(){
-  this.value = crypto.randomBytes(16).toString('hex');
+  this.value = CRYPTO.randomBytes(16).toString('hex');
 };
 
 secretSchema.methods.getValue = function(){
   return this.value;
 }
 
-mongoose.model('Secret', secretSchema);
+MONGOOSE.model('Secret', secretSchema);

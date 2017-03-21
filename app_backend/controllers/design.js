@@ -1,5 +1,5 @@
-var fs       = require('fs');
-var toast    = require('../services/toast.js');
+const FS       = require('fs');
+const TOAST    = require('../services/toast.js');
 
 /**
  *
@@ -10,13 +10,13 @@ var toast    = require('../services/toast.js');
 module.exports.saveDocument = function(req, res) {
   var doc = getDocumentByType(req.query.documentType);
 
-  fs.writeFile(doc, req.query.documentContent, function(err) {
+  FS.writeFile(doc, req.query.documentContent, function(err) {
     if (err){
-      console.log("## ERROR ## --> " + err);
-      return res.status(500).json(toast.unknownErrorToast());
+      console.error(new Error("## ERROR ## --> " + err));
+      return res.status(500).json(TOAST.unknownErrorToast());
     }
     return res.status(200).json(toast.elementTaskCorrectly("Data", "updated"));
-  }); 
+  });
 };
 
 /**
@@ -28,15 +28,14 @@ module.exports.saveDocument = function(req, res) {
 module.exports.getDocument = function(req, res) {
   var doc = getDocumentByType(req.query.documentType);
 
-  fs.readFile(doc, 'utf8', function (err,data) {
+  FS.readFile(doc, 'utf8', function (err,data) {
     if (err) {
-      console.log("## ERROR ## --> " + err);
-      return res.status(500).json(toast.unknownErrorToast());
+      console.error(new Error("## ERROR ## --> " + err));
+      return res.status(500).json(TOAST.unknownErrorToast());
     }
     return res.status(200).json(data);
   });
 };
-
 
 function getDocumentByType(type){
   switch (type) {
@@ -45,8 +44,8 @@ function getDocumentByType(type){
     case "Javascript":
       return __dirname + "/../../public/lib/front.js";
     case "Header":
-      return __dirname + "/../../app_client/views/front/directives/header.view.html";
+      return __dirname + "/../../app_frontend/views/front/directives/header.view.html";
     case "Footer":
-      return __dirname + "/../../app_client/views/front/directives/footer.view.html";
+      return __dirname + "/../../app_frontend/views/front/directives/footer.view.html";
   }
 }

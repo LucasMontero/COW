@@ -1,28 +1,31 @@
-var mongoose = require('mongoose');
-var gracefulShutdown;
+const MONGOOSE = require('mongoose');
+
 var dbURI = 'mongodb://localhost/cowDB';
+
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
+var gracefulShutdown;
 
-mongoose.Promise = global.Promise;
-mongoose.connect(dbURI);
+MONGOOSE.Promise = global.Promise;
+
+MONGOOSE.connect(dbURI);
 
 // CONNECTION EVENTS
-mongoose.connection.on('connected', function() {
+MONGOOSE.connection.on('connected', function() {
   console.log('Mongoose connected to ' + dbURI);
 });
-mongoose.connection.on('error', function(err) {
+MONGOOSE.connection.on('error', function(err) {
   console.log('Mongoose connection error: ' + err);
 });
-mongoose.connection.on('disconnected', function() {
+MONGOOSE.connection.on('disconnected', function() {
   console.log('Mongoose disconnected');
 });
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
 // To be called when process is restarted or terminated
 gracefulShutdown = function(msg, callback) {
-  mongoose.connection.close(function() {
+  MONGOOSE.connection.close(function() {
     console.log('Mongoose disconnected through ' + msg);
     callback();
   });

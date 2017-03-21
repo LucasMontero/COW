@@ -9,7 +9,7 @@ angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope
   // The modes 'css', 'xml', 'javascript';
 
   $scope.initMode = "xml"
-
+ 
  // The ui-codemirror options
  $scope.cmOptions = {
    lineNumbers: true,

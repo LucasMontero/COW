@@ -22,7 +22,7 @@ module.exports.checkPages = function(){
                                              public:  true
                                            }
                                   );
-      PAGE.save();
+      page.save();
     }
   });
 }

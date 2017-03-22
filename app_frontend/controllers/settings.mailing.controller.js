@@ -6,7 +6,7 @@
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('mailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
+angular.module('cowApp').controller('stMailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
   //ctl is the controller alias
   var ctl = this;
 
@@ -24,21 +24,21 @@ angular.module('cowApp').controller('mailingCtrl', ['titlePage', 'mailData', fun
 
   //On form submit try to register the user.
   ctl.onSubmit = function () {
-    console.log('Saving mailing parameters');
+    console.log('Setting mail parameters');
 
-    //ctl.mailForm.secure = document.getElementById('mailSecure').checked;
+    ctl.mailForm.secure = document.getElementById('mailSecure').checked;
 
-    /*saveMailParameters().error(function(error){
-        //Add toast
+    mailData.setMailParameters(ctl.mailForm).error(function(error){
         ctl.toast = {
           status  : error.toast.status,
           message : error.toast.message
         }
     }).then(function(response){
-        //Add toast
-        console.log(response.data.toast.message)
-        $location.path('/cow-adm/settings/mailing');
-    }); */
+        ctl.toast = {
+          status  : response.data.toast.status,
+          message : response.data.toast.message
+        }
+    });
   };
 
   //ON MAIL TEST

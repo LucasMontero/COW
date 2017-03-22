@@ -79,12 +79,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/settings', {
     templateUrl: '/views/adm/settings.view.html',
-    controller: '',
-    controllerAs: 'ctl'
-  })
-  .when('/cow-adm/settings/mailing', {
-    templateUrl: '/views/adm/mailing.view.html',
-    controller: 'mailingCtrl',
+    controller: 'settingsCtrl',
     controllerAs: 'ctl'
   })
   .when('/:pageId', {

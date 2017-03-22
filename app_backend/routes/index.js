@@ -10,6 +10,7 @@ const CTRL_AUTH     = require('../controllers/authentication');
 const CTRL_USERS    = require('../controllers/users');
 const CTRL_PAGES    = require('../controllers/pages');
 const CTRL_DESIGN   = require('../controllers/design');
+const CTRL_MAIL     = require('../controllers/mail');
 
 //var secret = ctrlSecret.getSecret();
 var auth = JWT({
@@ -43,6 +44,10 @@ ROUTER.put('/updateUser',    auth, CTRL_USERS.updateUserById);
 //  - design
 
 ROUTER.get('/getDocument',  auth, CTRL_DESIGN.getDocument);
-ROUTER.get('/saveDocument', auth, CTRL_DESIGN.saveDocument);
+ROUTER.get('/saveDocument', auth, CTRL_DESIGN.saveDocument); // ARREGLAR put
+
+// - settings - Mailing
+
+ROUTER.post('/setMailParameters', auth, CTRL_MAIL.setParameters);
 
 module.exports = ROUTER;

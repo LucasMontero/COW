@@ -1,19 +1,18 @@
 const MONGOOSE = require('mongoose');
 
-var dbURI = 'mongodb://localhost/cowDB';
+const DB_HOST = 'mongodb://localhost/';
+const DB_NAME = 'cowDB'
+const DB_URI  = DB_HOST + DB_NAME;
 
-if (process.env.NODE_ENV === 'production') {
-  dbURI = process.env.MONGOLAB_URI;
-}
 var gracefulShutdown;
 
 MONGOOSE.Promise = global.Promise;
 
-MONGOOSE.connect(dbURI);
+MONGOOSE.connect(DB_URI);
 
 // CONNECTION EVENTS
 MONGOOSE.connection.on('connected', function() {
-  console.log('Mongoose connected to ' + dbURI);
+  console.log('Mongoose connected to ' + DB_URI);
 });
 MONGOOSE.connection.on('error', function(err) {
   console.log('Mongoose connection error: ' + err);

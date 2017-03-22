@@ -33,3 +33,21 @@ angular.module("cowApp").directive("codemirror", function(){
       controller: "codemirrorCtrl as cmCtl"
   }
 });
+
+//SETTINGS
+
+angular.module("cowApp").directive("generalsettings", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/adm/directives/settings.general.view.html",
+      controller: "stGeneralCtrl as stGeneralCtl"
+  }
+});
+
+angular.module("cowApp").directive("mailingsettings", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/adm/directives/settings.mailing.view.html",
+      controller: "stMailingCtrl as stMailingCtl"
+  }
+});

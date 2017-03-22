@@ -79,12 +79,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/settings', {
     templateUrl: '/views/adm/settings.view.html',
-    controller: '',
-    controllerAs: 'ctl'
-  })
-  .when('/cow-adm/settings/mailing', {
-    templateUrl: '/views/adm/mailing.view.html',
-    controller: 'mailingCtrl',
+    controller: 'settingsCtrl',
     controllerAs: 'ctl'
   })
   .when('/:pageId', {
@@ -399,53 +394,6 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
     };
 }]);
 
-/**
- * Build the parameters and fuctions used in navigation.view
- *
- * @param  object $scope          Object that refers to the application model.
- * @param  object $location       Angular path location
- * @param  object authentication  Authentication service object
- *
- */
-angular.module('cowApp').controller('mailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
-  //ctl is the controller alias
-  var ctl = this;
-
-  titlePage.setTitle("COW Administration panel - Mailing Settings");
-
-  //GET MAIL PARAMETERS
-
-  ctl.mailForm = {
-    host      : "",
-    port      : "",
-    secure    : false,
-    username  : "",
-    password  : ""
-   };
-
-  //On form submit try to register the user.
-  ctl.onSubmit = function () {
-    console.log('Saving mailing parameters');
-
-    //ctl.mailForm.secure = document.getElementById('mailSecure').checked;
-
-    /*saveMailParameters().error(function(error){
-        //Add toast
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
-    }).then(function(response){
-        //Add toast
-        console.log(response.data.toast.message)
-        $location.path('/cow-adm/settings/mailing');
-    }); */
-  };
-
-  //ON MAIL TEST
-
-}]);
-
 //navigation.controller -> See also navigation.service
 /**
  * Build the parameters and fuctions used in navigation.view
@@ -649,6 +597,90 @@ angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", 
     });
 }]);
 
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
+ *
+ */
+angular.module('cowApp').controller('settingsCtrl', ['$scope', 'titlePage', function($scope, titlePage){
+  //ctl is the controller alias
+  var ctl = this;
+
+  $scope.menuItems = [["General", 1], ["Mail", 2], ["IP Ban", 3], ["Limit Login", 4]];
+
+  $scope.activeMenu = $scope.menuItems[0];
+
+  $scope.setActive = function(menuItem) {
+    $scope.activeMenu = menuItem;
+  }
+}]);
+
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
+ *
+ */
+angular.module('cowApp').controller('stGeneralCtrl', ['titlePage', function(titlePage, mailData){
+  //ctl is the controller alias
+  var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - General Settings");
+
+}]);
+
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
+ *
+ */
+angular.module('cowApp').controller('stMailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
+  //ctl is the controller alias
+  var ctl = this;
+
+  titlePage.setTitle("COW Administration panel - Mailing Settings");
+
+  //GET MAIL PARAMETERS
+
+  ctl.mailForm = {
+    host      : "",
+    port      : "",
+    secure    : false,
+    username  : "",
+    password  : ""
+   };
+
+  //On form submit try to register the user.
+  ctl.onSubmit = function () {
+    console.log('Setting mail parameters');
+
+    ctl.mailForm.secure = document.getElementById('mailSecure').checked;
+
+    mailData.setMailParameters(ctl.mailForm).error(function(error){
+        ctl.toast = {
+          status  : error.toast.status,
+          message : error.toast.message
+        }
+    }).then(function(response){
+        ctl.toast = {
+          status  : response.data.toast.status,
+          message : response.data.toast.message
+        }
+    });
+  };
+
+  //ON MAIL TEST
+
+}]);
+
 //sidebar.controller -> See also sidebar.service
 /**
  * Build the parameters and fuctions used in navigation.view
@@ -840,17 +872,16 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
 //designData.service
 angular.module('cowApp').service('mailData', ['$http', 'authentication', function($http, authentication){
 
-  var saveMailParameters = function(){
-    console.log("saveMailParameters");
-    /*return $http.put('/api/saveMailParameters', ctl.mailForm, {
+  var setMailParameters = function(mailForm){
+    return $http.post('/api/setMailParameters', mailForm, {
       headers: {
         Authorization: 'Bearer '+ authentication.getToken(),
       }
-    });*/
+    });
   };
 
    return {
-     saveMailParameters  : saveMailParameters
+     setMailParameters  : setMailParameters
    };
 }]);
 
@@ -1036,6 +1067,24 @@ angular.module("cowApp").directive("codemirror", function(){
       restrict: "EA",
       templateUrl: "/views/adm/directives/codemirror.view.html",
       controller: "codemirrorCtrl as cmCtl"
+  }
+});
+
+//SETTINGS
+
+angular.module("cowApp").directive("generalsettings", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/adm/directives/settings.general.view.html",
+      controller: "stGeneralCtrl as stGeneralCtl"
+  }
+});
+
+angular.module("cowApp").directive("mailingsettings", function(){
+  return {
+      restrict: "EA",
+      templateUrl: "/views/adm/directives/settings.mailing.view.html",
+      controller: "stMailingCtrl as stMailingCtl"
   }
 });
 

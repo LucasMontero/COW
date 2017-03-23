@@ -48,6 +48,8 @@ ROUTER.get('/saveDocument', auth, CTRL_DESIGN.saveDocument); // ARREGLAR put
 
 // - settings - Mailing
 
+ROUTER.get('/getMailParameters',  auth, CTRL_MAIL.getParameters);
 ROUTER.post('/setMailParameters', auth, CTRL_MAIL.setParameters);
+ROUTER.post('/sendMail',          auth, CTRL_MAIL.sendMail);
 
 module.exports = ROUTER;

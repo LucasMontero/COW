@@ -57,6 +57,17 @@ module.exports.cantDeleteIndex = function(){
   };
 }
 
+//**mailing++
+
+module.exports.wrongMailParameters = function(){
+  return {
+    "toast" : {
+        "status" : "error",
+        "message": "Invalid parameters on mail provider server."
+    }
+  };
+}
+
 //CONFIRMATIONS
 
 module.exports.elementTaskCorrectly = function(element, task){

@@ -14,6 +14,17 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
 
   titlePage.setTitle("COW Administration panel - Pages");
 
+  //Get users data function
+  pageData.getAllPages()
+    .success(function(data) {
+      $scope.pages = data;
+    })
+    .error(function (error) {
+      ctl.toast = {
+        status  : error.toast.status,
+        message : error.toast.message
+      }
+    });
   /**
    * Delete a specific page by id and reload the pages list
    *
@@ -45,16 +56,4 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
         }
       });
   };
-
-  //Get users data function
-  pageData.getAllPages()
-    .success(function(data) {
-      $scope.pages = data;
-    })
-    .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
-    });
 }]);

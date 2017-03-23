@@ -5,6 +5,16 @@ let   MAIL        = MONGOOSE.model('Mail');
 
 
 //Database functions
+module.exports.getParameters = function(req, res) {
+  console.log('Getting mail parameters.');
+  MAIL.findOne({}).sort({'created_at' : -1 }).select('host port secure username').exec(function(err, mail) {
+    if (err){
+      console.error(new Error("## ERROR ## --> " + err));
+      return res.status(500).json(TOAST.unknownErrorToast());
+    }
+    return res.status(200).json(mail);
+  });
+}
 
 /**
  * Set mail parameters in DB
@@ -15,38 +25,44 @@ let   MAIL        = MONGOOSE.model('Mail');
  */
 module.exports.setParameters = function(req, res) {
   console.log('Setting mail parameters.');
-  MAIL.find({}).count().exec(function(err, result){
-      if(result === 0){
-        console.log("new")
-        var mail =  mailPopulate(new MAIL(),{
-                                                host:     req.body.post,
-                                                port:     req.body.port,
-                                                secure:   req.body.secure,
-                                                username: req.body.username,
-                                                password: req.body.password
-                                             }
-                                );
 
-        mail.save(function(err) {
-            if (err){
-              console.error(new Error("## ERROR ## --> " + err));
-              return res.status(500).json(TOAST.unknownErrorToast());
-            }
-        });
-
-      }else{
-        console.log(result);
-      }
-     return res.status(200).json(TOAST.elementTaskCorrectly("Mail settings", "updated"));
-  });
- /*
-  transporter.verify(function(err, success) {
+  var transporterTest = NODE_MAILER.createTransport({
+                                                      host:  req.body.host,
+                                                      port:  req.body.port,
+                                                      secure: req.body.secure,
+                                                      auth: {
+                                                              user: req.body.username,
+                                                              pass: req.body.password
+                                                      }
+                                                    });
+  transporterTest.verify(function(err, success) {
      if (err) {
           console.error(new Error("## ERROR ## --> " + err));
+          return res.status(500).json(TOAST.wrongMailParameters());
      } else {
-          console.log('Server is ready to take our messages');
+       MAIL.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, mail) {
+           if(mail === null){
+             mail = new MAIL();
+           }
+           mail =  mailPopulate(mail ,{
+                                         host:  req.body.host,
+                                         port:  req.body.port,
+                                         secure: req.body.secure,
+                                         username: req.body.username,
+                                         password: req.body.password
+                                      }
+                                );
+
+           mail.save(function (err){
+             if (err){
+               console.error(new Error("## ERROR ## --> " + err));
+               return res.status(500).json(TOAST.unknownErrorToast());
+             }
+           });
+           return res.status(200).json(TOAST.elementTaskCorrectly("Mail settings", "updated"));
+       });
      }
-  });*/
+  });
 };
 
 /**
@@ -66,34 +82,42 @@ function mailPopulate(mail, values) {
   return mail;
 }
 
-//create reusable transporter object
-let transporter = NODE_MAILER.createTransport({
-   host: 'smtp.gmail.com',
-   port: 587,
-   secure: false, // upgrade later with STARTTLS
-   auth: {
-       user: "",
-       pass: ""
-   }
-});
-
-// setup email data with unicode symbols
-let mailOptions = {
-    from: '"Fred Foo 👻" <lucasdeigaz@gmail.com>', // sender address
-    to: 'lucasdeigaz@gmail.com', // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world ?', // plain text body
-    html: '<b>Hello world ?</b>' // html body
-};
-
+//Send mail functions
 
 module.exports.sendMail = function(req, res) {
+  MAIL.findOne({}).sort({'created_at' : -1 }).exec(function(err, mail) {
+    if (err){
+      console.error(new Error("## ERROR ## --> " + err));
+      return res.status(500).json(TOAST.unknownErrorToast());
+    }
 
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-          return console.error(new Error("## ERROR ## --> " + err));
-      }
-      console.log('Message %s sent: %s', info.messageId, info.response);
+    //create transporter object
+    var transporter = NODE_MAILER.createTransport({
+       host: mail.host,
+       port: mail.port,
+       secure: mail.secure, // upgrade later with STARTTLS
+       auth: {
+           user: mail.username,
+           pass: mail.password
+       }
+    });
+
+    // setup email data with unicode symbols
+    var mailOptions = {
+        from    : '"Cow Administration 🐮" <'+mail.username+'>', // sender address
+        to      : req.body.to, // list of receivers
+        subject : req.body.subject, // Subject line
+        text    : req.body.text, // plain text body
+        html    : req.body.html // html body
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(err, info) {
+        if (err){
+          console.error(new Error("## ERROR ## --> " + err));
+          return res.status(500).json(TOAST.unknownErrorToast());
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+        return res.status(200).json(TOAST.elementTaskCorrectly("Mail", "sended"));
+    });
   });
 }

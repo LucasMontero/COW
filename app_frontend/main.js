@@ -525,6 +525,17 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
 
   titlePage.setTitle("COW Administration panel - Pages");
 
+  //Get users data function
+  pageData.getAllPages()
+    .success(function(data) {
+      $scope.pages = data;
+    })
+    .error(function (error) {
+      ctl.toast = {
+        status  : error.toast.status,
+        message : error.toast.message
+      }
+    });
   /**
    * Delete a specific page by id and reload the pages list
    *
@@ -556,18 +567,6 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
         }
       });
   };
-
-  //Get users data function
-  pageData.getAllPages()
-    .success(function(data) {
-      $scope.pages = data;
-    })
-    .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
-    });
 }]);
 
 //Profile - profile.controller
@@ -635,11 +634,10 @@ angular.module('cowApp').controller('stGeneralCtrl', ['titlePage', function(titl
 }]);
 
 /**
- * Build the parameters and fuctions used in navigation.view
+ * Build the parameters and fuctions used in settings.mailing.view
  *
- * @param  object $scope          Object that refers to the application model.
- * @param  object $location       Angular path location
- * @param  object authentication  Authentication service object
+ * @param  object titlePage  titlePage path location
+ * @param  object mailData   maildata service object
  *
  */
 angular.module('cowApp').controller('stMailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
@@ -648,36 +646,67 @@ angular.module('cowApp').controller('stMailingCtrl', ['titlePage', 'mailData', f
 
   titlePage.setTitle("COW Administration panel - Mailing Settings");
 
-  //GET MAIL PARAMETERS
+  ctl.mailTo = "";
 
-  ctl.mailForm = {
-    host      : "",
-    port      : "",
-    secure    : false,
-    username  : "",
-    password  : ""
-   };
+  //Get users data function
+  mailData.getMailParameters()
+    .success(function(data) {
+      ctl.mailForm = data;
+    })
+    .error(function (error) {
+      ctl.toast = {
+        status  : error.toast.status,
+        message : error.toast.message
+      }
+    });
 
   //On form submit try to register the user.
-  ctl.onSubmit = function () {
+  ctl.onSubmit = function(){
     console.log('Setting mail parameters');
 
-    ctl.mailForm.secure = document.getElementById('mailSecure').checked;
+    ctl.mailForm.secure = document.getElementById('secure').checked;
 
-    mailData.setMailParameters(ctl.mailForm).error(function(error){
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
-    }).then(function(response){
-        ctl.toast = {
-          status  : response.data.toast.status,
-          message : response.data.toast.message
-        }
-    });
+    mailData.setMailParameters(ctl.mailForm)
+      .error(function(error){
+          ctl.toast = {
+            status  : error.toast.status,
+            message : error.toast.message
+          }
+          console.log(ctl.toast);
+      }).then(function(response){
+          ctl.toast = {
+            status  : response.data.toast.status,
+            message : response.data.toast.message
+          }
+          console.log(ctl.toast);
+      });
   };
 
-  //ON MAIL TEST
+  //Try to send a mail to passed mail direction with saved parameters
+  ctl.onTestMail = function(){
+    console.log('Testing mail parameters');
+
+    var mail = {};
+    mail.to = ctl.mailTo;
+    mail.subject = "Test Message";
+    mail.text = "This is a test message from cow administration panel";
+    mail.html = "<p>This is a test message from cow administration panel</p>";
+
+    mailData.sendMail(mail)
+      .error(function(error){
+          ctl.toast = {
+            status  : error.toast.status,
+            message : error.toast.message
+          }
+          console.log(ctl.toast);
+      }).then(function(response){
+          ctl.toast = {
+            status  : response.data.toast.status,
+            message : response.data.toast.message
+          }
+          console.log(ctl.toast);
+      });
+  }
 
 }]);
 
@@ -872,6 +901,14 @@ angular.module('cowApp').service('designData', ['$http', 'authentication', funct
 //designData.service
 angular.module('cowApp').service('mailData', ['$http', 'authentication', function($http, authentication){
 
+  var getMailParameters = function(){
+    return $http.get('/api/getMailParameters',{
+      headers: {
+        Authorization: 'Bearer '+ authentication.getToken(),
+      }
+    });
+  };
+
   var setMailParameters = function(mailForm){
     return $http.post('/api/setMailParameters', mailForm, {
       headers: {
@@ -880,9 +917,19 @@ angular.module('cowApp').service('mailData', ['$http', 'authentication', functio
     });
   };
 
-   return {
-     setMailParameters  : setMailParameters
-   };
+  var sendMail = function(mail){
+    return $http.post('/api/sendMail', mail, {
+      headers: {
+        Authorization: 'Bearer '+ authentication.getToken(),
+      }
+    });
+  };
+
+  return {
+     getMailParameters  : getMailParameters,
+     setMailParameters  : setMailParameters,
+     sendMail           : sendMail
+  };
 }]);
 
 //pageData.service

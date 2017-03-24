@@ -1,76 +1,65 @@
 /**
- * Build the parameters and fuctions used in settings.mailing.view
+ * Build the parameters and functions used in settings.mailing.view
  *
- * @param  object titlePage  titlePage path location
- * @param  object mailData   maildata service object
+ * @param  object appUtilities  appUtilities service object
+ * @param  object mailData      maildata service object
  *
  */
-angular.module('cowApp').controller('stMailingCtrl', ['titlePage', 'mailData', function(titlePage, mailData){
+angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', 'mailData', function(appUtilities, mailData){
   //ctl is the controller alias
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - Mailing Settings");
+  appUtilities.setTitle("COW Administration panel - Mailing Settings");
 
   ctl.mailTo = "";
 
-  //Get users data function
   mailData.getMailParameters()
     .success(function(data) {
       ctl.mailForm = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+      ctl.toast = appUtilities.createToast(error.toast);
     });
 
   //On form submit try to register the user.
   ctl.onSubmit = function(){
+    ctl.execution = true;
     console.log('Setting mail parameters');
 
     ctl.mailForm.secure = document.getElementById('secure').checked;
 
     mailData.setMailParameters(ctl.mailForm)
       .error(function(error){
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+          ctl.toast = appUtilities.createToast(error.toast);
           console.log(ctl.toast);
       }).then(function(response){
-          ctl.toast = {
-            status  : response.data.toast.status,
-            message : response.data.toast.message
-          }
+          ctl.toast = appUtilities.createToast(response.data.toast);
           console.log(ctl.toast);
+      }).finally(function(){
+          ctl.execution = false;
       });
   };
 
   //Try to send a mail to passed mail direction with saved parameters
   ctl.onTestMail = function(){
+    ctl.execution = true;
     console.log('Testing mail parameters');
 
-    var mail = {};
-    mail.to = ctl.mailTo;
-    mail.subject = "Test Message";
-    mail.text = "This is a test message from cow administration panel";
-    mail.html = "<p>This is a test message from cow administration panel</p>";
+    var subject = "Test Message";
+    var text    = "This is a test message from cow administration panel";
+    var html    = "<p>This is a test message from cow administration panel</p>";
+
+    var mail     = mailData.createEmail(ctl.mailTo, subject, text, html);
 
     mailData.sendMail(mail)
       .error(function(error){
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+          ctl.toast = appUtilities.createToast(error.toast);
           console.log(ctl.toast);
       }).then(function(response){
-          ctl.toast = {
-            status  : response.data.toast.status,
-            message : response.data.toast.message
-          }
+          ctl.toast = appUtilities.createToast(response.data.toast);
           console.log(ctl.toast);
+      }).finally(function() {
+          ctl.execution = false;
       });
   }
-
 }]);

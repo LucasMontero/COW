@@ -2,10 +2,14 @@
 /**
  *
  * @param  object $scope          Object that refers to the application model.
+ * @param  object desingData      desingData service object
+ * @param  object appUtilities    appUtilities service object
  *
  */
-angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'designData', function($scope, $location, designData){
+angular.module('cowApp').controller('designCtrl', ['$scope', 'designData', 'appUtilities', function($scope, designData, appUtilities){
   var ctl = this;
+
+  appUtilities.setTitle("COW Administration panel - Design");
 
   $scope.menuItems = [['Css', 'css'], ['Javascript', 'javascript'], ['Header', 'xml'], ['Footer', 'xml']];
 
@@ -14,10 +18,7 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
         ctl.design.content = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+        ctl.toast = appUtilities.createToast(error.toast);
     });
 
   ctl.design = {};
@@ -32,28 +33,22 @@ angular.module('cowApp').controller('designCtrl', ['$scope', '$location', 'desig
           ctl.design.content = data;
       })
       .error(function (error) {
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
+          ctl.toast = appUtilities.createToast(error.toast);
       });
   }
 
   //On form submit try to save the document
   ctl.onSubmit = function () {
+    ctl.execution = true;
     console.log('Submitting update');
     designData.saveDocument($scope.activeMenu[0], ctl.design.content)
       .error(function(error){
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+          ctl.toast = appUtilities.createToast(error.toast);
       })
       .then(function(response){
-          ctl.toast = {
-            status  : response.data.toast.status,
-            message : response.data.toast.message
-      }
-    });
+          ctl.toast = appUtilities.createToast(response.data.toast);
+     }).finally(function() {
+          ctl.execution = false;
+     });;
   };
 }]);

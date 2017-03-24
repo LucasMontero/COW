@@ -5,13 +5,13 @@
  * @param  object $routeParams  Parameters passed by url
  * @param  object $location     Angular path service
  * @param  object userData      userData service object
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams ,$location, userData, titlePage){
+angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData", "appUtilities" ,function($routeParams ,$location, userData, appUtilities){
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - Edit User");
+  appUtilities.setTitle("COW Administration panel - Edit User");
 
   ctl.isEdit = true;
 
@@ -26,25 +26,18 @@ angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location",
       ctl.credentials = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+      ctl.toast = appUtilities.createToast(error.toast);
     });
 
   //On form submit try to update the user
   ctl.onSubmit = function () {
     console.log('Submitting update');
     userData.updateUser($routeParams.userId, ctl.credentials).error(function(error){
-          //Add toast
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+      ctl.toast = appUtilities.createToast(error.toast);
     }).then(function(response){
-          //Add toast
-          console.log(response.data.toast.message)
-          $location.path('/cow-adm/users');
+      //Add toast
+      console.log(response.data.toast.message)
+      $location.path('/cow-adm/users');
     });
   };
 

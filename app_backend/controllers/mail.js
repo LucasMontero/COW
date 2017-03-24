@@ -3,8 +3,17 @@ const TOAST       = require('../services/toast.js');
 const MONGOOSE    = require('mongoose');
 let   MAIL        = MONGOOSE.model('Mail');
 
+//ROUTER.get('/getNotificationUsers', auth, CTRL_USERS.getNotificationUsers);
 
 //Database functions
+/**
+ * Get mail parameters from DB
+ *
+ * @param  object req  Http request
+ * @param  object res  Http response
+ *
+ * @return object mail Json mail data
+ */
 module.exports.getParameters = function(req, res) {
   console.log('Getting mail parameters.');
   MAIL.findOne({}).sort({'created_at' : -1 }).select('host port secure username').exec(function(err, mail) {
@@ -44,14 +53,7 @@ module.exports.setParameters = function(req, res) {
            if(mail === null){
              mail = new MAIL();
            }
-           mail =  mailPopulate(mail ,{
-                                         host:  req.body.host,
-                                         port:  req.body.port,
-                                         secure: req.body.secure,
-                                         username: req.body.username,
-                                         password: req.body.password
-                                      }
-                                );
+           mail =  mailPopulate(mail , req.body);
 
            mail.save(function (err){
              if (err){
@@ -64,6 +66,9 @@ module.exports.setParameters = function(req, res) {
      }
   });
 };
+
+
+
 
 /**
  * Populate mail object with passed values
@@ -102,6 +107,9 @@ module.exports.sendMail = function(req, res) {
        }
     });
 
+    if (req.body.to === null){
+
+    }
     // setup email data with unicode symbols
     var mailOptions = {
         from    : '"Cow Administration 🐮" <'+mail.username+'>', // sender address

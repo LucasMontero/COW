@@ -1,23 +1,9 @@
 <h2>General Settings</h2>
 <toast></toast>
 <form ng-submit="stGeneralCtl.onSubmit()">
-        <h3>Application</h3>
         <div class="form-group">
-            <label for="mailHost">Application port</label>
-            <input type="text" class="form-control" id="host" placeholder="" ng-model="stGeneralCtl.generalForm.host">
+            <label for="name">Meta description</label>
+            <textarea class="form-control" id="metaDescription" placeholder="Enter hear a little site description" ng-model="stGeneralCtl.metaDescription"></textarea>
         </div>
-        <h3>Database</h3>
-        <div class="form-group">
-            <label for="mailPort">Database Host</label>
-            <input type="text" class="form-control" id="port" placeholder="" ng-model="stGeneralCtl.generalForm.port">
-        </div>
-        <div class="form-group">
-            <label for="mailPort">Database User</label>
-            <input type="text" class="form-control" id="port" placeholder="" ng-model="stGeneralCtl.generalForm.port">
-        </div>
-        <div class="form-group">
-            <label for="mailPort">Database Password</label>
-            <input type="text" class="form-control" id="port" placeholder="" ng-model="stGeneralCtl.generalForm.port">
-        </div>
-        <button type="submit" class="btn btn-default">Save</button>
+        <button type="submit" class="btn btn-default"><span ng-hide="stGeneralCtl.execution">Save</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
 </form>

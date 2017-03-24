@@ -35,11 +35,11 @@ ROUTER.put('/updatePage',      auth, CTRL_PAGES.updatePageById);
 
 //  - user
 
-ROUTER.get('/users',         auth, CTRL_USERS.getAllUsers);
-ROUTER.get('/getUser',       auth, CTRL_USERS.getUserById);
-ROUTER.post('/createUser',   auth, CTRL_USERS.createUser);
-ROUTER.delete('/deleteUser', auth, CTRL_USERS.deleteUserById);
-ROUTER.put('/updateUser',    auth, CTRL_USERS.updateUserById);
+ROUTER.get('/users',                auth, CTRL_USERS.getAllUsers);
+ROUTER.get('/getUser',              auth, CTRL_USERS.getUserById);
+ROUTER.post('/createUser',          auth, CTRL_USERS.createUser);
+ROUTER.delete('/deleteUser',        auth, CTRL_USERS.deleteUserById);
+ROUTER.put('/updateUser',           auth, CTRL_USERS.updateUserById);
 
 //  - design
 
@@ -51,5 +51,6 @@ ROUTER.get('/saveDocument', auth, CTRL_DESIGN.saveDocument); // ARREGLAR put
 ROUTER.get('/getMailParameters',  auth, CTRL_MAIL.getParameters);
 ROUTER.post('/setMailParameters', auth, CTRL_MAIL.setParameters);
 ROUTER.post('/sendMail',          auth, CTRL_MAIL.sendMail);
+
 
 module.exports = ROUTER;

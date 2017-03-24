@@ -83,6 +83,25 @@ module.exports.getUserById = function(req, res) {
 };
 
 /**
+ * Get -> Get all users email with notifications activated
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.getNotificationUsers = function(req, res) {
+    USER.find().select('email').exec(function(err, users) {
+      //{ notification : true } add to find
+        if (err){
+          console.error(new Error("## ERROR ## --> " + err));
+          return res.status(500).json(TOAST.unknownErrorToast());
+        }
+
+        return res.status(200).json(users);
+    });
+};
+
+/**
  * Delete -> Remove a user from DB
  *
  * @param  object req Http request

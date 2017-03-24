@@ -6,13 +6,13 @@
  * @param  object $location      Angular path service
  * @param  object $routeParams   Parameters passed by Url
  * @param  object pageData       pageData service object
- * @param  object titlePage      titlePage service object
+ * @param  object appUtilities      appUtilities service object
  *
  */
-angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$location", "pageData", "titlePage" ,function($routeParams, $scope,$location, pageData, titlePage){
+angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$location", "pageData", "appUtilities" ,function($routeParams, $scope,$location, pageData, appUtilities){
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - Pages");
+  appUtilities.setTitle("COW Administration panel - Pages");
 
   //Get users data function
   pageData.getAllPages()
@@ -20,10 +20,7 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
       $scope.pages = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+      ctl.toast = appUtilities.createToast(error.toast);
     });
   /**
    * Delete a specific page by id and reload the pages list
@@ -39,21 +36,12 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
             $scope.pages = data;
           })
           .error(function (error) {
-            ctl.toast = {
-              status  : error.toast.status,
-              message : error.toast.message
-            }
+            ctl.toast = appUtilities.createToast(error.toast);
           });
-          ctl.toast = {
-            status  : data.toast.status,
-            message : data.toast.message
-          }
+          ctl.toast = appUtilities.createToast(data.toast);
       })
       .error(function (error) {
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
+        ctl.toast = appUtilities.createToast(error.toast);
       });
   };
 }]);

@@ -4,14 +4,14 @@
  *
  * @param  object $location   Angular path location
  * @param  object pageData    pageData service object
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "titlePage", function($location, pageData, titlePage){
+angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "appUtilities", function($location, pageData, appUtilities){
   //ctl is the controller alias
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - New Page");
+  appUtilities.setTitle("COW Administration panel - New Page");
 
   ctl.isEdit = false;
 
@@ -34,16 +34,14 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "tit
     ctl.pageForm.index  = document.getElementById('index').checked;
     ctl.pageForm.public = document.getElementById('public').checked;
 
-    pageData.createPage(ctl.pageForm).error(function(error){
-        //Add toast
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
-    }).then(function(response){
-        //Add toast
-        console.log(response.data.toast.message)
-        $location.path('/cow-adm/pages');
-    });
+    pageData.createPage(ctl.pageForm)
+      .error(function(error){
+          ctl.toast = appUtilities.createToast(error.toast);
+      })
+      .then(function(response){
+          //Add toast
+          console.log(response.data.toast.message)
+          $location.path('/cow-adm/pages');
+      });
   };
 }]);

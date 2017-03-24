@@ -3,12 +3,12 @@
 /**
  * Cronstruct the front page of the application
  *
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  * @param  object $location     Angular path service
  * @param  object pageData      pageData service object
  *
  */
-angular.module("cowApp").controller("frontPageCtrl",["titlePage", "pageData", "$location", "$scope", "$sce", function(titlePage, pageData, $location, $scope, $sce){
+angular.module("cowApp").controller("frontPageCtrl",["appUtilities", "pageData", "$location", "$scope", "$sce", function(appUtilities, pageData, $location, $scope, $sce){
   //controller alias
   var ctl = this;
 
@@ -36,7 +36,7 @@ angular.module("cowApp").controller("frontPageCtrl",["titlePage", "pageData", "$
 
   var setPage = function(data){
     ctl.pageData = data[0];
-    titlePage.setTitle(ctl.pageData.title);
+    appUtilities.setTitle(ctl.pageData.title);
     $scope.content = $sce.trustAsHtml(ctl.pageData.content);
   }
 

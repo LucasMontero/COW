@@ -8,13 +8,13 @@
  * @param  object $location      Angular path service
  * @param  object pageData       pageData service object
  * @param  object $routeParams   Parameters passed by Url
- * @param  object titlePage      titlePage service object
+ * @param  object appUtilities      appUtilities service object
  *
  */
-angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$location", "pageData", "titlePage" ,function($scope, $routeParams ,$location, pageData, titlePage){
+angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$location", "pageData", "appUtilities" ,function($scope, $routeParams ,$location, pageData, appUtilities){
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - Edit Page");
+  appUtilities.setTitle("COW Administration panel - Edit Page");
 
   ctl.isEdit = true;
 
@@ -25,10 +25,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
       ctl.pageForm = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+      ctl.toast = appUtilities.createToast(error.toast);
     });
 
   //On form submit try to update de user
@@ -40,11 +37,7 @@ angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$
     ctl.pageForm.public = document.getElementById('public').checked;
 
     pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
-          //Add toast
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+          ctl.toast = appUtilities.createToast(error.toast);
     }).then(function(response){
           //Add toast
           console.log(response.data.toast.message)

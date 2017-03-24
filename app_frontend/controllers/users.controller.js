@@ -7,14 +7,14 @@
  * @param  object $location      Angular path service
  * @param  object $routeParams   Parameters passed by Url
  * @param  object authentication Authentication service object
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "titlePage" ,function($routeParams, $scope,$location, userData, titlePage){
+angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "appUtilities" ,function($routeParams, $scope,$location, userData, appUtilities){
   var ctl = this;
 
 
-  titlePage.setTitle("COW Administration panel - Users");
+  appUtilities.setTitle("COW Administration panel - Users");
 
   /**
    * Delete a specific user by id and reload the users list
@@ -30,21 +30,12 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
             $scope.users = data;
           })
           .error(function (error) {
-            ctl.toast = {
-              status  : error.toast.status,
-              message : error.toast.message
-            }
+            ctl.toast = appUtilities.createToast(error.toast);
           });
-          ctl.toast = {
-            status  : data.toast.status,
-            message : data.toast.message
-          }
+          ctl.toast = appUtilities.createToast(data.toast);
       })
       .error(function (error) {
-        ctl.toast = {
-          status  : error.toast.status,
-          message : error.toast.message
-        }
+          ctl.toast = appUtilities.createToast(error.toast);
       });
   };
 
@@ -54,9 +45,6 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
       $scope.users = data;
     })
     .error(function (error) {
-      ctl.toast = {
-        status  : error.toast.status,
-        message : error.toast.message
-      }
+      ctl.toast = appUtilities.createToast(error.toast);
     });
 }]);

@@ -25,9 +25,19 @@ angular.module('cowApp').service('mailData', ['$http', 'authentication', functio
     });
   };
 
+  var createEmail = function(vTo, vSubject, vText, vHtml){
+    return {
+       to      :  vTo,
+       subject :  vSubject,
+       text    :  vText,
+       html    :  vHtml
+    }
+  }
+
   return {
      getMailParameters  : getMailParameters,
      setMailParameters  : setMailParameters,
-     sendMail           : sendMail
+     sendMail           : sendMail,
+     createEmail        : createEmail
   };
 }]);

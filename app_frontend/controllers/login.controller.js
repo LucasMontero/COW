@@ -4,14 +4,14 @@
  *
  * @param  object $location       Angular path location
  * @param  object authentication  Authentication service object
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "titlePage",function($location, authentication, titlePage) {
+angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "appUtilities",function($location, authentication, appUtilities) {
     //ctl is the controller alias
     var ctl = this;
 
-    titlePage.setTitle("COW Administration panel - Login");
+    appUtilities.setTitle("COW Administration panel - Login");
 
     ctl.credentials = {
       email : "",
@@ -22,10 +22,7 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
     ctl.onSubmit = function () {
       authentication.login(ctl.credentials)
         .error(function(error){
-          ctl.toast = {
-            status  : error.toast.status,
-            message : error.toast.message
-          }
+          ctl.toast = appUtilities.createToast(error.toast);
         })
         .then(function(){
           $location.path('/cow-adm/home');

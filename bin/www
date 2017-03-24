@@ -4,16 +4,17 @@
  * Module dependencies.
  */
 
-const APP = require('../app');
-const DEBUG = require('debug')('cow:server');
-const HTTP = require('http');
+const APP    = require('../app');
+const DEBUG  = require('debug')('cow:server');
+const HTTP   = require('http');
+const CONFIG = require('../config')
 
 /**
  * Get port from environment and store in Express.
  */
 
 //using port
-const PORT = normalizePort(process.env.PORT || '3000');
+const PORT = CONFIG.port;
 APP.set('port', PORT);
 
 /**
@@ -29,25 +30,6 @@ const SERVER = HTTP.createServer(APP);
 SERVER.listen(PORT);
 SERVER.on('error', onError);
 SERVER.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.

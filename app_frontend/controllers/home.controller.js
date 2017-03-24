@@ -2,10 +2,10 @@
 /**
  * Shows in log if controller is running
  *
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("homeCtrl",["titlePage", function(titlePage){
+angular.module("cowApp").controller("homeCtrl",["appUtilities", function(appUtilities){
   console.log("Home controller is running");
-  titlePage.setTitle("COW Administration panel");
+  appUtilities.setTitle("COW Administration panel");
 }]);

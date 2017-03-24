@@ -5,13 +5,13 @@
  * @param  object $routeParams    Parameters passed by Url
  * @param  object $location       Angular path location
  * @param  object userData        data.service.js service object
- * @param  object titlePage     titlePage service object
+ * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData", "titlePage" ,function($routeParams, $location, userData, titlePage){
+angular.module("cowApp").controller("profileCtrl",["$routeParams", "$location", "userData", "appUtilities" ,function($routeParams, $location, userData, appUtilities){
   var ctl = this;
 
-  titlePage.setTitle("COW Administration panel - Profile");
+  appUtilities.setTitle("COW Administration panel - Profile");
 
   ctl.user = {};
 

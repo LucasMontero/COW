@@ -6,7 +6,7 @@
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('settingsCtrl', ['$scope', 'titlePage', function($scope, titlePage){
+angular.module('cowApp').controller('settingsCtrl', ['$scope', 'appUtilities', function($scope, appUtilities){
   //ctl is the controller alias
   var ctl = this;
 

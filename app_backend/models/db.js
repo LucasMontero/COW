@@ -1,7 +1,8 @@
 const MONGOOSE = require('mongoose');
+const CONFIG  = require('../../config');
 
-const DB_HOST = 'mongodb://localhost/';
-const DB_NAME = 'cowDB'
+const DB_HOST = CONFIG.dbHost;
+const DB_NAME = CONFIG.dbName;
 const DB_URI  = DB_HOST + DB_NAME;
 
 var gracefulShutdown;

@@ -1,6 +1,6 @@
 //Requires
 const MONGOOSE = require('mongoose');
-const TOAST    = require('../services/toast.js');
+const TOAST    = require('../services/toast');
 const USER     = MONGOOSE.model('User');
 
 /**
@@ -89,16 +89,21 @@ module.exports.getUserById = function(req, res) {
  * @param  object res Http response
  *
  */
-module.exports.getNotificationUsers = function(req, res) {
-    USER.find().select('email').exec(function(err, users) {
+module.exports.getNotificationUsers = function() {
+    var users = USER.find().select('email').exec(function(err, users) {
       //{ notification : true } add to find
         if (err){
           console.error(new Error("## ERROR ## --> " + err));
-          return res.status(500).json(TOAST.unknownErrorToast());
         }
-
-        return res.status(200).json(users);
     });
+
+    var emails = "";
+
+    for (user of users) {
+      emails += user.email + ", ";
+    }
+
+    return emails;
 };
 
 /**

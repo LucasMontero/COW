@@ -1,7 +1,7 @@
 //Requires
 const PASSPORT = require('passport');
 const MONGOOSE = require('mongoose');
-const TOAST    = require('../services/toast.js');
+const TOAST    = require('../services/toast');
 let   PAGE     = MONGOOSE.model('Page');
 
 /**

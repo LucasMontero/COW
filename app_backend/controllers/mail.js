@@ -1,5 +1,6 @@
 const NODE_MAILER = require('nodemailer');
-const TOAST       = require('../services/toast.js');
+const TOAST       = require('../services/toast');
+const USER        = require('./users');
 const MONGOOSE    = require('mongoose');
 let   MAIL        = MONGOOSE.model('Mail');
 
@@ -108,8 +109,12 @@ module.exports.sendMail = function(req, res) {
     });
 
     if (req.body.to === null){
-
+        var mails =USER.getNotificationUsers();
+        mails.then(function(){
+          console.log(mails);
+        });
     }
+
     // setup email data with unicode symbols
     var mailOptions = {
         from    : '"Cow Administration 🐮" <'+mail.username+'>', // sender address
@@ -119,13 +124,13 @@ module.exports.sendMail = function(req, res) {
         html    : req.body.html // html body
     };
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(err, info) {
+    /*transporter.sendMail(mailOptions, function(err, info) {
         if (err){
           console.error(new Error("## ERROR ## --> " + err));
           return res.status(500).json(TOAST.unknownErrorToast());
         }
         console.log('Message %s sent: %s', info.messageId, info.response);
         return res.status(200).json(TOAST.elementTaskCorrectly("Mail", "sended"));
-    });
+    }); */
   });
 }

@@ -1,5 +1,5 @@
 const FS       = require('fs');
-const TOAST    = require('../services/toast.js');
+const TOAST    = require('../services/toast');
 
 /**
  *

@@ -1,7 +1,7 @@
 //required
 const PASSPORT = require('passport');
 const MONGOOSE = require('mongoose');
-const TOAST    = require('../services/toast.js');
+const TOAST    = require('../services/toast');
 const USER     = MONGOOSE.model('User');
 
 //ADD SECURITY - VALIDATION//

@@ -21,7 +21,7 @@ app_backend --> Directorio back-end de la aplicación. Los archivos de este dire
  |
  |--> services --> Archivos de servicio que proveen de funciones específicas a los controladores.
  |      |
- |      |--> toast.js --> Provee de funciones de alerta para el cliente en función de el resultado de la acción en el controlador.
+ |      |--> toast --> Provee de funciones de alerta para el cliente en función de el resultado de la acción en el controlador.
 
  app_frontend --> Directorio front-end de la aplicación. Los archivos de este directorio se ejecutan en el cliente.
  |

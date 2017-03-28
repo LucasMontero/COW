@@ -7,7 +7,7 @@
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "appUtilities", function($location, pageData, appUtilities){
+angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "mailData", "appUtilities", function($location, pageData, mailData, appUtilities){
   //ctl is the controller alias
   var ctl = this;
 
@@ -39,6 +39,13 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "app
           ctl.toast = appUtilities.createToast(error.toast);
       })
       .then(function(response){
+          var subject = "New page";
+          var text    = "A new page has been created";
+          var html    = "<p>A new page has been created</p>";
+
+          var mail     = mailData.createEmail(null, subject, text, html);
+
+          mailData.sendMail(mail);
           //Add toast
           console.log(response.data.toast.message)
           $location.path('/cow-adm/pages');

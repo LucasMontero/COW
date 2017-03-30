@@ -1,0 +1,17 @@
+<navigation></navigation>
+<sidebar></sidebar>
+<div class="col-md-10">
+  <h2>Design Administration</h2>
+  <toast></toast>
+  <ul class="nav nav-tabs" >
+    <li ng-repeat='item in menuItems' ng-class="{active : activeMenu === item}">
+      <a href="#" ng-click="setActive(item); setMode(item[1])">{{item[0]}}</a>
+    </li>
+  </ul>
+  <form ng-submit="ctl.onSubmit()">
+    <div class="form-group">
+        <codemirror  ng-init="initMode='css'" ui-codemirror='cmOptions' ng-model="ctl.design.content"></codemirror>
+    </div>
+    <button type="submit" class="btn btn-default">Save</button>
+  </form>
+</div>

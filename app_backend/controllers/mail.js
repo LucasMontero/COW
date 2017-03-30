@@ -97,40 +97,51 @@ module.exports.sendMail = function(req, res) {
       return res.status(500).json(TOAST.unknownErrorToast());
     }
 
-    //create transporter object
-    var transporter = NODE_MAILER.createTransport({
-       host: mail.host,
-       port: mail.port,
-       secure: mail.secure, // upgrade later with STARTTLS
-       auth: {
-           user: mail.username,
-           pass: mail.password
-       }
-    });
-
     if (req.body.to === null){
-        var mails =USER.getNotificationUsers();
-        mails.then(function(){
-          console.log(mails);
-        });
-    }
 
-    // setup email data with unicode symbols
-    var mailOptions = {
-        from    : '"Cow Administration 🐮" <'+mail.username+'>', // sender address
-        to      : req.body.to, // list of receivers
-        subject : req.body.subject, // Subject line
-        text    : req.body.text, // plain text body
-        html    : req.body.html // html body
-    };
-    // send mail with defined transport object
-    /*transporter.sendMail(mailOptions, function(err, info) {
-        if (err){
-          console.error(new Error("## ERROR ## --> " + err));
-          return res.status(500).json(TOAST.unknownErrorToast());
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        return res.status(200).json(TOAST.elementTaskCorrectly("Mail", "sended"));
-    }); */
+        var userData =USER.getNotificationUsers();
+        userData.then(function(users){
+          var emails = "";
+          for(var i in users){
+            emails += users[i].email;
+            if(i<users.length-1){
+              emails +=  ", ";
+            }
+          }
+          send(req,res, mail, emails);
+        });
+    }else{
+      send(req,res, mail, req.body.to);
+    }
+  });
+}
+
+function send(req, res, mail, to){
+  //create transporter object
+  var transporter = NODE_MAILER.createTransport({
+     host: mail.host,
+     port: mail.port,
+     secure: mail.secure, // upgrade later with STARTTLS
+     auth: {
+         user: mail.username,
+         pass: mail.password
+     }
+  });
+  // setup email data with unicode symbols
+  var mailOptions = {
+      from    : '"Cow Administration 🐮" <'+mail.username+'>', // sender address
+      to      : to, // list of receivers
+      subject : req.body.subject, // Subject line
+      text    : req.body.text, // plain text body
+      html    : req.body.html // html body
+  };
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, function(err, info) {
+      if (err){
+        console.error(new Error("## ERROR ## --> " + err));
+        return res.status(500).json(TOAST.unknownErrorToast());
+      }
+      console.log('Message %s sent: %s', info.messageId, info.response);
+      return res.status(200).json(TOAST.elementTaskCorrectly("Mail", "sended"));
   });
 }

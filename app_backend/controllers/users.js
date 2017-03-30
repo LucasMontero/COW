@@ -90,18 +90,12 @@ module.exports.getUserById = function(req, res) {
  *
  */
 module.exports.getNotificationUsers = function() {
-    var users = USER.find().select('email').exec(function(err, users) {
+    var emails = USER.find().select('email').exec(function(err, users) {
       //{ notification : true } add to find
         if (err){
           console.error(new Error("## ERROR ## --> " + err));
         }
     });
-
-    var emails = "";
-
-    for (user of users) {
-      emails += user.email + ", ";
-    }
 
     return emails;
 };

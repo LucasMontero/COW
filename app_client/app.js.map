@@ -1,0 +1,1 @@
+{"version":3,"sources":["multimedia.controller.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"app.js","sourcesContent":["\r\n\r\n\r\nangular.module(\"cowApp\").controller(\"multimediaCtrl\",[\"$routeParams\", \"$scope\",\"$location\", \"pageData\", \"titlePage\" ,function($routeParams, $scope,$location, pageData, titlePage){\r\n\r\n\r\n}\r\n"]}

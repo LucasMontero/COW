@@ -1,0 +1,38 @@
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin border-box() {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin display-flex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin transform-scale($size) {
+  transform: scale($size);
+  -moz-transform: scale($size);
+  -webkit-transform: scale($size);
+  -o-transform: scale($size);
+  -ms-transform: scale($size); /* IE 9 */
+}
+
+@mixin transition($element, $duration, $transitionTipe) {
+  transition: $element $duration $transitionTipe;
+  -moz-transition: $element $duration $transitionTipe;
+  -ms-transition: $element $duration $transitionTipe;
+  -webkit-transition: $element $duration $transitionTipe;
+  -o-transition: $element $duration $transitionTipe;
+}

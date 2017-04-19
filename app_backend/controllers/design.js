@@ -27,7 +27,7 @@ module.exports.getDocument = function(req, res) {
  */
 module.exports.saveDocument = function(req, res) {
   var doc = getDocumentByType(req.query.documentType);
-  
+
   FS.writeFile(doc, req.query.documentContent, function(err) {
     if (err){
       console.error(new Error("## ERROR ## --> " + err));
@@ -40,7 +40,7 @@ module.exports.saveDocument = function(req, res) {
 function getDocumentByType(type){
   switch (type) {
     case "Css":
-      return __dirname + "/../../public/stylesheets/front.css";
+      return __dirname + "/../../public/stylesheets/css/front.css";
     case "Javascript":
       return __dirname + "/../../public/lib/front.js";
     case "Header":

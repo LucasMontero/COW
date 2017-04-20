@@ -21,6 +21,22 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
       });
     };
 
+    var checkEmail = function(userEmail){
+      return $http.get('/api/checkEmail', {
+        params: {
+            "userEmail": userEmail
+        }
+      });
+    }
+
+    var changuePassword = function(password){
+      return $http.post('/api/changuePassword', {
+        params: {
+            "newPassword": newPassword
+        }
+      });
+    }
+
     var createUser = function(user){
       return $http.post('/api/createUser', user, {
         headers: {

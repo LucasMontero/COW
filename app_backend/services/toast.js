@@ -1,7 +1,7 @@
 
 // ERRORS
 
-module.exports.unknownErrorToast = function(err){
+module.exports.unknownErrorToast = function(){
   return {
      "toast" : {
           "status" : "error",
@@ -37,6 +37,15 @@ module.exports.invalidLoginToast = function(){
   };
 }
 
+module.exports.userDoenstExitsInDBToast = function(){
+  return {
+    "toast" : {
+        "status" : "error",
+        "message": "For cow sake! The indicate user doesn't exits."
+    }
+  };
+}
+
 //**pages**
 
 module.exports.errorInPath = function(){
@@ -57,7 +66,7 @@ module.exports.cantDeleteIndex = function(){
   };
 }
 
-//**mailing++
+//**mailing**
 
 module.exports.wrongMailParameters = function(){
   return {

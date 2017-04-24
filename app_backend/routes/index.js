@@ -40,8 +40,7 @@ ROUTER.get('/getUser',          auth, CTRL_USERS.getUserById);
 ROUTER.post('/createUser',      auth, CTRL_USERS.createUser);
 ROUTER.delete('/deleteUser',    auth, CTRL_USERS.deleteUserById);
 ROUTER.put('/updateUser',       auth, CTRL_USERS.updateUserById);
-ROUTER.get('/checkEmail',       CTRL_USERS.checkEmail);
-ROUTER.post('/changuePassword', CTRL_USERS.changuePassword);
+ROUTER.get('/recoverUserPassword',    CTRL_USERS.recoverUserPassword);
 
 //  - design
 
@@ -52,7 +51,7 @@ ROUTER.get('/saveDocument', auth, CTRL_DESIGN.saveDocument); // ARREGLAR put
 
 ROUTER.get('/getMailParameters',  auth, CTRL_MAIL.getParameters);
 ROUTER.post('/setMailParameters', auth, CTRL_MAIL.setParameters);
-ROUTER.post('/sendMail',          CTRL_MAIL.sendMail);
+ROUTER.post('/sendMail',          auth, CTRL_MAIL.sendMail);
 
 
 module.exports = ROUTER;

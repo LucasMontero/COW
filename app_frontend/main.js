@@ -349,7 +349,7 @@ angular.module("cowApp").controller("homeCtrl",["appUtilities", function(appUtil
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "mailData", "appUtilities",function($location, authentication, mailData, appUtilities) {
+angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "userData", "appUtilities",function($location, authentication, userData, appUtilities) {
     //ctl is the controller alias
     var ctl = this;
 
@@ -373,15 +373,22 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
         });
     };
 
-    ctl.recoverPassword = function () {
-       var to      = ctl.fpEmail;
-       var subject = "Recover Password";
-       var text    = "Your new password is ***. Remenber to changue it after login.";
-       var html    = "<p>Your new password is ***. Remenber to changue it after login.</p>";
+    ctl.recoverUserPassword = function () {
+       userData.recoverUserPassword(ctl.fpEmail)
+         .error(function(error){
+           ctl.toast = appUtilities.createToast(error.toast);
+         })
+         .then(function(response){
+            ctl.toast = appUtilities.createToast(response.data.toast);
+         });
+       //var to      = ctl.fpEmail;
+       //var subject = "Recover Password";
+       //var text    = "Your new password is ***. Remenber to changue it after login.";
+       //var html    = "<p>Your new password is ***. Remenber to changue it after login.</p>";
 
-       var mail     = mailData.createEmail(to, subject, text, html);
+       //var mail     = mailData.createEmail(to, subject, text, html);
 
-       mailData.sendMail(mail);
+       //mailData.sendMail(mail);
     };
 
 }]);
@@ -957,18 +964,13 @@ angular.module('cowApp').service('mailData', ['$http', 'authentication', functio
     });
   };
 
-  // With Authorization
-  // var sendMail = function(mail){
-  //   return $http.post('/api/sendMail', mail, {
-  //     headers: {
-  //       Authorization: 'Bearer '+ authentication.getToken(),
-  //     }
-  //   });
-  // };
-
-  var sendMail = function(mail){
-    return $http.post('/api/sendMail', mail);
-  };
+   var sendMail = function(mail){
+     return $http.post('/api/sendMail', mail, {
+       headers: {
+        Authorization: 'Bearer '+ authentication.getToken(),
+       }
+     });
+   };
 
   var createEmail = function(vTo, vSubject, vText, vHtml){
     return {
@@ -1132,12 +1134,22 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
       });
     };
 
+    var recoverUserPassword = function(mail){
+      console.log("recoverUserPassword1");
+      return $http.get('/api/recoverUserPassword',{
+        params: {
+            "userMail": mail
+          }
+      });
+    };
+
     return {
-      getUser     : getUser,
-      createUser  : createUser,
-      getAllUsers : getAllUsers,
-      deleteUser  : deleteUser,
-      updateUser  : updateUser
+      getUser             : getUser,
+      createUser          : createUser,
+      getAllUsers         : getAllUsers,
+      deleteUser          : deleteUser,
+      updateUser          : updateUser,
+      recoverUserPassword : recoverUserPassword
     };
 }]);
 

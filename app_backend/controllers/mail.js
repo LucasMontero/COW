@@ -4,7 +4,6 @@ const USER        = require('./users');
 const MONGOOSE    = require('mongoose');
 let   MAIL        = MONGOOSE.model('Mail');
 
-//ROUTER.get('/getNotificationUsers', auth, CTRL_USERS.getNotificationUsers);
 
 //Database functions
 /**
@@ -98,7 +97,6 @@ module.exports.sendMail = function(req, res) {
     }
 
     if (req.body.to === null){
-
         var userData =USER.getNotificationUsers();
         userData.then(function(users){
           var emails = "";

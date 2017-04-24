@@ -17,18 +17,13 @@ angular.module('cowApp').service('mailData', ['$http', 'authentication', functio
     });
   };
 
-  // With Authorization
-  // var sendMail = function(mail){
-  //   return $http.post('/api/sendMail', mail, {
-  //     headers: {
-  //       Authorization: 'Bearer '+ authentication.getToken(),
-  //     }
-  //   });
-  // };
-
-  var sendMail = function(mail){
-    return $http.post('/api/sendMail', mail);
-  };
+   var sendMail = function(mail){
+     return $http.post('/api/sendMail', mail, {
+       headers: {
+        Authorization: 'Bearer '+ authentication.getToken(),
+       }
+     });
+   };
 
   var createEmail = function(vTo, vSubject, vText, vHtml){
     return {

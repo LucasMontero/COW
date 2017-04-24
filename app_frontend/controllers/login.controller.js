@@ -7,7 +7,7 @@
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "mailData", "appUtilities",function($location, authentication, mailData, appUtilities) {
+angular.module("cowApp").controller("loginCtrl",['$location', "authentication", "userData", "appUtilities",function($location, authentication, userData, appUtilities) {
     //ctl is the controller alias
     var ctl = this;
 
@@ -31,15 +31,22 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
         });
     };
 
-    ctl.recoverPassword = function () {
-       var to      = ctl.fpEmail;
-       var subject = "Recover Password";
-       var text    = "Your new password is ***. Remenber to changue it after login.";
-       var html    = "<p>Your new password is ***. Remenber to changue it after login.</p>";
+    ctl.recoverUserPassword = function () {
+       userData.recoverUserPassword(ctl.fpEmail)
+         .error(function(error){
+           ctl.toast = appUtilities.createToast(error.toast);
+         })
+         .then(function(response){
+            ctl.toast = appUtilities.createToast(response.data.toast);
+         });
+       //var to      = ctl.fpEmail;
+       //var subject = "Recover Password";
+       //var text    = "Your new password is ***. Remenber to changue it after login.";
+       //var html    = "<p>Your new password is ***. Remenber to changue it after login.</p>";
 
-       var mail     = mailData.createEmail(to, subject, text, html);
+       //var mail     = mailData.createEmail(to, subject, text, html);
 
-       mailData.sendMail(mail);
+       //mailData.sendMail(mail);
     };
 
 }]);

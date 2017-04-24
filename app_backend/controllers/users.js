@@ -1,7 +1,10 @@
 //Requires
 const MONGOOSE = require('mongoose');
+const CRYPTO   = require('crypto');
 const TOAST    = require('../services/toast');
+const MAIL     = require('./mail');
 const USER     = MONGOOSE.model('User');
+
 
 /**
  * Check if any user exist on DB and if not, create ones
@@ -151,6 +154,41 @@ module.exports.updateUserById = function(req, res) {
       });
 };
 
+/**
+ * Update with randomize password the user and send an email with the access data.
+ *
+ * @param  object req Http request
+ * @param  object res Http response
+ *
+ */
+module.exports.recoverUserPassword = function(req, res) {
+    console.log(req.query.userMail);
+
+    USER.findOne({ 'email': req.query.userMail }).exec(function (err, user) {
+      if (err){
+        console.error(new Error("## ERROR ## --> " + err));
+        return res.status(500).json(TOAST.unknownErrorToast());
+      }
+
+      console.log(user.email);
+
+      if(user.email){
+        // var password = CRYPTO.randomBytes(4).toString('hex');
+        var password = "abc123.";
+        console.log(password);
+        user.updatePassword(password);
+
+        req.body.to      =  user.email;
+        req.body.subject = "Password Recovery";
+        req.body.text    = "Your new password is "+password+". Remenber to changue it after login.";
+        req.body.html    = "<p>Your new password is "+password+". Remenber to changue it after login.</p>";
+
+        MAIL.sendMail(req,res);
+      }else{
+        return res.status(500).json(TOAST.userDoenstExitsInDBToast());
+      }
+    })
+};
 
 /**
  * Populate user object with passed values

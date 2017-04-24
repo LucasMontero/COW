@@ -67,11 +67,21 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
       });
     };
 
+    var recoverUserPassword = function(mail){
+      console.log("recoverUserPassword1");
+      return $http.get('/api/recoverUserPassword',{
+        params: {
+            "userMail": mail
+          }
+      });
+    };
+
     return {
-      getUser     : getUser,
-      createUser  : createUser,
-      getAllUsers : getAllUsers,
-      deleteUser  : deleteUser,
-      updateUser  : updateUser
+      getUser             : getUser,
+      createUser          : createUser,
+      getAllUsers         : getAllUsers,
+      deleteUser          : deleteUser,
+      updateUser          : updateUser,
+      recoverUserPassword : recoverUserPassword
     };
 }]);

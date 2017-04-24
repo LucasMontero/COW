@@ -44,7 +44,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/multimedia', {
     templateUrl: '/views/adm/multimedia.view.html',
-    controller: '',
+    controller: 'multimediaCtrl',
     controllerAs: 'ctl'
   })
   .when('/cow-adm/plugins', {
@@ -370,6 +370,16 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
           $location.path('/cow-adm/home');
         });
     };
+}]);
+
+
+
+
+angular.module("cowApp").controller("multimediaCtrl",[function(){
+  var ctl = this;
+  // var files = readdir("../../public/multimedia");
+  ctl.index = "HOla";
+
 }]);
 
 //navigation.controller -> See also navigation.service

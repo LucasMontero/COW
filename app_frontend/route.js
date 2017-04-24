@@ -44,7 +44,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/multimedia', {
     templateUrl: '/views/adm/multimedia.view.html',
-    controller: '',
+    controller: 'multimediaCtrl',
     controllerAs: 'ctl'
   })
   .when('/cow-adm/plugins', {

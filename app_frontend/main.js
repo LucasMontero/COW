@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -85,7 +85,8 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   .when('/:pageId', {
     templateUrl: '/views/front/page.view.html',
     controller: 'frontPageCtrl',
-    controllerAs: 'ctl'
+    controllerAs: 'ctl',
+    css: ['/stylesheets/front.css']
   })
   .otherwise({redirectTo: '/404'});
 

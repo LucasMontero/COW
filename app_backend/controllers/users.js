@@ -162,28 +162,29 @@ module.exports.updateUserById = function(req, res) {
  *
  */
 module.exports.recoverUserPassword = function(req, res) {
-    console.log(req.query.userMail);
-
     USER.findOne({ 'email': req.query.userMail }).exec(function (err, user) {
       if (err){
         console.error(new Error("## ERROR ## --> " + err));
         return res.status(500).json(TOAST.unknownErrorToast());
       }
 
-      console.log(user.email);
-
-      if(user.email){
-        // var password = CRYPTO.randomBytes(4).toString('hex');
-        var password = "abc123.";
-        console.log(password);
+      if(user){
+        var password = CRYPTO.randomBytes(4).toString('hex');
         user.updatePassword(password);
 
-        req.body.to      =  user.email;
-        req.body.subject = "Password Recovery";
-        req.body.text    = "Your new password is "+password+". Remenber to changue it after login.";
-        req.body.html    = "<p>Your new password is "+password+". Remenber to changue it after login.</p>";
+        user.save(function(err) {
+              if (err){
+                console.error(new Error("## ERROR ## --> " + err));
+                return res.status(500).json(TOAST.unknownErrorToast());
+              }
 
-        MAIL.sendMail(req,res);
+              req.body.to      =  user.email;
+              req.body.subject = "Password Recovery";
+              req.body.text    = "Your new password is "+password+". Remenber to changue it after login.";
+              req.body.html    = "<p>Your new password is "+password+". Remenber to changue it after login.</p>";
+
+              MAIL.sendMail(req,res);
+        });
       }else{
         return res.status(500).json(TOAST.userDoenstExitsInDBToast());
       }

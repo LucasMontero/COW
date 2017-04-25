@@ -29,7 +29,7 @@ var userSchema = new MONGOOSE.Schema({
  */
 userSchema.methods.setPassword = function(password){
   this.salt = CRYPTO.randomBytes(16).toString('hex');
-  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
 };
 
 /**
@@ -39,7 +39,7 @@ userSchema.methods.setPassword = function(password){
  *
  */
 userSchema.methods.updatePassword = function(password){
-  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
 };
 
 /**

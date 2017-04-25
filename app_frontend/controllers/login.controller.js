@@ -32,21 +32,17 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
     };
 
     ctl.recoverUserPassword = function () {
+       ctl.execution = true;
        userData.recoverUserPassword(ctl.fpEmail)
          .error(function(error){
-           ctl.toast = appUtilities.createToast(error.toast);
+            ctl.toast = appUtilities.createToast(error.toast);
          })
          .then(function(response){
             ctl.toast = appUtilities.createToast(response.data.toast);
+         })
+         .finally(function(){
+           ctl.execution = false;
          });
-       //var to      = ctl.fpEmail;
-       //var subject = "Recover Password";
-       //var text    = "Your new password is ***. Remenber to changue it after login.";
-       //var html    = "<p>Your new password is ***. Remenber to changue it after login.</p>";
-
-       //var mail     = mailData.createEmail(to, subject, text, html);
-
-       //mailData.sendMail(mail);
     };
 
 }]);

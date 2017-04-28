@@ -1,6 +1,7 @@
 @import 'partials/_mixins';
+@import 'partials/_fonts';
+@import 'partials/_buttons';
 @import 'partials/_toast';
-
 @import 'views/_login';
 
 body{
@@ -8,13 +9,13 @@ body{
   color: #393536;
 }
 
-.horizontal-list{
-  padding: 0;
-  overflow: auto;
-  li{
-    list-style-type: none;
-  	float: left;
-  }
+a:active, a:focus, button:active, button:focus {
+  outline: none;
+  -moz-outline-style: none;
+}
+
+input::-moz-focus-inner {
+  border: 0;
 }
 
 #sidebar-nav{

@@ -8,23 +8,15 @@
   margin-top: 30%;
 }
 
-.logo-cow{
-  width: 150px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
 .login-box{
   background-color: white;
   border-radius: 2px;
   padding: 30px;
+  margin-top: 20px;
 
   -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-
-  margin-top: 30px;
 
   h1{
     margin-top: 0px;
@@ -36,13 +28,18 @@
   }
 }
 
+.form-group{
+  input[type="password"], input[type="email"]{
+    font-family: Arial, FontAwesome;
+  }
+}
+
 .social-media-list{
   ul {
     margin: 20px auto;
-
-   width: 500px;
-
+    width: 500px;
   }
+
   i {
   	width: 40px;
   	height: 40px;
@@ -51,7 +48,6 @@
   	margin-right: 10px;
   	padding-top: 15%;
   }
-
 
   .fa-facebook{
     color: #3B5998;
@@ -63,25 +59,10 @@
     color:  #24292E;
   }
   .fa-google-plus{
-    color:  #52C0EF;
+    color:  #DD4B39;
   }
 
   .fa-facebook:hover, .fa-twitter:hover, .fa-github:hover, .fa-google-plus:hover{
-    color: white;
-    border-radius: 10px;
-  }
-
-  .fa-facebook:hover{
-    background-color: #3B5998;
-  }
-  .fa-twitter:hover{
-    background-color:  #56D7FE;
-
-  }
-  .fa-github:hover{
-    background-color:  #24292E;
-  }
-  .fa-google-plus:hover{
-    background-color:  #52C0EF;
+  opacity: 0.7;
   }
 }

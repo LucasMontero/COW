@@ -1,1 +1,32 @@
 @import 'partials/_mixins';
+@import 'views/_login';
+
+body{
+  min-width: 100%;
+  min-height: 100%;
+
+  background-color: #EFF1F2;
+}
+
+#sidebar-nav{
+  list-style: none;
+  padding: 0;
+}
+
+.fa-circle{
+    color: green;
+}
+
+.logo-big{
+  width: 250px;
+  height: auto;
+}
+
+.user-menu{
+  margin-right: 20px;
+}
+
+.center{
+    float: none;
+    margin: 0 auto;
+}

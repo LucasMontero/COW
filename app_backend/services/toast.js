@@ -23,7 +23,7 @@ module.exports.allFieldsRequiredToast = function(){
   return {
     "toast" : {
         "status" : "error",
-        "message": "All fields required."
+        "message": "Hey lazybones! All fields are required."
     }
   };
 }
@@ -32,7 +32,7 @@ module.exports.invalidLoginToast = function(){
   return {
     "toast" : {
         "status" : "error",
-        "message": "Invalid credentials."
+        "message": "Oh my cow! That credentials are invalid."
     }
   };
 }

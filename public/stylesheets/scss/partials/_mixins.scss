@@ -21,6 +21,13 @@
   display: flex;
 }
 
+
+/*@mixin box-shadow($hShadow $vShadow $blur $spread $color){
+  -webkit-box-shadow: $hShadow $vShadow $blur $spread $color;
+  -moz-box-shadow: $hShadow $vShadow $blur $spread $color;
+  box-shadow: $hShadow $vShadow $blur $spread $color;
+}*/
+
 @mixin transform-scale($size) {
   transform: scale($size);
   -moz-transform: scale($size);

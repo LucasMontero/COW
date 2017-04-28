@@ -1,11 +1,20 @@
 @import 'partials/_mixins';
+@import 'partials/_toast';
+
 @import 'views/_login';
 
 body{
-  min-width: 100%;
-  min-height: 100%;
-
   background-color: #EFF1F2;
+  color: #393536;
+}
+
+.horizontal-list{
+  padding: 0;
+  overflow: auto;
+  li{
+    list-style-type: none;
+  	float: left;
+  }
 }
 
 #sidebar-nav{
@@ -15,11 +24,6 @@ body{
 
 .fa-circle{
     color: green;
-}
-
-.logo-big{
-  width: 250px;
-  height: auto;
 }
 
 .user-menu{

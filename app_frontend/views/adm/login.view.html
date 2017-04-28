@@ -2,25 +2,33 @@
   <div class="login-panel">
       <img class="logo-cow" src="img/cow-logo-vertical.svg" alt="Changue our web">
       <div class="login-box">
-        <h1 class="form-signin-heading">Sign in</h1>
-        <p>Credentials: user -> admin@cow.com | pass -> development</p>
+        <h1 class="form-signin-heading">Login</h1>
+        <!--<p>Credentials: user -> admin@cow.com | pass -> development</p>-->
         <form ng-submit="ctl.login()">
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="ctl.credentials.email">
+            <input type="email" class="form-control" id="email" placeholder="Enter your email..." ng-model="ctl.credentials.email">
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctl.credentials.password">
+            <input type="password" class="form-control" id="password" placeholder="Enter your password..." ng-model="ctl.credentials.password">
           </div>
           <button type="submit" class="btn btn-default">Sign in!</button>
           <!-- Trigger the modal with a button -->
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#forgottenPasswordModal">forgotten password</button>
+          <a class="forgotten-password-link" href="#" data-toggle="modal" data-target="#forgottenPasswordModal">did you forgot your password?</a>
         </form>
-        <toast></toast>
+
       </div>
   </div>
-
+  <toast></toast>
+  <div class="social-media-list">
+    <ul class="horizontal-list">
+      <li><a href="http://facebook.com/"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="http://github.com/lucasMontero/cow"><i class="fa fa-github"></i></a></li>
+      <li><a href="http://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="http://plus.google.com/"><i class="fa fa-google-plus"></i> </a></li>
+    </ul>
+  </div>
   <!-- Forgotten Password Modal -->
   <div id="forgottenPasswordModal" class="modal fade" role="dialog">
     <div class="modal-dialog">

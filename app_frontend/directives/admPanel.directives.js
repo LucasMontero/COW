@@ -1,9 +1,9 @@
 //navigation.directive -> See also navigation.controller
-angular.module("cowApp").directive("navigation", function(){
+angular.module("cowApp").directive("header", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/directives/navigation.view.html",
-      controller: "navigationCtrl as navCtl"
+      templateUrl: "/views/adm/directives/header.view.html",
+      controller: "headerCtrl as hedCtl"
   }
 });
 

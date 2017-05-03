@@ -7,7 +7,7 @@
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
 

@@ -1,38 +1,39 @@
-<navigation></navigation>
-<sidebar></sidebar>
+<header></header>
+<div class="row">
+  <sidebar></sidebar>
+  <div class="col-md-10">
 
-<div class="col-md-10">
+    <h2>Mailing Settings</h2>
+    <form ng-submit="ctl.onSubmit()">
+            <div class="form-group">
+                <label for="mailHost">Host</label>
+                <input type="text" class="form-control" id="host" placeholder="Enter your mail provider host. Example: smtp.gmail.com" ng-model="ctl.mailForm.host">
+            </div>
+            <div class="form-group">
+                <label for="mailPort">Port</label>
+                <input type="text" class="form-control" id="port" placeholder="Enter the port of that host" ng-model="ctl.mailForm.port">
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" id="secure" ng-checked="ctl.pageForm.secure"><label for="mailSecure">Secure</label>
+            </div>
+            <h4>Authentication</h4>
+            <div class="form-group">
+                <label for="mailUsername">User</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter your username in the mail provider" ng-model="ctl.mailForm.username">
+            </div>
+            <div class="form-group">
+                <label for="mailPassword">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" ng-model="ctl.mailForm.password">
+            </div>
+            <button type="submit" class="btn btn-default">Save</button>
+    </form>
 
-  <h2>Mailing Settings</h2>
-  <form ng-submit="ctl.onSubmit()">
-          <div class="form-group">
-              <label for="mailHost">Host</label>
-              <input type="text" class="form-control" id="host" placeholder="Enter your mail provider host. Example: smtp.gmail.com" ng-model="ctl.mailForm.host">
-          </div>
-          <div class="form-group">
-              <label for="mailPort">Port</label>
-              <input type="text" class="form-control" id="port" placeholder="Enter the port of that host" ng-model="ctl.mailForm.port">
-          </div>
-          <div class="checkbox">
-              <input type="checkbox" id="secure" ng-checked="ctl.pageForm.secure"><label for="mailSecure">Secure</label>
-          </div>
-          <h4>Authentication</h4>
-          <div class="form-group">
-              <label for="mailUsername">User</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your username in the mail provider" ng-model="ctl.mailForm.username">
-          </div>
-          <div class="form-group">
-              <label for="mailPassword">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password" ng-model="ctl.mailForm.password">
-          </div>
-          <button type="submit" class="btn btn-default">Save</button>
-  </form>
+    <h3>Test mailing configuration</h3>
+    <form ng-submit="ctl.onTestMail()">
+      <label for="testMail">To</label>
+      <input type="password" class="form-control" id="test" ng-model="ctl.mailTest.to">
+      <button type="submit" class="btn btn-default">Send</button>
+    </form>
 
-  <h3>Test mailing configuration</h3>
-  <form ng-submit="ctl.onTestMail()">
-    <label for="testMail">To</label>
-    <input type="password" class="form-control" id="test" ng-model="ctl.mailTest.to">
-    <button type="submit" class="btn btn-default">Send</button>
-  </form>
-
+  </div>
 </div>

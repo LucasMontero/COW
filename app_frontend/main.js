@@ -329,6 +329,32 @@ angular.module("cowApp").controller("frontPageCtrl",["appUtilities", "pageData",
 
 }]);
 
+//navigation.controller -> See also navigation.service
+/**
+ * Build the parameters and fuctions used in navigation.view
+ *
+ * @param  object $scope          Object that refers to the application model.
+ * @param  object $location       Angular path location
+ * @param  object authentication  Authentication service object
+ *
+ */
+angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+  //ctl is the controller alias
+  var ctl = this;
+
+  //Check if user is authenticated and if it is, shows the current user.
+  ctl.isLoggedIn  = authentication.isLoggedIn();
+  ctl.currentUser = authentication.currentUser();
+
+  /**
+   * Delete the user session on the browser
+   */
+  $scope.logout = function(){
+    authentication.logout();
+    $location.path('/');
+  };
+}]);
+
 //home.controller
 /**
  * Shows in log if controller is running
@@ -388,32 +414,6 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
          });
     };
 
-}]);
-
-//navigation.controller -> See also navigation.service
-/**
- * Build the parameters and fuctions used in navigation.view
- *
- * @param  object $scope          Object that refers to the application model.
- * @param  object $location       Angular path location
- * @param  object authentication  Authentication service object
- *
- */
-angular.module('cowApp').controller('navigationCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
-  //ctl is the controller alias
-  var ctl = this;
-
-  //Check if user is authenticated and if it is, shows the current user.
-  ctl.isLoggedIn  = authentication.isLoggedIn();
-  ctl.currentUser = authentication.currentUser();
-
-  /**
-   * Delete the user session on the browser
-   */
-  $scope.logout = function(){
-    authentication.logout();
-    $location.path('/');
-  };
 }]);
 
 //newPage.controller
@@ -1151,11 +1151,11 @@ angular.module('cowApp').service('userData', ['$http', 'authentication', functio
 }]);
 
 //navigation.directive -> See also navigation.controller
-angular.module("cowApp").directive("navigation", function(){
+angular.module("cowApp").directive("header", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/directives/navigation.view.html",
-      controller: "navigationCtrl as navCtl"
+      templateUrl: "/views/adm/directives/header.view.html",
+      controller: "headerCtrl as hedCtl"
   }
 });
 

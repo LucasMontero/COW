@@ -2,7 +2,11 @@
 @import 'partials/_fonts';
 @import 'partials/_buttons';
 @import 'partials/_toast';
-@import 'views/_login';
+@import 'partials/_modal';
+@import 'partials/_form';
+@import 'views/login/_login';
+@import 'views/_header';
+@import 'views/_sidebar';
 
 body{
   background-color: #EFF1F2;
@@ -14,8 +18,9 @@ a:active, a:focus, button:active, button:focus {
   -moz-outline-style: none;
 }
 
-input::-moz-focus-inner {
-  border: 0;
+.fill {
+    min-height: 100%;
+    height: 100%;
 }
 
 #sidebar-nav{

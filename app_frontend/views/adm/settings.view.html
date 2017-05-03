@@ -1,11 +1,13 @@
-<navigation></navigation>
-<sidebar></sidebar>
-<div class="col-md-10">
-  <ul class="nav nav-tabs" >
-    <li ng-repeat='item in menuItems' ng-class="{active : activeMenu === item}">
-      <a href="#" ng-click="setActive(item)">{{item[0]}}</a>
-    </li>
-  </ul>
-  <generalsettings ng-show="activeMenu[1] === 1"></generalsettings>
-  <mailingsettings ng-show="activeMenu[1] === 2"></mailingsettings>
+<header></header>
+<div class="row">
+  <sidebar></sidebar>
+  <div class="col-md-10">
+    <ul class="nav nav-tabs" >
+      <li ng-repeat='item in menuItems' ng-class="{active : activeMenu === item}">
+        <a href="#" ng-click="setActive(item)">{{item[0]}}</a>
+      </li>
+    </ul>
+    <generalsettings ng-show="activeMenu[1] === 1"></generalsettings>
+    <mailingsettings ng-show="activeMenu[1] === 2"></mailingsettings>
+  </div>
 </div>

@@ -1,7 +1,14 @@
 .sidebar-nav{
 
+  position: fixed;
+  top: 50px;
+  height: 100vh;
+  width: 12%;
+
   .navbar-default{
+    height: 100%;
     border-radius: 0px;
+    margin-right: 15px;
     background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
     background-image: -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f8f8f8));
@@ -18,8 +25,6 @@
 
   .navigator{
     margin-top: 30px;
-
-
 
     li{
       width: 100%;

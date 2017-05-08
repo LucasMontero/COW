@@ -1,5 +1,4 @@
 <header></header>
-<div class="row">
   <sidebar></sidebar>
   <div class=" content col-md-10">
     <div class="panel panel-default">
@@ -7,7 +6,7 @@
         <h2><span ng-hide="ctl.isEdit">Create a new page</span><span ng-show="ctl.isEdit">Editing a page</span></h2>
         <toast></toast>
       </div>
-      <div class="panel-body">
+      <div class="panel-body row">
         <form ng-submit="ctl.onSubmit()">
           <div class="col-md-9">
             <div class="form-group">
@@ -50,4 +49,3 @@
       </div>
     </div>
   </div>
-</div>

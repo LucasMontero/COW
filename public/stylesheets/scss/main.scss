@@ -26,6 +26,7 @@ a:active, a:focus, button:active, button:focus {
   -moz-outline-style: none;
 }
 
+
 #toast{
   position: fixed;
   min-width: 40%;
@@ -35,12 +36,13 @@ a:active, a:focus, button:active, button:focus {
 }
 
 .home{
-  padding-top: 30px;
+  padding-left: 15px;
+  padding-top: 60px;
   display: flex;
   flex-flow: row wrap;
 
   .home-panel{
-    width: 45%;
+    width: 47.5%;
     min-height: 200px;
     margin: 0 2.5% 25px 0;
     padding: 15px;

@@ -1,5 +1,8 @@
 .header{
   height: 50px;
+  position: fixed;
+  width: 100vw;
+  z-index: 100;
 
   background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
   background-image: -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
@@ -21,7 +24,7 @@
   img:hover{
     opacity: 0.9;
   }
-  
+
   .user-menu{
     margin-right: 30px;
   }

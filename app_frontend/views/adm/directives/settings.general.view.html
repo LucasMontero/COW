@@ -1,9 +1,8 @@
-<h2>General Settings</h2>
 <toast></toast>
 <form ng-submit="stGeneralCtl.onSubmit()">
         <div class="form-group">
             <label for="name">Meta description</label>
-            <textarea class="form-control" id="metaDescription" placeholder="Enter hear a little site description" ng-model="stGeneralCtl.metaDescription"></textarea>
+            <textarea class="form-control" id="metaDescription" placeholder="Enter here a little site description" ng-model="stGeneralCtl.metaDescription"></textarea>
         </div>
         <button type="submit" ng-disabled="stGeneralCtl.execution" class="btn btn-default"><span ng-hide="stGeneralCtl.execution">Save</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
 </form>

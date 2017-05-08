@@ -1,6 +1,6 @@
 <nav class="col-md-2 sidebar-nav" role="navigation">
     <div class="navbar navbar-default">
-        <ul class="nav navbar-nav">
+        <ul class="navigator nav navbar-nav">
           <li>
             <a href="/cow-adm/home"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
           </li>
@@ -18,13 +18,12 @@
           </li>
           <li>
             <a href="/cow-adm/users"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Users</a>
-            <ul class="nav navbar-nav" ng-show="sideCtl.menuView() == 'users'">
-              <li >
+            <ul class="sub-nav nav navbar-nav" ng-show="sideCtl.menuView() == 'users'">
+              <li>
                 <a href="/cow-adm/users/newUser">New User</a>
               </li>
             </ul>
           </li>
-
           <li>
             <a href="/cow-adm/settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>
           </li>

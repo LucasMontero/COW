@@ -7,11 +7,18 @@
 @import 'views/login/_login';
 @import 'views/_header';
 @import 'views/_sidebar';
-@import 'views/_section';
+@import 'views/_content';
+
+
+html {
+   height: 100%;
+}
 
 body{
   background-color: #EFF1F2;
   color: #393536;
+  width: 100%;
+  min-height: 100%;
 }
 
 a:active, a:focus, button:active, button:focus {
@@ -19,25 +26,32 @@ a:active, a:focus, button:active, button:focus {
   -moz-outline-style: none;
 }
 
+#toast{
+  position: fixed;
+  min-width: 40%;
+  z-index: 100;
+  right: 60px;
+  bottom: 0px;
+}
+
+.home{
+  padding-top: 30px;
+  display: flex;
+  flex-flow: row wrap;
+
+  .home-panel{
+    width: 45%;
+    min-height: 200px;
+    margin: 0 2.5% 25px 0;
+    padding: 15px;
+
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(204,204,204,1);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(204,204,204,1);
+    box-shadow: 3px 3px 5px 0px rgba(204,204,204,1);
+  }
+}
+
 .fill {
     min-height: 100%;
     height: 100%;
-}
-
-#sidebar-nav{
-  list-style: none;
-  padding: 0;
-}
-
-.fa-circle{
-    color: green;
-}
-
-.user-menu{
-  margin-right: 20px;
-}
-
-.center{
-    float: none;
-    margin: 0 auto;
 }

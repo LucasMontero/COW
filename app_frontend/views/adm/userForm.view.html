@@ -1,23 +1,29 @@
 <header></header>
 <div class="row">
   <sidebar></sidebar>
-  <div class="col-md-10">
-      <h1><span ng-hide="ctl.isEdit">Create a new user</span><span ng-show="ctl.isEdit">Editing a user</span></h1>
-      <toast></toast>
-      <form ng-submit="ctl.onSubmit()" class="col-md-6">
+  <div class=" content col-md-10">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1><span ng-hide="ctl.isEdit">Create a new user</span><span ng-show="ctl.isEdit">Editing a user</span></h1>
+        <toast></toast>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="ctl.onSubmit()" class="col-md-6">
           <div class="form-group">
-              <label for="name">Full name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter user name" ng-model="ctl.credentials.name">
+            <label for="name">Full name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter user name" ng-model="ctl.credentials.name">
           </div>
           <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter user email" ng-model="ctl.credentials.email">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter user email" ng-model="ctl.credentials.email">
           </div>
           <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctl.credentials.password">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctl.credentials.password">
           </div>
           <button type="submit" ng-disabled="ctl.execution" class="btn btn-default"><span ng-hide="ctl.execution">Save</span><span ng-show="ctl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
-      </form>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

@@ -18,11 +18,9 @@
           </li>
           <li>
             <a href="/cow-adm/users"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Users</a>
-            <ul class="sub-nav nav navbar-nav" ng-show="sideCtl.menuView() == 'users'">
-              <li>
-                <a href="/cow-adm/users/newUser">New User</a>
-              </li>
-            </ul>
+          </li>
+          <li class="sub-nav" ng-show="sideCtl.menuView() == 'users'">
+            <a href="/cow-adm/users/newUser">New User</a>
           </li>
           <li>
             <a href="/cow-adm/settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>

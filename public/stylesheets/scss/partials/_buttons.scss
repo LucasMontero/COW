@@ -26,12 +26,8 @@
   box-shadow: none;
 }
 
-.black-as-your-soul{
+.blue-button{
   @extend .custom-button;
 
-  background: #393536;
-  border-bottom: 2px solid #463F3D;
-
-  -webkit-box-shadow: inset 0 -2px #463F3D;
-  box-shadow: inset 0 -2px #463F3D;
+  background: #5B83AA;
 }

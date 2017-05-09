@@ -3,21 +3,16 @@
   position: fixed;
   top: 50px;
   height: 100vh;
-  width: 12%;
+  width: 16.66666667%;
+  margin-right: 15px;
 
   .navbar-default{
     height: 100%;
+    overflow-y: auto;
     border-radius: 0px;
     margin-right: 15px;
-    background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
-    background-image: -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f8f8f8));
-    background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff8f8f8', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-    background-repeat: repeat-x;
-    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
+    border: 0;
+    @include background-image-color(#252522, #292526);
   }
   .navbar-collapse {
     padding: 0;
@@ -28,6 +23,19 @@
 
     li{
       width: 100%;
+      border-left: 2px solid white;
+      background: linear-gradient(to left,  rgba(0,0,0,0) 50%, white 50%);
+      background-size: 200% 100%;
+      background-position:right bottom;
+      @include transition(all, 0.5s, ease);
+
+      a{
+        color: white;
+      }
+    }
+
+    li:hover{
+      background-position:left bottom;
     }
 
     .sub-nav{

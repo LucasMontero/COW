@@ -2,9 +2,9 @@
   padding-top: 30px;
   position: relative;
   top: 30px;
-  left: 12%;
+  left: 16%;
   margin-right: 15px;
-  width: 88%;
+  width: 83.33333333%;
 }
 
 
@@ -13,7 +13,11 @@
 }
 
 .panel{
-  margin: 30px 30px 30px 0;
+  margin: 30px 0 30px 0;
+
+  .panel-heading{
+    @include background-image-color(white, white);
+  }
 }
 
 .panel-tabs{

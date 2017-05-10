@@ -1,5 +1,5 @@
 //navigation.directive -> See also navigation.controller
-angular.module("cowApp").directive("header", function(){
+angular.module("cowApp").directive("cowheader", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/adm/directives/header.view.html",
@@ -8,7 +8,7 @@ angular.module("cowApp").directive("header", function(){
 });
 
 //sidebar.directive -> See also sidebar.controller
-angular.module("cowApp").directive("sidebar", function(){
+angular.module("cowApp").directive("cowsidebar", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/adm/directives/sidebar.view.html",

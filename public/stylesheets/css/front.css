@@ -1,3 +1,92 @@
-.head{
-  color: red; 
+/*GENERAL*/
+
+@font-face {
+    font-family: varianeScript;
+    src: url(../../fonts/Variane-Script.ttf);
 }
+
+a:active, a:focus,a:active, a:link, button:active, button:focus {
+  outline: none;
+  -moz-outline-style: none;
+  text-decoration: none;
+}
+
+/* HEADER */
+.frontNav{
+  background-color: #292526;
+  height: 50px;
+}
+
+.frontNav a{
+  color: white;
+}
+
+.frontNav a:hover{
+  color:  #292526;
+}
+
+/*FOOTER*/
+
+footer{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    background-color: #F5F5F5;
+    color: #A5A5A5;
+    padding: 10px;
+}
+
+/* HOME */
+
+.download{
+	background-color: #F1F8AA;
+    padding: 40px 0px;
+}
+
+.content-download{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  	max-width: 1024px;
+    float: none;
+    margin: 0 auto;
+}
+
+.cow-logo{
+  	width: auto;
+	height: 320px;
+}
+
+.button, .button:active, .button:link, .button:visited{
+  	width: 300px;
+	height: 50px;
+	background-color: #5B83AA;
+    border: 3px solid #5B83AA;
+    border-radius: 25px;
+	line-height: 50px;
+	text-align: center;
+	color: white;
+	margin-bottom: 15px;
+}
+
+.button:hover{
+	background-color: #5F92C4;
+    color: white;
+}
+
+.info{
+}
+
+.info h2{
+  font-family: varianeScript;
+  font-size: 2em;
+  color: #AA5752;
+}
+
+.info article{
+	padding: 30px 0;
+    margin: 0 auto;
+    max-width: 1024px;
+}
+
+

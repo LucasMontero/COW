@@ -12,7 +12,7 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: '/views/front/errors/404.view.html',
     controller: '',
     controllerAs: 'ctl',
-    css: ['/stylesheets/main.css']
+    css: ['/stylesheets/css/main.css']
   })
   .when('/500', {
     templateUrl: '/views/front/errors/500.view.html',
@@ -36,21 +36,19 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: '/views/adm/pages.view.html',
     controller: 'pagesCtrl',
     controllerAs: 'ctl',
-    css: ['/stylesheets/css/main.css']
+        css: ['/stylesheets/css/main.css']
   })
   .when('/cow-adm/pages/newPage', {
     templateUrl: '/views/adm/pageForm.view.html',
     controller: 'newPageCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
-    //css: ['/stylesheets/css/main.css', '/lib/codemirror/lib/codemirror.css', '/lib/codemirror/theme/material.css']
   })
   .when('/cow-adm/pages/editPage/:pageId', {
     templateUrl: '/views/adm/pageForm.view.html',
     controller: 'editPageCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
-    //css: ['/stylesheets/css/main.css', '/lib/codemirror/lib/codemirror.css', '/lib/codemirror/theme/material.css']
   })
   .when('/cow-adm/multimedia', {
     templateUrl: '/views/adm/multimedia.view.html',
@@ -69,7 +67,6 @@ cowApp.config(function ($routeProvider, $locationProvider) {
     controller: 'designCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
-    //css: ['/stylesheets/css/main.css', '/lib/codemirror/lib/codemirror.css', '/lib/codemirror/theme/material.css']
   })
   .when('/cow-adm/users', {
     templateUrl: '/views/adm/users.view.html',
@@ -136,7 +133,7 @@ angular.module('cowApp').controller('codemirrorCtrl', ['$scope', function($scope
   // The modes 'css', 'xml', 'javascript';
 
   $scope.initMode = "xml"
-
+ 
  // The ui-codemirror options
  $scope.cmOptions = {
    lineNumbers: true,

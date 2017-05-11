@@ -12,6 +12,15 @@ a:active, a:focus,a:active, a:link, button:active, button:focus {
 }
 
 /* HEADER */
+
+header .row{
+  margin: 0;
+}
+
+.navbar-{
+  margin-right: 0px;
+}
+
 .frontNav{
   background-color: #292526;
   height: 50px;
@@ -39,15 +48,20 @@ footer{
 /* HOME */
 
 .download{
+    background: url('../../img/cow-background.png') no-repeat;
+    background-size: cover;
+    height: 500px;
+    width: 100%;
 	background-color: #F1F8AA;
-    padding: 40px 0px;
 }
 
 .content-download{
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-  	max-width: 1024px;
+  	width: 100%;
+    height: 100%;
+  	background-color: #00000044;
     float: none;
     margin: 0 auto;
 }
@@ -74,19 +88,31 @@ footer{
     color: white;
 }
 
+.alpha{
+  font-size: 11px;
+}
+
 .info{
+  padding: 30px 0;
+}
+
+
+.info article{
+    margin: 30px auto;
+    max-width: 1024px;
 }
 
 .info h2{
   font-family: varianeScript;
-  font-size: 2em;
+  font-size: 3em;
   color: #AA5752;
+  border-bottom: 2px solid #AA5752;
+  margin: 0 0 15px 0;
 }
 
-.info article{
-	padding: 30px 0;
-    margin: 0 auto;
-    max-width: 1024px;
+.info p{
+	margin: 0 0 10px 0;
+    text-align: justify;
 }
 
 

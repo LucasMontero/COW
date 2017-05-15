@@ -1,8 +1,8 @@
 /*GENERAL*/
 
 @font-face {
-    font-family: varianeScript;
-    src: url(../../fonts/Variane-Script.ttf);
+    font-family: oswald;
+    src: url(../../fonts/Oswald-Regular.ttf);
 }
 
 a:active, a:focus,a:active, a:link, button:active, button:focus {
@@ -11,10 +11,18 @@ a:active, a:focus,a:active, a:link, button:active, button:focus {
   text-decoration: none;
 }
 
+main{
+  min-height: calc(100% -120px);
+}
+
+body{
+  color: #434A54;
+}
+
 /* HEADER */
 
-header .row{
-  margin: 0;
+header{
+  padding-bottom: 50px;
 }
 
 .navbar-{
@@ -24,6 +32,9 @@ header .row{
 .frontNav{
   background-color: #292526;
   height: 50px;
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
 }
 
 .frontNav a{
@@ -34,25 +45,53 @@ header .row{
   color:  #292526;
 }
 
+#goUp{
+  display: none;
+  width:50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  background-color: #292526;
+  color: white;
+  z-index: 100;
+  cursor: pointer;
+  display:none;
+}
+
+#goUp:hover{
+	opacity: 0.9;
+}
+
 /*FOOTER*/
 
 footer{
+  	height: 70px;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     background-color: #F5F5F5;
     color: #A5A5A5;
-    padding: 10px;
+    padding: 30px 10px;
 }
 
-/* HOME */
+/*HOME*/
 
 .download{
     background: url('../../img/cow-background.png') no-repeat;
     background-size: cover;
     height: 500px;
     width: 100%;
-	background-color: #F1F8AA;
+	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
 }
 
 .content-download{
@@ -61,7 +100,7 @@ footer{
     align-items: center;
   	width: 100%;
     height: 100%;
-  	background-color: #00000044;
+  	background-color:rgba(0,0,0, 0.3);
     float: none;
     margin: 0 auto;
 }
@@ -74,8 +113,8 @@ footer{
 .button, .button:active, .button:link, .button:visited{
   	width: 300px;
 	height: 50px;
-	background-color: #5B83AA;
-    border: 3px solid #5B83AA;
+	background-color: #4A89DC;
+    border: 3px solid #4A89DC;
     border-radius: 25px;
 	line-height: 50px;
 	text-align: center;
@@ -84,7 +123,7 @@ footer{
 }
 
 .button:hover{
-	background-color: #5F92C4;
+	background-color: #5D9CEC;
     color: white;
 }
 
@@ -92,25 +131,25 @@ footer{
   font-size: 11px;
 }
 
-.info{
+.text-content{
   padding: 30px 0;
 }
 
-
-.info article{
+.text-content article{
     margin: 30px auto;
     max-width: 1024px;
 }
 
-.info h2{
-  font-family: varianeScript;
-  font-size: 3em;
-  color: #AA5752;
-  border-bottom: 2px solid #AA5752;
+.text-content h2{
+  font-family: oswald;
+  font-size: 2em;
+  color: #4A89DC;
+  border-bottom: 2px solid #4A89DC;
+  padding-bottom: 3px;
   margin: 0 0 15px 0;
 }
 
-.info p{
+.text-content p{
 	margin: 0 0 10px 0;
     text-align: justify;
 }

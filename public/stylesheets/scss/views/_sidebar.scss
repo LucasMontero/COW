@@ -39,8 +39,15 @@
       }
     }
 
-    li:hover{
+    li:hover, {
       background-position:left bottom;
+    }
+
+    .active-custom{
+      background-color: $dark-blue-light;
+      a{
+        color: white;
+      }
     }
 
     .sub-nav{

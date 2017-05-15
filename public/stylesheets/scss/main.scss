@@ -1,3 +1,4 @@
+@import 'partials/_vars';
 @import 'partials/_mixins';
 @import 'partials/_fonts';
 @import 'partials/_buttons';
@@ -9,6 +10,10 @@
 @import 'views/_sidebar';
 @import 'views/_content';
 
+
+.frontNav{
+    background-color: red;
+}
 
 html {
    height: 100%;
@@ -24,6 +29,10 @@ body{
 a:active, a:focus, button:active, button:focus {
   outline: none;
   -moz-outline-style: none;
+}
+
+a, a:hover{
+  color: $dark-blue-light;
 }
 
 

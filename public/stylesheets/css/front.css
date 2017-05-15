@@ -1,3 +1,155 @@
-.head{
-  color: red; 
+/*GENERAL*/
+
+@font-face {
+    font-family: oswald;
+    src: url(../../fonts/Oswald-Regular.ttf);
+}
+
+a:active, a:focus,a:active, a:link, button:active, button:focus {
+  outline: none;
+  -moz-outline-style: none;
+  text-decoration: none;
+}
+
+main{
+  min-height: calc(100% -120px);
+}
+
+body{
+  color: #434A54;
+}
+
+/* HEADER */
+
+header{
+  padding-bottom: 50px;
+}
+
+.navbar-{
+  margin-right: 0px;
+}
+
+.frontNav{
+  background-color: #292526;
+  height: 50px;
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+}
+
+.frontNav a{
+  color: white;
+}
+
+.frontNav a:hover{
+  color:  #292526;
+}
+
+#goUp{
+  display: none;
+  width:50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  background-color: #292526;
+  color: white;
+  z-index: 100;
+  cursor: pointer;
+  display:none;
+}
+
+#goUp:hover{
+	opacity: 0.9;
+}
+
+/*FOOTER*/
+
+footer{
+  	height: 70px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    background-color: #F5F5F5;
+    color: #A5A5A5;
+    padding: 30px 10px;
+}
+
+/*HOME*/
+
+.download{
+    background: url('../../img/cow-background.png') no-repeat;
+    background-size: cover;
+    height: 500px;
+    width: 100%;
+	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+}
+
+.content-download{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  	width: 100%;
+    height: 100%;
+  	background-color:rgba(0,0,0, 0.3);
+    float: none;
+    margin: 0 auto;
+}
+
+.cow-logo{
+  	width: auto;
+	height: 320px;
+}
+
+.button, .button:active, .button:link, .button:visited{
+  width: 300px;
+	height: 50px;
+	background-color: #4A89DC;
+  border: 3px solid #4A89DC;
+  border-radius: 25px;
+	line-height: 50px;
+	text-align: center;
+	color: white;
+	margin-bottom: 15px;
+}
+
+.button:hover{
+	background-color: #5D9CEC;
+  color: white;
+}
+
+.alpha{
+  font-size: 11px;
+}
+
+.text-content{
+  padding: 30px 0;
+}
+
+.text-content article{
+    margin: 30px auto;
+    max-width: 1024px;
+}
+
+.text-content h2{
+  font-family: oswald;
+  font-size: 2em;
+  color: #4A89DC;
+  border-bottom: 2px solid #4A89DC;
+  padding-bottom: 3px;
+  margin: 0 0 15px 0;
+}
+
+.text-content p{
+	margin: 0 0 10px 0;
+    text-align: justify;
 }

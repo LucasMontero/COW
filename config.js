@@ -1,13 +1,11 @@
 var config = {};
 
 //App port
-config.port   = 3000;
+config.port   = 8080; //port
 
-//App database
-config.dbHost = 'mongodb://localhost/';
-config.dbName = 'cowDB'
-//Mongolab
-//config.dbHost = 'mongodb://demo:abc123.@ds141401.mlab.com:41401/';
-//config.dbName = 'cowDB'
+//Localhost
+config.dbHost = 'mongodb://localhost/'; //Mongodb Server
+config.dbName = 'cowDB' //Database Name
+
 
 module.exports = config;

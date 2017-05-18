@@ -52,7 +52,7 @@ module.exports.errorInPath = function(){
   return {
     "toast" : {
         "status" : "error",
-        "message": "Path can only containt alphanumeric characters, & and  _"
+        "message": "Oh, cow! Path can only containt alphanumeric characters, & and  _"
     }
   };
 }
@@ -61,7 +61,7 @@ module.exports.cantDeleteIndex = function(){
   return {
     "toast" : {
         "status" : "error",
-        "message": "The index page cant be deleted"
+        "message": "The index page can't be deleted as sure as a cow eat candy and rainbows"
     }
   };
 }
@@ -72,7 +72,7 @@ module.exports.wrongMailParameters = function(){
   return {
     "toast" : {
         "status" : "error",
-        "message": "Invalid parameters on mail provider server."
+        "message": "Ai caramba!The parameters on mail provider server are invalid."
     }
   };
 }

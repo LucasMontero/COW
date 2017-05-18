@@ -1,0 +1,15 @@
+#mainteance{
+  visibility:hidden;
+  position: absolute;
+}
+
+.mainteance-trigger{
+  @extend .green-button;
+  line-height: 40px;
+  padding: 0;
+}
+
+/* Toggled State */
+#mainteance:checked ~ .mainteance-trigger {
+   @extend .red-button;
+}

@@ -11,6 +11,8 @@ angular.module('cowApp').controller('stGeneralCtrl', ['appUtilities', 'generalDa
 
   appUtilities.setTitle("COW Administration panel - General Settings");
 
+  ctl.mainteance
+
   mailData.getGeneralParameters()
     .success(function(data) {
       ctl.mailForm = data;
@@ -18,7 +20,6 @@ angular.module('cowApp').controller('stGeneralCtrl', ['appUtilities', 'generalDa
     .error(function (error) {
       ctl.toast = appUtilities.createToast(error.toast);
     });
-
 
   //On form submit try to register the user.
   ctl.onSubmit = function(){

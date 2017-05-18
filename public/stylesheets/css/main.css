@@ -6,7 +6,8 @@
 @font-face {
   font-family: pressStart;
   src: url("../../../fonts/PressStart2P-Regular.ttf"); }
-.custom-button, .blue-button {
+
+.custom-button, .blue-button, .green-button, .mainteance-trigger, .red-button, #mainteance:checked ~ .mainteance-trigger {
   position: relative;
   vertical-align: top;
   width: 100px;
@@ -22,14 +23,20 @@
   border-bottom-color: currentcolor;
   cursor: pointer; }
 
-.custom-button:active, .blue-button:active {
+.custom-button:active, .blue-button:active, .green-button:active, .mainteance-trigger:active, .red-button:active, #mainteance:checked ~ .mainteance-trigger:active {
   top: 1px;
   outline: none;
   -webkit-box-shadow: none;
   box-shadow: none; }
 
 .blue-button {
-  background: #5D9CEC; }
+  background: #5d9cec; }
+
+.green-button, .mainteance-trigger {
+  background: #8cc152; }
+
+.red-button, #mainteance:checked ~ .mainteance-trigger {
+  background: #fc6e51; }
 
 .alert {
   margin: 20px 0; }
@@ -141,10 +148,10 @@
   -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
-  background-image: -webkit-linear-gradient(top, #5D9CEC 0%, #4A89DC 100%);
-  background-image: -o-linear-gradient(top, #5D9CEC 0%, #4A89DC 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#5D9CEC), to(#4A89DC));
-  background-image: linear-gradient(to bottom, #5D9CEC 0%, #4A89DC 100%);
+  background-image: -webkit-linear-gradient(top, #5d9cec 0%, #4a89dc 100%);
+  background-image: -o-linear-gradient(top, #5d9cec 0%, #4a89dc 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#5d9cec), to(#4a89dc));
+  background-image: linear-gradient(to bottom, #5d9cec 0%, #4a89dc 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff{$color1}', endColorstr='#ff{$color2}', GradientType=0);
   background-repeat: repeat-x; }
   .header a {
@@ -172,10 +179,10 @@
     -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.75);
-    background-image: -webkit-linear-gradient(top, #E6E9ED 0%, #F5F7FA 100%);
-    background-image: -o-linear-gradient(top, #E6E9ED 0%, #F5F7FA 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#E6E9ED), to(#F5F7FA));
-    background-image: linear-gradient(to bottom, #E6E9ED 0%, #F5F7FA 100%);
+    background-image: -webkit-linear-gradient(top, #e6e9ed 0%, #f5f7fa 100%);
+    background-image: -o-linear-gradient(top, #e6e9ed 0%, #f5f7fa 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e6e9ed), to(#f5f7fa));
+    background-image: linear-gradient(to bottom, #e6e9ed 0%, #f5f7fa 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff{$color1}', endColorstr='#ff{$color2}', GradientType=0);
     background-repeat: repeat-x; }
   .sidebar-nav .navbar-collapse {
@@ -184,8 +191,8 @@
     margin-top: 30px; }
     .sidebar-nav .navigator li {
       width: 100%;
-      border-left: 3px solid #5D9CEC;
-      background: linear-gradient(to left, transparent 50%, #5D9CEC 50%);
+      border-left: 3px solid #5d9cec;
+      background: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, #5d9cec 50%);
       background-size: 200% 100%;
       background-position: right bottom;
       transition: all 0.5s ease;
@@ -194,13 +201,13 @@
       -webkit-transition: all 0.5s ease;
       -o-transition: all 0.5s ease; }
       .sidebar-nav .navigator li a {
-        color: #434A54; }
+        color: #434a54; }
       .sidebar-nav .navigator li a:hover {
-        color: #F5F7FA; }
+        color: #f5f7fa; }
     .sidebar-nav .navigator li:hover {
       background-position: left bottom; }
     .sidebar-nav .navigator .active-custom {
-      background-color: #5D9CEC; }
+      background-color: #5d9cec; }
       .sidebar-nav .navigator .active-custom a {
         color: white; }
     .sidebar-nav .navigator .sub-nav {
@@ -213,6 +220,15 @@
 .test-mail {
   margin-bottom: 15px; }
 
+#mainteance {
+  visibility: hidden;
+  position: absolute; }
+
+.mainteance-trigger {
+  line-height: 40px;
+  padding: 0; }
+
+/* Toggled State */
 .content {
   padding-top: 30px;
   position: relative;
@@ -240,7 +256,7 @@
   background-color: #263238; }
 
 .fa-circle {
-  color: #8CC152; }
+  color: #8cc152; }
 
 .frontNav {
   background-color: red; }
@@ -259,7 +275,7 @@ a:active, a:focus, button:active, button:focus {
   -moz-outline-style: none; }
 
 a, a:hover {
-  color: #5D9CEC; }
+  color: #5d9cec; }
 
 #toast {
   position: fixed;
@@ -285,5 +301,3 @@ a, a:hover {
 .fill {
   min-height: 100%;
   height: 100%; }
-
-/*# sourceMappingURL=main.css.map */

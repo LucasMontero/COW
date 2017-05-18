@@ -6,3 +6,22 @@
         </div>
         <button type="submit" ng-disabled="stGeneralCtl.execution" class="blue-button"><span ng-hide="stGeneralCtl.execution">Save</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
 </form>
+<form>
+        <div class="form-group">
+            <label for="name">Favicon</label>
+        </div>
+        <button type="submit" ng-disabled="stGeneralCtl.execution" class="blue-button"><span ng-hide="stGeneralCtl.execution">Import favicon</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+</form>
+<form>
+        <div class="form-group">
+            <label for="name">Backups</label>
+        </div>
+        <button type="submit" ng-disabled="stGeneralCtl.execution" class="blue-button"><span ng-hide="stGeneralCtl.execution">Export</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+        <button type="submit" ng-disabled="stGeneralCtl.execution" class="blue-button"><span ng-hide="stGeneralCtl.execution">Import</span><span ng-show="stGeneralCtl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+</form>
+<form>
+        <div class="form-group">
+            <label for="name">Maintenance mode</label>
+            <div><input id="mainteance"  ng-model="checked" data-toggle="toggle" type="checkbox"> <label for="mainteance" class="mainteance-trigger"> Enabled </label></div>
+        </div>
+</form>

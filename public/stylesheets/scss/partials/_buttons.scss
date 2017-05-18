@@ -31,3 +31,15 @@
 
   background: $dark-blue-light;
 }
+
+.green-button{
+  @extend .custom-button;
+
+  background: $green-dark;
+}
+
+.red-button{
+  @extend .custom-button;
+
+  background: $red-light;
+}

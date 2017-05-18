@@ -27,7 +27,7 @@ const SERVER = HTTP.createServer(APP);
  * Listen on provided port, on all network interfaces.
  */
 
-SERVER.listen(PORT);
+SERVER.listen(process.env.PORT || PORT);
 SERVER.on('error', onError);
 SERVER.on('listening', onListening);
 

@@ -1,8 +1,8 @@
 /*GENERAL*/
 
 @font-face {
-    font-family: oswald;
-    src: url(../../fonts/Oswald-Regular.ttf);
+    font-family: righteous;
+    src: url(../../fonts/Righteous.ttf);
 }
 
 a:active, a:focus,a:active, a:link, button:active, button:focus {
@@ -79,13 +79,12 @@ footer{
     align-items: center;
     background-color: #F5F5F5;
     color: #A5A5A5;
-    padding: 30px 10px;
 }
 
 /*HOME*/
 
 .download{
-    background: url('../../img/cow-background.png') no-repeat;
+    background: url('../../img/cow-background_1920.png') no-repeat center;
     background-size: cover;
     height: 500px;
     width: 100%;
@@ -107,15 +106,15 @@ footer{
 
 .cow-logo{
   	width: auto;
-	height: 320px;
+	height: 250px;
 }
 
 .button, .button:active, .button:link, .button:visited{
-  width: 300px;
+    width: 300px;
 	height: 50px;
 	background-color: #4A89DC;
-  border: 3px solid #4A89DC;
-  border-radius: 25px;
+    border: 3px solid #4A89DC;
+    border-radius: 25px;
 	line-height: 50px;
 	text-align: center;
 	color: white;
@@ -124,15 +123,15 @@ footer{
 
 .button:hover{
 	background-color: #5D9CEC;
-  color: white;
+    color: white;
 }
 
 .alpha{
-  font-size: 11px;
+    font-size: 11px;
 }
 
 .text-content{
-  padding: 30px 0;
+    padding: 30px 0;
 }
 
 .text-content article{
@@ -141,12 +140,12 @@ footer{
 }
 
 .text-content h2{
-  font-family: oswald;
-  font-size: 2em;
-  color: #4A89DC;
-  border-bottom: 2px solid #4A89DC;
-  padding-bottom: 3px;
-  margin: 0 0 15px 0;
+    font-family: righteous;
+    font-size: 2em;
+    color: #4A89DC;
+    border-bottom: 2px solid #4A89DC;
+    padding-bottom: 3px;
+    margin: 0 0 15px 0;
 }
 
 .text-content p{

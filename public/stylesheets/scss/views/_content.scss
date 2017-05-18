@@ -1,3 +1,5 @@
+@import "./panels/_mailing.scss";
+
 .content{
   padding-top: 30px;
   position: relative;
@@ -7,16 +9,14 @@
   width: 83.33333333%;
 }
 
-
-.section-title{
-  width: 30%;
-}
-
 .panel{
   margin: 30px 0 30px 0;
 
   .panel-heading{
     @include background-image-color(white, white);
+    .panel-form{
+      padding-top: 15px;
+    }
   }
 }
 
@@ -29,5 +29,5 @@
 }
 
 .fa-circle{
-    color: green;
+    color: $green-dark;
 }

@@ -10,7 +10,7 @@
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$location", "userData", "appUtilities" ,function($routeParams, $scope,$location, userData, appUtilities){
+angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams", "$scope","$location", "userData", "appUtilities" ,function(authentication, $routeParams, $scope,$location, userData, appUtilities){
   var ctl = this;
 
 
@@ -22,21 +22,29 @@ angular.module("cowApp").controller("usersCtrl",["$routeParams", "$scope","$loca
    * @param  string userId Id of the user that will be deleted
    *
    */
+
   $scope.deleteUser = function(userId) {
-    userData.deleteUser(userId)
-      .success(function(data) {
-        userData.getAllUsers()
-          .success(function(data) {
-            $scope.users = data;
-          })
-          .error(function (error) {
+    if (authentication.currentUser()._id === userId) {
+      var toast = {
+              "status" : "error",
+              "message": "Mother of cow! You can't delete your own user."
+        };
+      ctl.toast = appUtilities.createToast(toast);
+    }else{
+      userData.deleteUser(userId).success(function(data) {
+          userData.getAllUsers()
+            .success(function(data) {
+              $scope.users = data;
+            })
+            .error(function (error) {
+              ctl.toast = appUtilities.createToast(error.toast);
+            });
+            ctl.toast = appUtilities.createToast(data.toast);
+        })
+        .error(function (error) {
             ctl.toast = appUtilities.createToast(error.toast);
-          });
-          ctl.toast = appUtilities.createToast(data.toast);
-      })
-      .error(function (error) {
-          ctl.toast = appUtilities.createToast(error.toast);
-      });
+        });
+    }
   };
 
   //Get users data function

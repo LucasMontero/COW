@@ -24,16 +24,16 @@
                 <label for="mailPassword">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Enter your password" ng-model="ctl.mailForm.password">
             </div>
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" class="blue-button">Save</button>
     </form>
 
     <h3>Test mailing configuration</h3>
     <form ng-submit="ctl.onTestMail()">
-      <div class="form-group">
+      <div class="form-group test-mail">
         <label for="testMail">To</label>
         <input type="password" class="form-control" id="test" ng-model="ctl.mailTest.to">
       </div>
-      <button type="submit" class="btn btn-default">Send</button>
+      <button type="submit" class="send-button blue-button">Send</button>
     </form>
 
   </div>

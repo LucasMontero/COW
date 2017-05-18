@@ -7,6 +7,9 @@
           <li ng-class="sideCtl.menuView() == 'pages'? 'active-custom' : ''">
             <a href="/cow-adm/pages"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>&nbsp; Pages</a>
           </li>
+          <li class="sub-nav" ng-show="sideCtl.menuView() == 'pages'">
+            <a href="/cow-adm/pages/newPage">New Page</a>
+          </li>
           <li ng-class="sideCtl.menuView() == 'multimedia'? 'active-custom' : ''">
             <a href="/cow-adm/multimedia"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>&nbsp; Multimedia</a>
           </li>

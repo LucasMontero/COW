@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror', 'angularFileUpload']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider

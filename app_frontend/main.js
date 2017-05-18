@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'ui.codemirror', 'angularFileUpload']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -372,15 +372,15 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
     };
 }]);
 
-
-
-
-angular.module("cowApp").controller("multimediaCtrl",[function(){
-  var ctl = this;
-  // var files = readdir("../../public/multimedia");
-  ctl.index = "HOla";
-
-}]);
+// angular.module("cowApp").controller("multimediaCtrl",['FileUploader',function(FileUploader){
+// // var ctl = this;
+// // // var files = readdir("../../public/multimedia");
+// // ctl.index = "HOla";
+//   // var uploader =
+//   $scope.uploader = new FileUploader({
+//             url: 'upload.php'
+//         });
+// }]);
 
 //navigation.controller -> See also navigation.service
 /**

@@ -19,6 +19,10 @@ body{
   color: #434A54;
 }
 
+h5{
+  margin: 15px 0;
+}
+
 /* HEADER */
 
 header{
@@ -37,12 +41,74 @@ header{
   box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
 }
 
-.frontNav a{
+.frontNav a, .burger{
   color: white;
 }
 
 .frontNav a:hover{
   color:  #292526;
+}
+
+.regular-nav{
+    padding: 0;
+}
+
+.responsive-nav{
+    display: none;
+ 	z-index: 100;
+    border-radius: 2px;
+}
+
+@media (max-width: 1080px) {
+  .responsive-nav{
+	display: block;
+  }
+  .regular-nav{
+    display: none;
+  }
+}
+
+.responsive-nav ul{
+    	display: none;
+  	background-color: #292526;
+  
+ 	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  	-moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  	box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  
+    list-style: none;
+    padding: 0;
+}
+
+.responsive-nav ul li{
+	text-align: center;
+	padding: 10px;
+	border-bottom: 1px solid white;
+}
+
+.responsive-nav ul li:hover{
+    background-color: white;
+}
+.responsive-nav ul li:hover a{
+    color:  #292526;
+}
+
+.responsive-nav ul li:last-child{
+	border-bottom: none;
+}
+
+
+
+.burger-check, .burger{
+  line-height: 50px;
+}
+
+.burger-check{
+  display:none;
+}
+.burger{
+  font-size: 2em;
+  margin: 0;
 }
 
 #goUp{
@@ -69,6 +135,7 @@ header{
 #goUp:hover{
 	opacity: 0.9;
 }
+
 
 /*FOOTER*/
 

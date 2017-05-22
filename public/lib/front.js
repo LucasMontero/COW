@@ -1,5 +1,16 @@
 $(function () {
-      $(window).scroll(function() {
+   // Hamburguer menu
+   $('.burger-check').click(function(){
+   	if($(this).prop('checked'))
+	   $('.burger i').attr("class", "fa fa-times");
+	else
+	   $('.burger i').attr("class", "fa fa-bars");
+	 
+	 $( "#responsive-nav-list" ).slideToggle("slow")
+   });
+  	//
+   // GO TOP Button
+   $(window).scroll(function() {
 	  if ($(this).scrollTop() >= 50) {        
 		  $('#goUp').fadeIn(200);    
 	  } else {

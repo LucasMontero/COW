@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror', 'ui.bootstrap']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -392,7 +392,6 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$locati
  *
  */
 angular.module("cowApp").controller("homeCtrl",["appUtilities", function(appUtilities){
-  console.log("Home controller is running");
   appUtilities.setTitle("COW Administration panel");
 }]);
 
@@ -799,6 +798,20 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
   });
 
 
+}]);
+
+//toast.controller
+/**
+ * Add bootstrap angular functions to toast
+ *
+ * @param  object appUtilities     appUtilities service object
+ *
+ */
+angular.module("cowApp").controller("toastCtrl",[ "$scope", function($scope, $modalInstance){
+      $scope.closeModal = function(){
+         console.log("asd");
+         $modalInstance.close();
+      }
 }]);
 
 //users.controller
@@ -1241,7 +1254,7 @@ angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/adm/directives/toast.view.html",
-      controller: ""
+      controller: "toastCtrl as toastCtl"
   }
 });
 

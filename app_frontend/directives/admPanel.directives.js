@@ -21,7 +21,7 @@ angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
       templateUrl: "/views/adm/directives/toast.view.html",
-      controller: ""
+      controller: "toastCtrl as toastCtl"
   }
 });
 

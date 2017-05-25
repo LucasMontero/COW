@@ -1,7 +1,9 @@
 <div id="toast" class="alert alert-danger" ng-show="ctl.toast.status == 'error'">
+  <button type="button" class="close" ng-click="toastCtl.closeModal()" data-dismiss="modal">&times;</button>
   <i class="fa fa-exclamation-circle" aria-hidden="true"></i><span id="message" class="message" ng-bind="ctl.toast.message"></span>
 </div>
 
 <div id="toast" class="alert alert-success" ng-show="ctl.toast.status == 'ok'">
+  <button type="button" class="close" ng-click="toastCtl.closeModal()" data-dismiss="modal">&times;</button>
   <i class="fa fa-check" aria-hidden="true"></i><span id="message" class="message" ng-bind="ctl.toast.message"></span>
 </div>

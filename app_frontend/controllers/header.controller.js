@@ -22,4 +22,6 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authe
     authentication.logout();
     $location.path('/');
   };
+
+  $scope.$emit('responsiveMenú', "sad");
 }]);

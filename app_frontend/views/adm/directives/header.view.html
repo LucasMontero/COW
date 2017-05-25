@@ -1,8 +1,12 @@
 <div class="header">
-    <div class="col-md-2">
-      <a class="center-block" href="/cow-adm/home"><img src="img/cow-logo-horizontal.svg" height="35px" alt="Changue our web"></a>
+    <div class= "responsive-menu col-xs-1">
+      	  <input class="burger-check" id="burger-check" type="checkbox"></input>
+      	  <label for="burger-check" class="burger">
+      		    <i class="fa fa-bars" aria-hidden="true"></i>
+      	  </label>
     </div>
-    <nav class="col-md-4 col-md-offset-6">
+    <a class="col-xs-3 center-block" href="/cow-adm/home"><img src="img/cow-logo-horizontal.svg" height="35px" alt="Changue our web"></a>
+    <nav class="col-xs-4 col-md-offset-4">
         <ul class="nav navbar-nav navbar-right user-menu">
           <li><a ng-href="/">Front Page</a></li>
           <li><a ng-href="/cow-adm/users/profile/{{hedCtl.currentUser._id}}">{{hedCtl.currentUser.name}}</a></li>

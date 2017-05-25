@@ -22,7 +22,42 @@
     opacity: 0.9;
   }
 
+  a{
+    padding: 0;
+  }
+
   .user-menu{
     margin-right: 30px;
+  }
+
+  .responsive-menu{
+    display: none;
+  }
+
+  @media (max-width: 1080px) {
+    .user-menu{
+      display:none;
+    }
+
+    .responsive-menu{
+      display: inline;;
+    }
+
+    a{
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+  }
+  .burger-check, .burger{
+  line-height: 50px;
+  }
+
+  .burger-check{
+    display:none;
+  }
+  .burger{
+    font-size: 2em;
+    margin: 0;
+    color: white;
   }
 }

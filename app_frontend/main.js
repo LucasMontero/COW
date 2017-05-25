@@ -369,6 +369,8 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authe
     authentication.logout();
     $location.path('/');
   };
+
+  $scope.$emit('responsiveMenú', "sad");
 }]);
 
 //home.controller
@@ -629,6 +631,11 @@ angular.module('cowApp').controller('settingsCtrl', ['$scope', 'appUtilities', f
   $scope.setActive = function(menuItem) {
     $scope.activeMenu = menuItem;
   }
+
+  $scope.$on('createToast', function(event, args) {
+      ctl.toast = args;
+  });
+
 }]);
 
 /**
@@ -644,6 +651,8 @@ angular.module('cowApp').controller('stGeneralCtrl', ['appUtilities', 'generalDa
 
   appUtilities.setTitle("COW Administration panel - General Settings");
 
+  ctl.mainteance
+
   mailData.getGeneralParameters()
     .success(function(data) {
       ctl.mailForm = data;
@@ -651,7 +660,6 @@ angular.module('cowApp').controller('stGeneralCtrl', ['appUtilities', 'generalDa
     .error(function (error) {
       ctl.toast = appUtilities.createToast(error.toast);
     });
-
 
   //On form submit try to register the user.
   ctl.onSubmit = function(){
@@ -679,7 +687,7 @@ angular.module('cowApp').controller('stGeneralCtrl', ['appUtilities', 'generalDa
  * @param  object mailData      maildata service object
  *
  */
-angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', 'mailData', function(appUtilities, mailData){
+angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','mailData', function(appUtilities, $scope ,mailData){
   //ctl is the controller alias
   var ctl = this;
 
@@ -704,11 +712,9 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', 'mailData'
 
     mailData.setMailParameters(ctl.mailForm)
       .error(function(error){
-          ctl.toast = appUtilities.createToast(error.toast);
-          console.log(ctl.toast);
+          $scope.$emit('createToast', appUtilities.createToast(error.toast));
       }).then(function(response){
-          ctl.toast = appUtilities.createToast(response.data.toast);
-          console.log(ctl.toast);
+          $scope.$emit('createToast', appUtilities.createToast(response.data.toast));
       }).finally(function(){
           ctl.execution = false;
       });
@@ -840,6 +846,7 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
 
 //appUtilities.service
 angular.module('cowApp').service('appUtilities', ['$window', function($window){
+  
    var setTitle = function(title){
      $window.document.title = title;
    };
@@ -850,6 +857,9 @@ angular.module('cowApp').service('appUtilities', ['$window', function($window){
              message : params.message
            }
    }
+
+   var toast = {};
+
 
    return {
      setTitle    : setTitle,

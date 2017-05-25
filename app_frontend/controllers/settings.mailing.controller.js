@@ -5,7 +5,7 @@
  * @param  object mailData      maildata service object
  *
  */
-angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', 'mailData', function(appUtilities, mailData){
+angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','mailData', function(appUtilities, $scope ,mailData){
   //ctl is the controller alias
   var ctl = this;
 
@@ -30,11 +30,9 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', 'mailData'
 
     mailData.setMailParameters(ctl.mailForm)
       .error(function(error){
-          ctl.toast = appUtilities.createToast(error.toast);
-          console.log(ctl.toast);
+          $scope.$emit('createToast', appUtilities.createToast(error.toast));
       }).then(function(response){
-          ctl.toast = appUtilities.createToast(response.data.toast);
-          console.log(ctl.toast);
+          $scope.$emit('createToast', appUtilities.createToast(response.data.toast));
       }).finally(function(){
           ctl.execution = false;
       });

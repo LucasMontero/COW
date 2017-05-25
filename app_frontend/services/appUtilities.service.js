@@ -1,5 +1,6 @@
 //appUtilities.service
 angular.module('cowApp').service('appUtilities', ['$window', function($window){
+  
    var setTitle = function(title){
      $window.document.title = title;
    };
@@ -10,6 +11,9 @@ angular.module('cowApp').service('appUtilities', ['$window', function($window){
              message : params.message
            }
    }
+
+   var toast = {};
+
 
    return {
      setTitle    : setTitle,

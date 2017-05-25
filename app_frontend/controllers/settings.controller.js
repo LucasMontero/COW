@@ -17,4 +17,9 @@ angular.module('cowApp').controller('settingsCtrl', ['$scope', 'appUtilities', f
   $scope.setActive = function(menuItem) {
     $scope.activeMenu = menuItem;
   }
+
+  $scope.$on('createToast', function(event, args) {
+      ctl.toast = args;
+  });
+
 }]);

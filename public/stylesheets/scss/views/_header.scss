@@ -22,10 +22,6 @@
     opacity: 0.9;
   }
 
-  a{
-    padding: 0;
-  }
-
   .user-menu{
     margin-right: 30px;
   }
@@ -35,17 +31,16 @@
   }
 
   @media (max-width: 1080px) {
+    a{
+      padding: 0px;
+    }
+
     .user-menu{
       display:none;
     }
 
     .responsive-menu{
       display: inline;;
-    }
-
-    a{
-        padding-right: 15px;
-        padding-left: 15px;
     }
   }
   .burger-check, .burger{

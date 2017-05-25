@@ -354,13 +354,24 @@ angular.module("cowApp").controller("frontPageCtrl",["appUtilities", "pageData",
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$location', 'authentication', function($scope, $window, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
 
   //Check if user is authenticated and if it is, shows the current user.
   ctl.isLoggedIn  = authentication.isLoggedIn();
   ctl.currentUser = authentication.currentUser();
+
+  $scope.onCheck = function(qId){
+      ctl.responsiveShow = $scope.responsive[qId];
+      $scope.$emit('responsiveMenu', $scope.responsive[qId]);
+  }
+
+  angular.element($window).bind('resize', function(){
+    if ($window.innerWidth > 1080) {
+      $scope.$emit('responsiveMenu', false);
+    }
+  });
 
   /**
    * Delete the user session on the browser
@@ -370,7 +381,7 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authe
     $location.path('/');
   };
 
-  $scope.$emit('responsiveMenú', "sad");
+
 }]);
 
 //home.controller
@@ -782,6 +793,11 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
         break;
     }
   }
+
+  $scope.$on('responsiveMenu', function(event, data) {
+      ctl.responsiveMenu = data;
+  });
+
 
 }]);
 

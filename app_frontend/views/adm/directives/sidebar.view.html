@@ -1,8 +1,8 @@
-<nav class="sidebar-nav" role="navigation">
+<nav ng-hide="sideCtl.responsiveMenu" class="sidebar-nav" role="navigation">
     <div class="navbar navbar-default">
         <ul class="navigator nav navbar-nav">
           <li ng-class="sideCtl.menuView() == 'home'? 'active-custom' : ''">
-            <a href="/cow-adm/home"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+            <a href="/cow-adm/home"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home {{responsiveMenu}}</a>
           </li>
           <li ng-class="sideCtl.menuView() == 'pages'? 'active-custom' : ''">
             <a href="/cow-adm/pages"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>&nbsp; Pages</a>

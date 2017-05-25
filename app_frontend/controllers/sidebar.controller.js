@@ -37,4 +37,9 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
     }
   }
 
+  $scope.$on('responsiveMenu', function(event, data) {
+      ctl.responsiveMenu = data;
+  });
+
+
 }]);

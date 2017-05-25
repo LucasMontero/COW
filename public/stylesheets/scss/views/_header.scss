@@ -43,6 +43,13 @@
       display: inline;;
     }
   }
+
+  @media (max-width: 600px) {
+    a{
+      margin-left: 15px;
+    }
+  }
+
   .burger-check, .burger{
   line-height: 50px;
   }
@@ -54,5 +61,8 @@
     font-size: 2em;
     margin: 0;
     color: white;
+  }
+  .burger:hover{
+    opacity: 0.7;
   }
 }

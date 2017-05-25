@@ -1,12 +1,13 @@
 <div class="header">
     <div class= "responsive-menu col-xs-1">
-      	  <input class="burger-check" id="burger-check" type="checkbox"></input>
+      	  <input class="burger-check" id="burger-check" ng-model="responsive[item.questID]" ng-change="onCheck(item.questID)" type="checkbox"></input>
       	  <label for="burger-check" class="burger">
-      		    <i class="fa fa-bars" aria-hidden="true"></i>
+            <span ng-hide="hedCtl.responsiveShow"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+            <span ng-show="hedCtl.responsiveShow"><i class="fa fa-bars" aria-hidden="true"></i></span>
       	  </label>
     </div>
     <a class="col-xs-3 center-block" href="/cow-adm/home"><img src="img/cow-logo-horizontal.svg" height="35px" alt="Changue our web"></a>
-    <nav class="col-xs-4 col-md-offset-4">
+    <nav class="col-xs-4 col-md-offset-5">
         <ul class="nav navbar-nav navbar-right user-menu">
           <li><a ng-href="/">Front Page</a></li>
           <li><a ng-href="/cow-adm/users/profile/{{hedCtl.currentUser._id}}">{{hedCtl.currentUser.name}}</a></li>

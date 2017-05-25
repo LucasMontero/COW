@@ -172,6 +172,9 @@
       display: none; }
     .header .responsive-menu {
       display: inline; } }
+  @media (max-width: 600px) {
+    .header a {
+      padding-left: 15px; } }
   .header .burger-check, .header .burger {
     line-height: 50px; }
   .header .burger-check {
@@ -180,6 +183,8 @@
     font-size: 2em;
     margin: 0;
     color: white; }
+  .header .burger:hover {
+    opacity: 0.7; }
 
 .sidebar-nav {
   position: fixed;
@@ -187,7 +192,7 @@
   height: 100vh;
   width: 16.66666667%;
   margin-right: 15px;
-  min-width: 150px;
+  min-width: 200px;
   z-index: 99; }
   .sidebar-nav .navbar-default {
     height: 100%;
@@ -239,7 +244,11 @@
       display: none; }
     @media (max-width: 1080px) {
       .sidebar-nav .navigator .responsive {
-        display: inline-block; } }
+        display: inline-block; }
+      .sidebar-nav .navigator li {
+        padding-left: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px; } }
 
 .test-mail {
   margin-bottom: 15px; }

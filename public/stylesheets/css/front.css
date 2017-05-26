@@ -25,16 +25,6 @@ h5{
 
 /* HEADER */
 
-header{
-  padding-bottom: 50px;
-}
-
-@media (max-width: 980px) {
-  header{
-	padding-bottom: 0px;
-  }
-}
-
 .navbar-{
   margin-right: 0px;
 }
@@ -57,6 +47,7 @@ header{
 
 .regular-nav{
     padding: 0;
+  	margin-right: 15px;
 }
 
 .responsive-nav{
@@ -77,6 +68,8 @@ header{
 .responsive-nav ul{
     display: none;
   	background-color: #292526;
+    padding-top: 50px;
+    z-index: 99;
   
  	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
   	-moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
@@ -84,12 +77,19 @@ header{
   
     list-style: none;
     padding: 0;
+  
+    position: absolute;
+	top: 48px;
+	width: 100%;
 }
 
 .responsive-nav ul li{
 	text-align: center;
 	padding: 10px;
-	border-bottom: 1px solid white;
+}
+
+.responsive-nav ul li a{
+	width: 100%;
 }
 
 .responsive-nav ul li:hover{
@@ -103,8 +103,6 @@ header{
 	border-bottom: none;
 }
 
-
-
 .burger-check, .burger{
   line-height: 50px;
 }
@@ -115,6 +113,8 @@ header{
 .burger{
   font-size: 2em;
   margin: 0;
+  float: right;
+  padding-right: 15px;
 }
 
 #goUp{
@@ -244,4 +244,30 @@ footer{
 .text-content p{
 	margin: 0 0 10px 0;
     text-align: justify;
+}
+
+.flex-img-container{
+    display: flex;
+	flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.flex-img-container img{
+    width: 45%;
+    height: auto;
+	margin: 10px;
+  	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+  	padding: 4px;
+}
+
+@media (max-width: 1080px) {
+  .flex-img-container{
+    justify-content: space-around;
+  }
+  .flex-img-container img{
+	  width: 98%;
+	  height: auto;
+  }
 }

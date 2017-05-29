@@ -40,80 +40,61 @@
 	</article>
   	<article id="#Nginx">
 	  <h2>Configure COW on Nginx</h2>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
+	  <p>For configure COW on Nginx you will need to have Nginx installed (Yes, thank me for the clarification), you can find how to install it in your server here.</p>
+ 	  <p>We will modify the default VirtualHost configuration file (On debian: /etc/nginx/sites-available/default) and we change its content for the following.</p>
+	  <div class="shell">
+	  <pre>
+		server {
+		  listen 80;
+		  server_name <b>your_server_ip</b>;
+		  location <b>/app_name</b> {
+			 proxy_pass http://<b>your_server_ip</b>:<b>app_port</b>;
+			 proxy_http_version 1.1;
+			 proxy_set_header Upgrade $http_upgrade;
+			 proxy_set_header Connection 'upgrade';
+			 proxy_set_header Host $host;
+			 proxy_cache_bypass $http_upgrade;
+		  }
+		}
+	 </pre>
+	  </div>
+	  <p>You can add any app as you want to your server by duplicating the location code and modificate it.</p>
+	  <div class="shell">
+	  <pre>
+		location <b>/app2_name</b> {
+			proxy_pass http://<b>your_server_ip</b>:<b>app2_port</b>;
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection 'upgrade';
+			proxy_set_header Host $host;
+			proxy_cache_bypass $http_upgrade;
+		}
+	  </pre>
+	  </div>
+	  <p>Restart your Nginx server to load the changes.</p>
+	  <p>For finish, all you have to do is make that the app domain name point to the correct ip server name.</p>
 	</article>
   	<article id="#Pages">
-	  <h2>Creating and editing pages</h2>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
+	  <h2>Create and edit pages</h2>
+	  <img src="img/screenshots/pages-panel.png" alt="Screenshot from app - Pages panel"></img>
+	  <img src="img/screenshots/create-page.png" alt="Screenshot from app - Creating a page"></img>
+	  <img src="img/screenshots/edit-page.png" alt="Screenshot from app - Editing a page"></img>
 	</article>
 	<article id="#Design">
 	  <h2>Configure CSS, Javascript...</h2>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
+	  <img src="img/screenshots/design-css.png" alt="Screenshot from app - Creating Css"></img>
+	  <img src="img/screenshots/design-js.png" alt="Screenshot from app - Creating Javascript"></img>
+	  <img src="img/screenshots/design-header.png" alt="Screenshot from app - Editing app header"></img>
+	  <img src="img/screenshots/design-footer.png" alt="Screenshot from app - Editing app footer"></img>
 	</article>
 	<article id="#Users">
-	  <h2>Create new users</h2>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
+	  <h2>Create and edit users</h2>
+	  <img src="img/screenshots/users-panel.png" alt="Screenshot from app - Users panel"></img>
+	  <img src="img/screenshots/create-user.png" alt="Screenshot from app - Creating a User"></img>
+	  <img src="img/screenshots/edit-user.png" alt="Screenshot from app - Editing a User"></img>
 	</article>
 	<article id="#Settings">
 	  <h2>Basic settings</h2>
-	   <p>
-	  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-		veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		ea commodo consequat. Duis aute irure dolor in reprehenderit in
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-		officia deserunt mollit anim id est laborum.
-	  </p>
+      <img src="img/screenshots/settings-mail.png" alt="Screenshot from app - Applying settings mail data"></img>
 	</article>
 </section>

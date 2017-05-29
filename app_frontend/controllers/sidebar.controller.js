@@ -7,9 +7,11 @@
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$location', 'authentication', function($scope, $window, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
+
+  menuOnScreenSize();
 
   ctl.menuView  =  function(){
     switch (true) {
@@ -40,6 +42,18 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
   $scope.$on('responsiveMenu', function(event, data) {
       ctl.responsiveMenu = data;
   });
+
+  angular.element($window).bind('resize', function(){
+    menuOnScreenSize();
+  });
+
+  function menuOnScreenSize(){
+    if ($window.innerWidth > 1080) {
+      ctl.responsiveMenu = true;
+    }else{
+      ctl.responsiveMenu = false;
+    }
+  }
 
 
 }]);

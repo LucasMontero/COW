@@ -7,7 +7,7 @@
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$location', 'authentication', function($scope, $window, $location, authentication){
+angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
 
@@ -20,18 +20,14 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$locati
       $scope.$emit('responsiveMenu', $scope.responsive[qId]);
   }
 
-  angular.element($window).bind('resize', function(){
-    if ($window.innerWidth > 1080) {
-      $scope.$emit('responsiveMenu', false);
-    }
-  });
+
 
   /**
    * Delete the user session on the browser
    */
   $scope.logout = function(){
     authentication.logout();
-    $location.path('/');
+    $location.path('/');gw
   };
 
 

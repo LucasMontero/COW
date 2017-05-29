@@ -354,7 +354,7 @@ angular.module("cowApp").controller("frontPageCtrl",["appUtilities", "pageData",
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$location', 'authentication', function($scope, $window, $location, authentication){
+angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
 
@@ -367,11 +367,7 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$window', '$locati
       $scope.$emit('responsiveMenu', $scope.responsive[qId]);
   }
 
-  angular.element($window).bind('resize', function(){
-    if ($window.innerWidth > 1080) {
-      $scope.$emit('responsiveMenu', false);
-    }
-  });
+
 
   /**
    * Delete the user session on the browser
@@ -763,9 +759,11 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
  * @param  object authentication  Authentication service object
  *
  */
-angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'authentication', function($scope, $location, authentication){
+angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$location', 'authentication', function($scope, $window, $location, authentication){
   //ctl is the controller alias
   var ctl = this;
+
+  menuOnScreenSize();
 
   ctl.menuView  =  function(){
     switch (true) {
@@ -796,6 +794,18 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$location', 'auth
   $scope.$on('responsiveMenu', function(event, data) {
       ctl.responsiveMenu = data;
   });
+
+  angular.element($window).bind('resize', function(){
+    menuOnScreenSize();
+  });
+
+  function menuOnScreenSize(){
+    if ($window.innerWidth > 1080) {
+      ctl.responsiveMenu = true;
+    }else{
+      ctl.responsiveMenu = false;
+    }
+  }
 
 
 }]);

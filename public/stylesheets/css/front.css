@@ -271,3 +271,15 @@ footer{
 	  height: auto;
   }
 }
+
+/* DOCUMENTATION */
+
+article img{
+  width: 98%;
+  height: auto;
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px;
+}

@@ -15,7 +15,7 @@
 		<li><a href="#Settings">Basic settings</a></li>
 	  </ul>
     </article>
-	<article id="#Installation">
+	<article id="Installation">
 	  <h2>Installation and configuration</h2>
 	  <p>There are 4 steps you must follow during the installation process.</p>
 
@@ -35,20 +35,20 @@
 	  <p>Inside the COW folder exist a file named “config.js” inside it you can configure where  port do you want to be used for run the application and the route to your MongoDB server.</p>
 
 	  <h5><b>4. Start using cow</b></h5>
-	  <p>Open your web browser and run COW in the assigned port, go to admin panel on /cow-adm and then log in with the default user “admin@cow.com” with password “plschanguethis”. After doing that, go to the user page administrator and changue this credentials.</p>
+	  <p>Open your web browser and run COW in the assigned port, go to admin panel on <b>http://your-domain/cow-adm</b> and then log in with the default user “admin@cow.com” with password “plschanguethis”. After doing that, go to the user page administrator and changue this credentials.</p>
 
 	</article>
-  	<article id="#Nginx">
+  	<article id="Nginx">
 	  <h2>Configure COW on Nginx</h2>
-	  <p>For configure COW on Nginx you will need to have Nginx installed (Yes, thank me for the clarification), you can find how to install it in your server here.</p>
- 	  <p>We will modify the default VirtualHost configuration file (On debian: /etc/nginx/sites-available/default) and we change its content for the following.</p>
+	  <p>You can configure Nginx as a proxy server to run multiple cow apps you can find how to install it in your server here.</p>
+ 	  <p>You have to make a custom VirtualHost configuration file and we change its content for the following.</p>
 	  <div class="shell">
 	  <pre>
 		server {
 		  listen 80;
-		  server_name <b>your_server_ip</b>;
-		  location <b>/app_name</b> {
-			 proxy_pass http://<b>your_server_ip</b>:<b>app_port</b>;
+		  server_name <b>server_ip</b>;
+		  location <b>/path_to_app</b> {
+			 proxy_pass http://<b>127.0.0.1</b>:<b>app_port</b>;
 			 proxy_http_version 1.1;
 			 proxy_set_header Upgrade $http_upgrade;
 			 proxy_set_header Connection 'upgrade';
@@ -61,8 +61,8 @@
 	  <p>You can add any app as you want to your server by duplicating the location code and modificate it.</p>
 	  <div class="shell">
 	  <pre>
-		location <b>/app2_name</b> {
-			proxy_pass http://<b>your_server_ip</b>:<b>app2_port</b>;
+		location <b>/path_to_app2</b> {
+			proxy_pass http://<b>127.0.0.1</b>:<b>app2_port</b>;
 			proxy_http_version 1.1;
 			proxy_set_header Upgrade $http_upgrade;
 			proxy_set_header Connection 'upgrade';
@@ -74,7 +74,7 @@
 	  <p>Restart your Nginx server to load the changes.</p>
 	  <p>For finish, all you have to do is make that the app domain name point to the correct ip server name.</p>
 	</article>
-  	<article id="#Pages">
+  	<article id="Pages">
 	  <h2>Create and edit pages</h2>
 		<p>For create new pages you must go to the "Pages" option in the side menu, then the pages administrator panel
 		will appear and you can create pages by clicking on the "New Page" Button or edit or delete a page in the custom
@@ -87,7 +87,7 @@
 		<p>Editing a page have the same utilities as the new page option.</p>
 	  <img src="img/screenshots/edit-page.png" alt="Screenshot from app - Editing a page"></img>
 	</article>
-	<article id="#Design">
+	<article id="Design">
 	  <h2>Configure CSS, Javascript...</h2>
 		<p>To configure the css, js and global header and footer of your web you have to go to the "Design" option
 			 in the side menu.</p>
@@ -95,11 +95,11 @@
 		<p>You can write the javascript of your page in standalone javascript, jquery or angular notation.</p>
 	  <img src="img/screenshots/design-js.png" alt="Screenshot from app - Creating Javascript"></img>
 		<p>By creating a global footer and header you can create a group of html that will be displayed with this
-			 functionality on top and bottom of all pages that you want to.</p>
+			 functionality on top and bottom of all pages you want to.</p>
 	  <img src="img/screenshots/design-header.png" alt="Screenshot from app - Editing app header"></img>
 	  <img src="img/screenshots/design-footer.png" alt="Screenshot from app - Editing app footer"></img>
 	</article>
-	<article id="#Users">
+	<article id="Users">
 	  <h2>Create and edit users</h2>
 		<p>Editing a page have the same utilities as the new page option.</p>
 	  <img src="img/screenshots/users-panel.png" alt="Screenshot from app - Users panel"></img>
@@ -108,7 +108,7 @@
 		<p>Editing a page have the same utilities as the new page option.</p>
 	  <img src="img/screenshots/edit-user.png" alt="Screenshot from app - Editing a User"></img>
 	</article>
-	<article id="#Settings">
+	<article id="Settings">
 	  <h2>Basic settings</h2>
 		<p>Editing a page have the same utilities as the new page option.</p>
     <img src="img/screenshots/settings-mail.png" alt="Screenshot from app - Applying settings mail data"></img>

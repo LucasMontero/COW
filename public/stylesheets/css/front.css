@@ -23,6 +23,21 @@ h5{
   margin: 15px 0;
 }
 
+.text-content img{
+  height: auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+/* shadows */
+.frontNav, .responsive-nav ul, #goUp, .download{
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
+}
+
 /* HEADER */
 
 .navbar-{
@@ -32,9 +47,6 @@ h5{
 .frontNav{
   background-color: #292526;
   height: 50px;
-  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
 }
 
 .frontNav a, .burger{
@@ -67,13 +79,9 @@ h5{
 
 .responsive-nav ul{
     display: none;
-  	background-color: #292526;
+  	background-color: #463F3D;
     padding-top: 50px;
     z-index: 99;
-  
- 	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  	-moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  	box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
   
     list-style: none;
     padding: 0;
@@ -128,9 +136,6 @@ h5{
   right: 20px;
   display: inline-block;
   border-radius: 50px;
-  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
   background-color: #292526;
   color: white;
   z-index: 100;
@@ -161,6 +166,10 @@ footer{
     color: #A5A5A5;
 }
 
+.developers{
+    background-color: #F5F5F5;
+}
+
 /*HOME*/
 
 .download{
@@ -168,9 +177,6 @@ footer{
     background-size: cover;
     height: 500px;
     width: 100%;
-	-webkit-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 5px 0.5px rgba(0,0,0,0.75);
 }
 
 @media (max-width: 630px) {
@@ -244,6 +250,13 @@ footer{
 .text-content p{
 	margin: 0 0 10px 0;
     text-align: justify;
+    line-height: 2em;
+}
+
+article img{
+  display: block;
+  width: 98%;
+  margin: 20px auto;
 }
 
 .flex-img-container{
@@ -254,12 +267,7 @@ footer{
 
 .flex-img-container img{
     width: 45%;
-    height: auto;
-	margin: 10px;
-  	background-color: #fff;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-  	padding: 4px;
+	margin: 10px;	
 }
 
 @media (max-width: 1080px) {
@@ -270,16 +278,4 @@ footer{
 	  width: 98%;
 	  height: auto;
   }
-}
-
-/* DOCUMENTATION */
-
-article img{
-  width: 98%;
-  height: auto;
-  margin: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 4px;
 }

@@ -253,12 +253,6 @@ footer{
     line-height: 2em;
 }
 
-article img{
-  display: block;
-  width: 98%;
-  margin: 20px auto;
-}
-
 .flex-img-container{
     display: flex;
 	flex-flow: row wrap;
@@ -278,4 +272,18 @@ article img{
 	  width: 98%;
 	  height: auto;
   }
+}
+
+/* DOCUMENTATION */
+
+article img{
+  display: block;
+  width: 98%;
+  margin: 20px auto;
+}
+
+/* ABOUT */
+
+.third-party img{
+	width: 150px;
 }

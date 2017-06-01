@@ -53,4 +53,3 @@ process.on('SIGTERM', function() {
 require('./mail');
 require('./pages');
 require('./users');
-require('./secret');

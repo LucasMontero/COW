@@ -2,7 +2,7 @@
 const MONGOOSE = require( 'mongoose' );
 const CRYPTO   = require('crypto');
 const JWT      = require('jsonwebtoken'); //npm install jsonwebtoken --save if not installed
-//var Secret = mongoose.model('Secret');
+const CONFIG   = require('../../config')
 
 //MongoDB user schema
 
@@ -64,11 +64,11 @@ userSchema.methods.generateJwt = function() {
   expiry.setDate(expiry.getDate() + 7);
 
   return JWT.sign({
-    _id: this._id,
+    _id:   this._id,
     email: this.email,
-    name: this.name,
-    exp: parseInt(expiry.getTime() / 1000),
-  }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE! Create mongodbmodel for secret.
+    name:  this.name,
+    exp:   parseInt(expiry.getTime() / 1000),
+  }, CONFIG.secret);
 };
 
 MONGOOSE.model('User', userSchema);

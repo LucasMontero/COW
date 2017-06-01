@@ -1,6 +1,8 @@
 //Require
+const CONFIG = require('../../config')
 const EXPRESS  = require('express');
 const ROUTER   = EXPRESS.Router();
+
 // jwt - connect/express middleware that validates a JsonWebToken (JWT) and set the req.user with the attributes
 const JWT      = require('express-jwt'); //npm install express-jwt --save
 
@@ -12,9 +14,9 @@ const CTRL_PAGES    = require('../controllers/pages');
 const CTRL_DESIGN   = require('../controllers/design');
 const CTRL_MAIL     = require('../controllers/mail');
 
-//var secret = ctrlSecret.getSecret();
+
 var auth = JWT({
-  secret: 'MY_SECRET',
+  secret: CONFIG.secret,
   userProperty: 'payload'
 });
 

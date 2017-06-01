@@ -374,7 +374,7 @@ angular.module('cowApp').controller('headerCtrl', ['$scope', '$location', 'authe
    */
   $scope.logout = function(){
     authentication.logout();
-    $location.path('/');
+    $location.path('/');gw
   };
 
 

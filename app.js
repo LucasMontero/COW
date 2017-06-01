@@ -83,10 +83,6 @@ APP.use(function(err, req, res, next) {
 // [COW] Set init app configuration
 const CTRL_USERS    = require('./app_backend/controllers/users');
 const CTRL_PAGES    = require('./app_backend/controllers/pages');
-//var ctrlSecret   = require('../controllers/secret');
-
-//Create session secret in Database if not exist. IN DEVELOPMENT
-//ctrlSecret.checkSecret();
 
 // [COW] Create user administrator in Database if not exist.
 CTRL_USERS.checkAdministrator();

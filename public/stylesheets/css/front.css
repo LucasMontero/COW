@@ -5,6 +5,10 @@
     src: url(../../fonts/Righteous.ttf);
 }
 
+html, body{
+  height: 100%;
+}
+
 a:active, a:focus,a:active, a:link, button:active, button:focus {
   outline: none;
   -moz-outline-style: none;
@@ -12,7 +16,7 @@ a:active, a:focus,a:active, a:link, button:active, button:focus {
 }
 
 main{
-  min-height: calc(100% -120px);
+  min-height: calc(100% - 140px);
 }
 
 body{
@@ -158,7 +162,7 @@ h5{
 /*FOOTER*/
 
 footer{
-  	height: 70px;
+  	height: 90px;
     display: flex;
     flex-flow: row wrap;
     align-items: center;

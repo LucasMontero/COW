@@ -294,5 +294,26 @@ article img{
 .third-party img{
    width: 150px;
    margin: 5px 0;
-   display: inline;
+}
+
+.third-party p, .third-party img{
+  display: inline;
+}
+
+@media (max-width: 510px) {
+  .third-party ul{
+	padding: 0;
+  }
+  .third-party ul li{
+	margin: 10px 0;
+  }
+  .third-party img{
+	 margin: 5px auto;
+  }
+  .third-party p{
+  	text-align: center;
+  }
+  .third-party p, .third-party img{
+	display: block;
+  }
 }

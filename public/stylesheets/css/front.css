@@ -286,6 +286,12 @@ article img{
   margin: 20px auto;
 }
 
+@media (max-width: 630px) {
+  pre{
+	 font-size: 10px;
+  }
+}
+
 /* ABOUT */
 .third-party ul{
 	list-style: none;

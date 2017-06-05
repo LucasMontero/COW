@@ -16,13 +16,17 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
 
   appUtilities.setTitle("COW Administration panel - Users");
 
+
+  $scope.$on('userToast', function(event, args) {
+      console.log("dentro");
+      ctl.toast = args;
+  });
   /**
    * Delete a specific user by id and reload the users list
    *
    * @param  string userId Id of the user that will be deleted
    *
    */
-
   $scope.deleteUser = function(userId) {
     if (authentication.currentUser()._id === userId) {
       var toast = {

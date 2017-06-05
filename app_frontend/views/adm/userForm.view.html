@@ -7,7 +7,7 @@
         <toast></toast>
       </div>
       <div class="panel-body">
-        <form ng-submit="ctl.onSubmit()" class="col-md-6">
+        <form class="col-md-6">
           <div class="form-group">
             <label for="name">Full name</label>
             <input type="text" class="form-control" id="name" placeholder="Enter user name" ng-model="ctl.credentials.name">
@@ -20,7 +20,15 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctl.credentials.password">
           </div>
-          <button type="submit" ng-disabled="ctl.execution" class="blue-button"><span ng-hide="ctl.execution">Save</span><span ng-show="ctl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+          <button ng-click="saveUser()" type="submit" ng-disabled="ctl.execution" class="blue-button">
+            <span ng-hide="ctl.execution">Save</span><span ng-show="ctl.execution"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
+          </button>
+          <button ng-click="close()" type="submit" ng-disabled="ctl.execution" class="blue-button">
+            <span ng-hide="ctl.execution">Close</span>
+            <span ng-show="ctl.execution">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i>
+            </span>
+          </button>
         </form>
       </div>
     </div>

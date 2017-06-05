@@ -40,13 +40,13 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/pages/newPage', {
     templateUrl: '/views/adm/pageForm.view.html',
-    controller: 'newPageCtrl',
+    controller: 'pageFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
   .when('/cow-adm/pages/editPage/:pageId', {
     templateUrl: '/views/adm/pageForm.view.html',
-    controller: 'editPageCtrl',
+    controller: 'pageFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
@@ -82,13 +82,13 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/users/newUser', {
     templateUrl: '/views/adm/userForm.view.html',
-    controller: 'newUserCtrl',
+    controller: 'userFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
   .when('/cow-adm/users/editUser/:userId', {
     templateUrl: '/views/adm/userForm.view.html',
-    controller: 'editUserCtrl',
+    controller: 'userFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
@@ -205,100 +205,6 @@ angular.module('cowApp').controller('designCtrl', ['$scope', 'designData', 'appU
           ctl.execution = false;
      });;
   };
-}]);
-
-
-//editPage.controller
-/**
- * Edit a specific page by id
- *
- * @param  object $scope         Object that refers to the application model.
- * @param  object $routeParams   Parameters passed by url
- * @param  object $location      Angular path service
- * @param  object pageData       pageData service object
- * @param  object $routeParams   Parameters passed by Url
- * @param  object appUtilities      appUtilities service object
- *
- */
-angular.module("cowApp").controller("editPageCtrl",["$scope", "$routeParams", "$location", "pageData", "appUtilities" ,function($scope, $routeParams ,$location, pageData, appUtilities){
-  var ctl = this;
-
-  appUtilities.setTitle("COW Administration panel - Edit Page");
-
-  ctl.isEdit = true;
-
-  ctl.pageForm = {};
-
-  pageData.getPageById($routeParams.pageId)
-    .success(function(data) {
-      ctl.pageForm = data;
-    })
-    .error(function (error) {
-      ctl.toast = appUtilities.createToast(error.toast);
-    });
-
-  //On form submit try to update de user
-  ctl.onSubmit = function () {
-    console.log('Updating page');
-    ctl.pageForm.header = document.getElementById('header').checked;
-    ctl.pageForm.footer = document.getElementById('footer').checked;
-    ctl.pageForm.index  = document.getElementById('index').checked;
-    ctl.pageForm.public = document.getElementById('public').checked;
-
-    pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
-          ctl.toast = appUtilities.createToast(error.toast);
-    }).then(function(response){
-          //Add toast
-          console.log(response.data.toast.message)
-          $location.path('/cow-adm/pages');
-    });
-  };
-
-}]);
-
-//editUser.controller
-/**
- * Edit a specific user by id
- *
- * @param  object $routeParams  Parameters passed by url
- * @param  object $location     Angular path service
- * @param  object userData      userData service object
- * @param  object appUtilities     appUtilities service object
- *
- */
-angular.module("cowApp").controller("editUserCtrl",["$routeParams", "$location", "userData", "appUtilities" ,function($routeParams ,$location, userData, appUtilities){
-  var ctl = this;
-
-  appUtilities.setTitle("COW Administration panel - Edit User");
-
-  ctl.isEdit = true;
-
-  ctl.credentials = {
-    name : "",
-    email : "",
-    password : ""
-  };
-
-  userData.getUser($routeParams.userId)
-    .success(function(data) {
-      ctl.credentials = data;
-    })
-    .error(function (error) {
-      ctl.toast = appUtilities.createToast(error.toast);
-    });
-
-  //On form submit try to update the user
-  ctl.onSubmit = function () {
-    console.log('Submitting update');
-    userData.updateUser($routeParams.userId, ctl.credentials).error(function(error){
-      ctl.toast = appUtilities.createToast(error.toast);
-    }).then(function(response){
-      //Add toast
-      console.log(response.data.toast.message)
-      $location.path('/cow-adm/users');
-    });
-  };
-
 }]);
 
 
@@ -449,13 +355,11 @@ angular.module("cowApp").controller("loginCtrl",['$location', "authentication", 
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "mailData", "appUtilities", function($location, pageData, mailData, appUtilities){
+angular.module("cowApp").controller("pageFormCtrl",["$scope", "$location", "$routeParams", "pageData", "mailData", "appUtilities", function($scope, $location, $routeParams,pageData, mailData, appUtilities){
   //ctl is the controller alias
   var ctl = this;
 
-  appUtilities.setTitle("COW Administration panel - New Page");
-
-  ctl.isEdit = false;
+  ctl.exit = false;
 
   ctl.pageForm = {
     title   : "",
@@ -467,80 +371,86 @@ angular.module("cowApp").controller("newPageCtrl",["$location", "pageData", "mai
     public  : false
    };
 
-  //On form submit try to register the user.
-  ctl.onSubmit = function () {
-    console.log('Submitting creation');
+  if($routeParams.pageId){
+    appUtilities.setTitle("COW Administration panel - Edit Page");
 
+    ctl.isEdit = true;
+
+    pageData.getPageById($routeParams.pageId)
+      .success(function(data) {
+        ctl.pageForm = data;
+      })
+      .error(function (error) {
+        ctl.toast = appUtilities.createToast(error.toast);
+      });
+  }else{
+    appUtilities.setTitle("COW Administration panel - New Page");
+
+    ctl.isEdit = false;
+  }
+
+  //On form submit try to create a new page.
+  $scope.saveAndExit = function() {
+    ctl.exit = true;
+    populatePage();
+  };
+
+
+  $scope.saveAndStay = function() {
+    populatePage();
+  };
+
+  $scope.close = function() {
+    $location.path('/cow-adm/pages');
+  };
+
+  function populatePage(){
     ctl.pageForm.header = document.getElementById('header').checked;
     ctl.pageForm.footer = document.getElementById('footer').checked;
     ctl.pageForm.index  = document.getElementById('index').checked;
     ctl.pageForm.public = document.getElementById('public').checked;
 
-    pageData.createPage(ctl.pageForm)
-      .error(function(error){
-          ctl.toast = appUtilities.createToast(error.toast);
-      })
-      .then(function(response){
-          var subject = "New page";
-          var text    = "A new page has been created";
-          var html    = "<p>A new page has been created</p>";
-
-          var mail     = mailData.createEmail(null, subject, text, html);
-
-          mailData.sendMail(mail);
-          //Add toast
-          console.log(response.data.toast.message)
-          $location.path('/cow-adm/pages');
-      });
-  };
-}]);
-
-/**
- * Try to register a new user in database
- *
- * @param  object $location   Angular path location
- * @param  object userData    userData service object
- * @param  object appUtilities     appUtilities service object
- *
- */
-angular.module("cowApp").controller("newUserCtrl",["$location", "userData", "mailData", "appUtilities", function($location, userData, mailData, appUtilities){
-  //ctl is the controller alias
-  var ctl = this;
-
-  appUtilities.setTitle("COW Administration panel - New User");
-
-  ctl.isEdit = false;
-
-  ctl.credentials = {
-    name : "",
-    email : "",
-    password : ""
-  };
-
-  //On form submit try to register the user.
-  ctl.onSubmit = function () {
-      ctl.execution = true;
+    if(ctl.isEdit){
+      console.log('Updating page');
+      pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
+              ctl.toast = appUtilities.createToast(error.toast);
+        }).then(function(response){
+              //Add toast
+              console.log(response.data.toast.message)
+              checkExit($routeParams.pageId);
+        });
+    }else{
       console.log('Submitting creation');
-
-      userData.createUser(ctl.credentials)
+      pageData.createPage(ctl.pageForm)
         .error(function(error){
             ctl.toast = appUtilities.createToast(error.toast);
-            ctl.execution = false;
-        }).then(function(response){
-            var subject = "New user";
-            var text    = "A new user with name "+ ctl.credentials.name +" & email "+ctl.credentials.email+" has been created.";
-            var html    = "<p>A new user with name "+ ctl.credentials.name +" & email "+ctl.credentials.email+" has been created.</p>";
+        })
+        .then(function(response){
+            var subject = "New page";
+            var text    = "A new page has been created";
+            var html    = "<p>A new page has been created</p>";
 
             var mail     = mailData.createEmail(null, subject, text, html);
 
             mailData.sendMail(mail);
-
             //Add toast
-            console.log(response.data.toast.message)
+            //ctl.toast = appUtilities.createToast(response.data[1].toast.message);
+            console.log(response.data[1].toast.message);
 
-            $location.path('/cow-adm/users');
-      });
-  };
+            checkExit(response.data[0].id);
+        });
+    }
+  }
+
+  function checkExit(pageId){
+    if (ctl.exit) {
+      $location.path('/cow-adm/pages');
+    }else{
+      if (!ctl.isEdit) {
+              $location.path("/cow-adm/pages/editPage/"+pageId)
+      }
+    }
+  }
 }]);
 
 //pages.controller
@@ -824,6 +734,89 @@ angular.module("cowApp").controller("toastCtrl",[ "$scope", function($scope, $mo
       }
 }]);
 
+//editUser.controller
+/**
+ * Edit a specific user by id
+ *
+ * @param  object $routeParams  Parameters passed by url
+ * @param  object $location     Angular path service
+ * @param  object userData      userData service object
+ * @param  object appUtilities     appUtilities service object
+ *
+ */
+angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$location", "userData", "mailData", "appUtilities" ,function($scope, $routeParams ,$location, userData, mailData, appUtilities){
+  var ctl = this;
+
+  ctl.credentials = {
+    name : "",
+    email : "",
+    password : ""
+  };
+
+  if($routeParams.userId){
+    appUtilities.setTitle("COW Administration panel - Edit User");
+
+    ctl.isEdit = true;
+
+    userData.getUser($routeParams.userId)
+      .success(function(data) {
+        ctl.credentials = data;
+      })
+      .error(function (error) {
+        ctl.toast = appUtilities.createToast(error.toast);
+      });
+  }
+  else{
+    appUtilities.setTitle("COW Administration panel - New User");
+
+    ctl.isEdit = false;
+  }
+
+
+  //On form submit try to update the user
+  $scope.saveUser = function () {
+    ctl.execution = true;
+    if (ctl.isEdit) {
+      console.log('Submitting update');
+      userData.updateUser($routeParams.userId, ctl.credentials).error(function(error){
+        ctl.toast = appUtilities.createToast(error.toast);
+        ctl.execution = false;
+      }).then(function(response){
+        //Add toast
+        console.log(response.data.toast.message)
+        $location.path('/cow-adm/users');
+      });
+    }else{
+
+      console.log('Submitting creation');
+
+      userData.createUser(ctl.credentials)
+        .error(function(error){
+            ctl.toast = appUtilities.createToast(error.toast);
+            ctl.execution = false;
+        }).then(function(response){
+            var subject = "New user";
+            var text    = "A new user with name "+ ctl.credentials.name +" & email "+ctl.credentials.email+" has been created.";
+            var html    = "<p>A new user with name "+ ctl.credentials.name +" & email "+ctl.credentials.email+" has been created.</p>";
+
+            var mail     = mailData.createEmail(null, subject, text, html);
+
+            mailData.sendMail(mail);
+
+            //Add toast
+            $scope.$emit('userToast', appUtilities.createToast(response.data.toast.message));
+            console.log(response.data.toast.message)
+            $location.path('/cow-adm/users');
+      });
+    }
+ }
+
+ $scope.close = function() {
+   $location.path('/cow-adm/users');
+ };
+
+}]);
+
 //users.controller
 /**
  * Fill users view with users data.
@@ -842,13 +835,17 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
 
   appUtilities.setTitle("COW Administration panel - Users");
 
+
+  $scope.$on('userToast', function(event, args) {
+      console.log("dentro");
+      ctl.toast = args;
+  });
   /**
    * Delete a specific user by id and reload the users list
    *
    * @param  string userId Id of the user that will be deleted
    *
    */
-
   $scope.deleteUser = function(userId) {
     if (authentication.currentUser()._id === userId) {
       var toast = {

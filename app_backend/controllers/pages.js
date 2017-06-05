@@ -41,12 +41,13 @@ module.exports.createPage = function(req, res) {
 
     var page = pagePopulate(new PAGE(), req.body);
 
-    page.save(function(err) {
+    page.save(function(err, page) {
           if (err){
             console.error(new Error("## ERROR ## --> " + err));
             return res.status(500).json(TOAST.unknownErrorToast());
           }
-          return res.status(200).json(TOAST.elementTaskCorrectly("Page", "created"));
+          var pageID = [{"id":page.id}];
+          return res.status(200).json(pageID.concat([TOAST.elementTaskCorrectly("Page", "created")]));
     });
 };
 

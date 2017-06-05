@@ -40,13 +40,13 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/pages/newPage', {
     templateUrl: '/views/adm/pageForm.view.html',
-    controller: 'newPageCtrl',
+    controller: 'pageFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
   .when('/cow-adm/pages/editPage/:pageId', {
     templateUrl: '/views/adm/pageForm.view.html',
-    controller: 'editPageCtrl',
+    controller: 'pageFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
@@ -82,13 +82,13 @@ cowApp.config(function ($routeProvider, $locationProvider) {
   })
   .when('/cow-adm/users/newUser', {
     templateUrl: '/views/adm/userForm.view.html',
-    controller: 'newUserCtrl',
+    controller: 'userFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })
   .when('/cow-adm/users/editUser/:userId', {
     templateUrl: '/views/adm/userForm.view.html',
-    controller: 'editUserCtrl',
+    controller: 'userFormCtrl',
     controllerAs: 'ctl',
     css: ['/stylesheets/css/main.css']
   })

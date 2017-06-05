@@ -7,7 +7,7 @@
         <toast></toast>
       </div>
       <div class="panel-body row">
-        <form ng-submit="ctl.onSubmit()">
+        <form>
           <div class="col-md-9">
             <div class="form-group">
               <label for="path">Content</label>
@@ -36,10 +36,24 @@
             <div class="checkbox">
               <input type="checkbox" id="public" ng-checked="ctl.pageForm.public"><label for="public">Is public</label>
             </div>
-            <button type="submit" ng-disabled="ctl.execution" class="blue-button">
+            <button ng-click="saveAndStay()" type="submit" ng-disabled="ctl.execution" class="form-button blue-button">
               <span ng-hide="ctl.execution">
-                <span ng-hide="ctl.isEdit">Create</span><span ng-show="ctl.isEdit">Update</span>
+                <span ng-hide="ctl.isEdit">Create</span><span ng-show="ctl.isEdit">Update</span> & stay
               </span>
+              <span ng-show="ctl.execution">
+                <i class="fa fa-spinner fa-pulse fa-fw"></i>
+              </span>
+            </button>
+            <button ng-click="saveAndExit()" type="submit" ng-disabled="ctl.execution" class="form-button blue-button">
+              <span ng-hide="ctl.execution">
+                <span ng-hide="ctl.isEdit">Create</span><span ng-show="ctl.isEdit">Update</span> & close
+              </span>
+              <span ng-show="ctl.execution">
+                <i class="fa fa-spinner fa-pulse fa-fw"></i>
+              </span>
+            </button>
+            <button ng-click="close()" type="submit" ng-disabled="ctl.execution" class="form-button blue-button">
+              <span ng-hide="ctl.execution">Close</span>
               <span ng-show="ctl.execution">
                 <i class="fa fa-spinner fa-pulse fa-fw"></i>
               </span>

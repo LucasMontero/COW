@@ -9,7 +9,8 @@
 	  <ul>
 		<li><a href="#Installation">Installation & configuration</a></li>
 		<li><a href="#Nginx">Configure COW on Nginx</a></li>
-		<li><a href="#Pages">Creating & editing pages</a></li>
+		<li><a href="#Process">Create a process for COW</a></li>
+		<li><a href="#Pages">Create & edit pages</a></li>
 		<li><a href="#Design">Configure CSS, Javascript...</a></li>
 		<li><a href="#Users">Create new users</a></li>
 		<li><a href="#Settings">Basic settings</a></li>
@@ -19,61 +20,80 @@
 	  <h2>Installation and configuration</h2>
 	  <p>There are 4 steps you must follow during the installation process.</p>
 
-	  <h5><b>1. Make sure that your server has MongoDB, Nodejs and npm installed.</b></h5>
+	  <h5><strong>1. Make sure that your server has MongoDB, Nodejs and npm installed.</strong></h5>
 
 	  <p>COW needs these programs to run. You can find a MongoDB installation guide <a href="https://docs.mongodb.com/manual/installation/">here</a>
 		and a NodeJS installation packages <a href="https://nodejs.org/en/download/">here</a>.
 		Node comes with npm installed so you should have a version of npm. However, npm gets updated more frequently than Node does, so
 		you'll want to make sure it's the latest version.</p>
 
-	  <h5><b>2. Copy the "cow" folder on your server and install its depencies with "npm install".</b></h5>
+	  <h5><strong>2. Copy the "cow" folder on your server and install its depencies with "npm install".</strong></h5>
 
 	  <p>Donwload cow files compressed here and deploy it on your server, then move to the destination folder and execute the command “npm install” to install all the dependencies required to run COW.</p>
 
-	  <h5><b>3. Set your server information to the "config.js" file.</b></h5>
+	  <h5><strong>3. Set your server information to the "config.js" file.</strong></h5>
 
 	  <p>Inside the COW folder exist a file named “config.js” inside it you can configure where  port do you want to be used for run the application and the route to your MongoDB server.</p>
 
-	  <h5><b>4. Start using cow</b></h5>
-	  <p>Open your web browser and run COW in the assigned port, go to admin panel on <b>http://your-domain/cow-adm</b> and then log in with the default user “admin@cow.com” with password “plschanguethis”. After doing that, go to the user page administrator and changue this credentials.</p>
+		<h5><strong>4. Run the app</strong></h5>
+		<p>Launch cow with the command npm start, you can also create a <a href="#Process">process</a> to launch it in background or install the npm package <a href="https://www.npmjs.com/package/forever" target="_blank">forever</a>.</p>
+
+	  <h5><strong>5. Start using cow</strong></h5>
+	  <p>Open your web browser and enter the COW URL in the assigned port, go to admin panel on <strong>http://your-domain/cow-adm</strong> and then log in with the default user “admin@cow.com” with password “plschanguethis”. After doing that, go to the user page administrator and changue this credentials.</p>
 
 	</article>
   	<article id="Nginx">
 	  <h2>Configure COW on Nginx</h2>
-	  <p>You can configure Nginx as a proxy server to run multiple cow apps you can find how to install it in your server here.</p>
+	  <p>You can configure Nginx as a proxy server to run multiple cow apps.</p>
  	  <p>You have to make a custom VirtualHost configuration file and we change its content for the following.</p>
 	  <div class="shell">
 	  <pre>
-		server {
-		  listen 80;
-		  server_name <b>server_ip</b>;
-		  location <b>/path_to_app</b> {
-			 proxy_pass http://<b>127.0.0.1</b>:<b>app_port</b>;
-			 proxy_http_version 1.1;
-			 proxy_set_header Upgrade $http_upgrade;
-			 proxy_set_header Connection 'upgrade';
-			 proxy_set_header Host $host;
-			 proxy_cache_bypass $http_upgrade;
-		  }
-		}
-	 </pre>
+server {
+	listen 80;
+	server_name <strong>domain_name</strong>;
+	location <strong>/</strong> {
+	 proxy_pass http://<strong>127.0.0.1</strong>:<strong>app_port</strong>;
+	 proxy_http_version 1.1;
+	 proxy_set_header Upgrade $http_upgrade;
+	 proxy_set_header Connection 'upgrade';
+	 proxy_set_header Host $host;
+	 proxy_cache_bypass $http_upgrade;
+	}
+}</pre>
 	  </div>
-	  <p>You can add any app as you want to your server by duplicating the location code and modificate it.</p>
-	  <div class="shell">
-	  <pre>
-		location <b>/path_to_app2</b> {
-			proxy_pass http://<b>127.0.0.1</b>:<b>app2_port</b>;
-			proxy_http_version 1.1;
-			proxy_set_header Upgrade $http_upgrade;
-			proxy_set_header Connection 'upgrade';
-			proxy_set_header Host $host;
-			proxy_cache_bypass $http_upgrade;
-		}
-	  </pre>
-	  </div>
+	  <p>You can add any virtualhost as app do you have for run all of it on 80 port.</p>
 	  <p>Restart your Nginx server to load the changes.</p>
 	  <p>For finish, all you have to do is make that the app domain name point to the correct ip server name.</p>
 	</article>
+	<article id="Process">
+	<h2>Create a process for COW (Linux servers)</h2>
+	<p>Create a process for your app gives you the oportunity to run it in background and restart it automatically when it goes down.</p>
+	<p>Make a <strong>app_name.service</strong> file (replacing 'app_name' with your app's name):</p>
+	<div class="shell">
+		<pre>
+[Unit]
+Description= <strong>app_name</strong>
+
+[Service]
+ExecStart=<strong>/your_path/app.js</strong>
+Restart=always
+User=nobody
+Group=nobody
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=<strong>/your_path</strong>
+
+[Install]
+WantedBy=multi-user.target</pre>
+	</div>
+	<p>Copy your service file into the /etc/systemd/system.</p>
+
+	<p>Start it with <strong>systemctl start app_name</strong>.</p>
+
+	<p>Enable it to run on boot with <strong>systemctl enable app_name</strong>.</p>
+
+	<p>See logs with <strong>journalctl -u app_name</strong>.</p>
+</article>
   	<article id="Pages">
 	  <h2>Create and edit pages</h2>
 		<p>For create new pages you must go to the "Pages" option in the side menu, then the pages administrator panel

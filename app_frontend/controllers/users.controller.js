@@ -10,7 +10,8 @@
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams", "$scope","$location", "userData", "appUtilities" ,function(authentication, $routeParams, $scope,$location, userData, appUtilities){
+angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams", "$scope","$location", "userData", "appUtilities" ,
+                                                  function(authentication, $routeParams, $scope,$location, userData, appUtilities){
   var ctl = this;
 
 
@@ -18,7 +19,6 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
 
 
   $scope.$on('userToast', function(event, args) {
-      console.log("dentro");
       ctl.toast = args;
   });
   /**

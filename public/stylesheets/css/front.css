@@ -265,6 +265,7 @@ footer{
 
 .flex-img-container img{
     width: 45%;
+  	height: 45%;
 	margin: 10px;	
 }
 
@@ -274,7 +275,7 @@ footer{
   }
   .flex-img-container img{
 	  width: 98%;
-	  height: auto;
+	  height: 98%;
   }
 }
 

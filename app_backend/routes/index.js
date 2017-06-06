@@ -1,5 +1,5 @@
 //Require
-const CONFIG = require('../../config')
+const CONFIG   = require('../../config')
 const EXPRESS  = require('express');
 const ROUTER   = EXPRESS.Router();
 

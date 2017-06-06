@@ -1,4 +1,4 @@
-$(function () {
+var onLoad = function(){
    // Hamburguer menu
    $('.burger-check').click(function(){
    	if($(this).prop('checked'))
@@ -29,4 +29,7 @@ $(function () {
 		}, 500);
 		return false;
 	});
-});
+}
+
+$(document).ready(onLoad)
+$(window).bind('page:change', onLoad)

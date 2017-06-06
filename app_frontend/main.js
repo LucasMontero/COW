@@ -415,9 +415,7 @@ angular.module("cowApp").controller("pageFormCtrl",["$scope", "$location", "$rou
       pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
               ctl.toast = appUtilities.createToast(error.toast);
         }).then(function(response){
-              //Add toast
-              console.log(response.data.toast.message)
-              checkExit($routeParams.pageId);
+              checkExit(null, response.data.toast);
         });
     }else{
       console.log('Submitting creation');
@@ -433,23 +431,24 @@ angular.module("cowApp").controller("pageFormCtrl",["$scope", "$location", "$rou
             var mail     = mailData.createEmail(null, subject, text, html);
 
             mailData.sendMail(mail);
-            //Add toast
-            //ctl.toast = appUtilities.createToast(response.data[1].toast.message);
-            console.log(response.data[1].toast.message);
 
-            checkExit(response.data[0].id);
+            checkExit(response.data[0].id, response.data[1].toast);
         });
     }
   }
 
-  function checkExit(pageId){
-    if (ctl.exit) {
-      $location.path('/cow-adm/pages');
-    }else{
-      if (!ctl.isEdit) {
-              $location.path("/cow-adm/pages/editPage/"+pageId)
+  function checkExit(pageId, toast){
+    if (ctl.exit || !ctl.isEdit) {
+      appUtilities.setToast(toast);
+
+      if (ctl.exit) {
+        $location.path('/cow-adm/pages');
+      }else if(!ctl.isEdit){
+        $location.path("/cow-adm/pages/editPage/"+pageId)
       }
     }
+
+    ctl.toast = appUtilities.createToast(toast);
   }
 }]);
 
@@ -468,6 +467,8 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
   var ctl = this;
 
   appUtilities.setTitle("COW Administration panel - Pages");
+
+  ctl.toast = appUtilities.getToast();
 
   //Get users data function
   pageData.getAllPages()
@@ -650,10 +651,8 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
     mailData.sendMail(mail)
       .error(function(error){
           ctl.toast = appUtilities.createToast(error.toast);
-          console.log(ctl.toast);
       }).then(function(response){
           ctl.toast = appUtilities.createToast(response.data.toast);
-          console.log(ctl.toast);
       }).finally(function() {
           ctl.execution = false;
       });
@@ -783,8 +782,8 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
         ctl.execution = false;
       }).then(function(response){
         //Add toast
-        console.log(response.data.toast.message)
-        $location.path('/cow-adm/users');
+        exit(response.data.toast);
+
       });
     }else{
 
@@ -803,10 +802,7 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
 
             mailData.sendMail(mail);
 
-            //Add toast
-            $scope.$emit('userToast', appUtilities.createToast(response.data.toast.message));
-            console.log(response.data.toast.message)
-            $location.path('/cow-adm/users');
+            exit(response.data.toast);      
       });
     }
  }
@@ -814,6 +810,11 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
  $scope.close = function() {
    $location.path('/cow-adm/users');
  };
+
+ function exit(toast){
+   appUtilities.setToast(toast);
+   $location.path('/cow-adm/users');
+ }
 
 }]);
 
@@ -829,15 +830,15 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
  * @param  object appUtilities     appUtilities service object
  *
  */
-angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams", "$scope","$location", "userData", "appUtilities" ,function(authentication, $routeParams, $scope,$location, userData, appUtilities){
+angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams", "$scope","$location", "userData", "appUtilities" ,
+                                                  function(authentication, $routeParams, $scope,$location, userData, appUtilities){
   var ctl = this;
-
 
   appUtilities.setTitle("COW Administration panel - Users");
 
+  ctl.toast = appUtilities.getToast();
 
   $scope.$on('userToast', function(event, args) {
-      console.log("dentro");
       ctl.toast = args;
   });
   /**
@@ -882,7 +883,9 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
 
 //appUtilities.service
 angular.module('cowApp').service('appUtilities', ['$window', function($window){
-  
+
+  this.toast = null;
+
    var setTitle = function(title){
      $window.document.title = title;
    };
@@ -892,14 +895,26 @@ angular.module('cowApp').service('appUtilities', ['$window', function($window){
              status  : params.status,
              message : params.message
            }
-   }
+   };
 
-   var toast = {};
+   var setToast = function(data){
+     this.toast = data;
+   };
 
+   var getToast = function(){
+     if (this.toast != null) {
+       var tmp = this.createToast(this.toast);
+       this.toast = null;
+       return tmp;
+     }
+     return null;
+   };
 
    return {
      setTitle    : setTitle,
-     createToast : createToast
+     createToast : createToast,
+     setToast    : setToast,
+     getToast    : getToast
    };
 }]);
 

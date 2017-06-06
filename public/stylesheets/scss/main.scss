@@ -26,10 +26,6 @@ body{
   min-height: 100%;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
-}
-
 a:active, a:focus, button:active, button:focus {
   outline: none;
   -moz-outline-style: none;
@@ -39,6 +35,9 @@ a, a:hover{
   color: $dark-blue-light;
 }
 
+input[type="radio"], input[type="checkbox"] {
+    margin: 1px 0 0;
+}
 
 #toast{
   position: fixed;

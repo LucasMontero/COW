@@ -67,9 +67,7 @@ angular.module("cowApp").controller("pageFormCtrl",["$scope", "$location", "$rou
       pageData.updatePage($routeParams.pageId, ctl.pageForm).error(function(error){
               ctl.toast = appUtilities.createToast(error.toast);
         }).then(function(response){
-              //Add toast
-              console.log(response.data.toast.message)
-              checkExit($routeParams.pageId);
+              checkExit(null, response.data.toast);
         });
     }else{
       console.log('Submitting creation');
@@ -85,22 +83,23 @@ angular.module("cowApp").controller("pageFormCtrl",["$scope", "$location", "$rou
             var mail     = mailData.createEmail(null, subject, text, html);
 
             mailData.sendMail(mail);
-            //Add toast
-            //ctl.toast = appUtilities.createToast(response.data[1].toast.message);
-            console.log(response.data[1].toast.message);
 
-            checkExit(response.data[0].id);
+            checkExit(response.data[0].id, response.data[1].toast);
         });
     }
   }
 
-  function checkExit(pageId){
-    if (ctl.exit) {
-      $location.path('/cow-adm/pages');
-    }else{
-      if (!ctl.isEdit) {
-              $location.path("/cow-adm/pages/editPage/"+pageId)
+  function checkExit(pageId, toast){
+    if (ctl.exit || !ctl.isEdit) {
+      appUtilities.setToast(toast);
+
+      if (ctl.exit) {
+        $location.path('/cow-adm/pages');
+      }else if(!ctl.isEdit){
+        $location.path("/cow-adm/pages/editPage/"+pageId)
       }
     }
+
+    ctl.toast = appUtilities.createToast(toast);
   }
 }]);

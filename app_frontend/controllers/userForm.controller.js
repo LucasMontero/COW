@@ -47,8 +47,8 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
         ctl.execution = false;
       }).then(function(response){
         //Add toast
-        console.log(response.data.toast.message)
-        $location.path('/cow-adm/users');
+        exit(response.data.toast);
+
       });
     }else{
 
@@ -67,10 +67,7 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
 
             mailData.sendMail(mail);
 
-            //Add toast
-            $scope.$emit('userToast', appUtilities.createToast(response.data.toast.message));
-            console.log(response.data.toast.message)
-            $location.path('/cow-adm/users');
+            exit(response.data.toast);      
       });
     }
  }
@@ -78,5 +75,10 @@ angular.module("cowApp").controller("userFormCtrl",["$scope", "$routeParams", "$
  $scope.close = function() {
    $location.path('/cow-adm/users');
  };
+
+ function exit(toast){
+   appUtilities.setToast(toast);
+   $location.path('/cow-adm/users');
+ }
 
 }]);

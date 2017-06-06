@@ -52,10 +52,8 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
     mailData.sendMail(mail)
       .error(function(error){
           ctl.toast = appUtilities.createToast(error.toast);
-          console.log(ctl.toast);
       }).then(function(response){
           ctl.toast = appUtilities.createToast(response.data.toast);
-          console.log(ctl.toast);
       }).finally(function() {
           ctl.execution = false;
       });

@@ -14,6 +14,8 @@ angular.module("cowApp").controller("pagesCtrl",["$routeParams", "$scope","$loca
 
   appUtilities.setTitle("COW Administration panel - Pages");
 
+  ctl.toast = appUtilities.getToast();
+
   //Get users data function
   pageData.getAllPages()
     .success(function(data) {

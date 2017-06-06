@@ -14,9 +14,9 @@ angular.module("cowApp").controller("usersCtrl",["authentication", "$routeParams
                                                   function(authentication, $routeParams, $scope,$location, userData, appUtilities){
   var ctl = this;
 
-
   appUtilities.setTitle("COW Administration panel - Users");
 
+  ctl.toast = appUtilities.getToast();
 
   $scope.$on('userToast', function(event, args) {
       ctl.toast = args;

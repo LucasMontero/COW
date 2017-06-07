@@ -17,7 +17,7 @@ module.exports.checkAdministrator = function(){
       var user = userPopulate(new USER(),{
                                             name:     'administrator',
                                             email:    'admin@cow.com',
-                                            password: 'development',
+                                            password: 'plschangethis'
                                          }
       );
       user.save();

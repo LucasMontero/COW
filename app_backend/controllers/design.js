@@ -33,7 +33,7 @@ module.exports.saveDocument = function(req, res) {
       console.error(new Error("## ERROR ## --> " + err));
       return res.status(500).json(TOAST.unknownErrorToast());
     }
-    return res.status(200).json(TOAST.elementTaskCorrectly("Data", "updated"));
+    return res.status(200).json(TOAST.elementTaskCorrectly(req.query.documentType, "updated"));
   });
 };
 

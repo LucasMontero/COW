@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror', 'ui.bootstrap']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -706,6 +706,7 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$locat
 
   angular.element($window).bind('resize', function(){
     menuOnScreenSize();
+    $scope.$apply();
   });
 
   function menuOnScreenSize(){
@@ -715,22 +716,6 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$locat
       ctl.responsiveMenu = false;
     }
   }
-
-
-}]);
-
-//toast.controller
-/**
- * Add bootstrap angular functions to toast
- *
- * @param  object appUtilities     appUtilities service object
- *
- */
-angular.module("cowApp").controller("toastCtrl",[ "$scope", function($scope, $modalInstance){
-      $scope.closeModal = function(){
-         console.log("asd");
-         $modalInstance.close();
-      }
 }]);
 
 //editUser.controller
@@ -1275,8 +1260,7 @@ angular.module("cowApp").directive("cowsidebar", function(){
 angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/directives/toast.view.html",
-      controller: "toastCtrl as toastCtl"
+      templateUrl: "/views/adm/directives/toast.view.html"
   }
 });
 

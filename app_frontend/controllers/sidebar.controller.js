@@ -45,6 +45,7 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$locat
 
   angular.element($window).bind('resize', function(){
     menuOnScreenSize();
+    $scope.$apply();
   });
 
   function menuOnScreenSize(){
@@ -54,6 +55,4 @@ angular.module('cowApp').controller('sidebarCtrl', ['$scope', '$window', '$locat
       ctl.responsiveMenu = false;
     }
   }
-
-
 }]);

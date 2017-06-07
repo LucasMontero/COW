@@ -6,7 +6,7 @@ var onLoad = function(){
 	else
 	   $('.burger i').attr("class", "fa fa-bars");
 
-	 $( "#responsive-nav-list" ).slideToggle("slow")
+	   $( "#responsive-nav-list" ).slideToggle("slow")
    });
    // GO TOP Button
    $(window).scroll(function() {
@@ -23,7 +23,8 @@ var onLoad = function(){
 				  }, 500);
    });
    //smoothscroll
-	$('a').click(function(){
+	$('.smoth').click(function(event){
+	  	event.preventDefault();
 		$('html, body').animate({
 			scrollTop: $( $(this).attr('href') ).offset().top - 20
 		}, 500);
@@ -32,4 +33,4 @@ var onLoad = function(){
 }
 
 $(document).ready(onLoad)
-$(window).bind('page:change', onLoad)
+

@@ -1,4 +1,4 @@
-var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror', 'ui.bootstrap']);
+var cowApp = angular.module('cowApp', ['ngRoute', 'angularCSS', 'ui.codemirror']);
 
 cowApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider

@@ -20,8 +20,7 @@ angular.module("cowApp").directive("cowsidebar", function(){
 angular.module("cowApp").directive("toast", function(){
   return {
       restrict: "EA",
-      templateUrl: "/views/adm/directives/toast.view.html",
-      controller: "toastCtrl as toastCtl"
+      templateUrl: "/views/adm/directives/toast.view.html"
   }
 });
 

@@ -1,34 +1,34 @@
 <toast></toast>
 <div class="col-md-10">
-  <form ng-submit="ctl.onSubmit()">
+  <form ng-submit="stMailingCtl.onSubmit()">
           <div class="form-group">
               <label for="mailHost">Host</label>
-              <input type="text" class="form-control" id="host" placeholder="Enter your mail provider host. Example: smtp.gmail.com" ng-model="ctl.mailForm.host">
+              <input type="text" class="form-control" id="host" placeholder="Enter your mail provider host. Example: smtp.gmail.com" ng-model="stMailingCtl.mailForm.host">
           </div>
           <div class="form-group">
               <label for="mailPort">Port</label>
-              <input type="text" class="form-control" id="port" placeholder="Enter the port of that host" ng-model="ctl.mailForm.port">
+              <input type="text" class="form-control" id="port" placeholder="Enter the port of that host" ng-model="stMailingCtl.mailForm.port">
           </div>
           <div class="checkbox">
-              <input type="checkbox" id="secure" ng-checked="ctl.pageForm.secure"><label for="mailSecure">Secure</label>
+              <input type="checkbox" id="secure" ng-checked="stMailingCtl.mailForm.secure"><label for="mailSecure">Secure</label>
           </div>
           <h4>Authentication</h4>
           <div class="form-group">
               <label for="mailUsername">User</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your username in the mail provider" ng-model="ctl.mailForm.username">
+              <input type="text" class="form-control" id="username" placeholder="Enter your username in the mail provider" ng-model="stMailingCtl.mailForm.username">
           </div>
           <div class="form-group">
               <label for="mailPassword">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password" ng-model="ctl.mailForm.password">
+              <input type="password" class="form-control" id="password" placeholder="Enter your password" ng-model="stMailingCtl.mailForm.password">
           </div>
           <button type="submit" class="blue-button">Save</button>
   </form>
 
   <h3>Test mailing configuration</h3>
-  <form ng-submit="ctl.onTestMail()">
+  <form ng-submit="stMailingCtl.onTestMail()">
     <div class="form-group test-mail">
       <label for="testMail">To</label>
-      <input type="password" class="form-control" id="test" ng-model="ctl.mailTest.to">
+      <input type="text" class="form-control" id="test" ng-model="stMailingCtl.mailTest.to">
     </div>
     <button type="submit" class="blue-button">Send</button>
   </form>

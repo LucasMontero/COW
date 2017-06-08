@@ -11,8 +11,6 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
 
   appUtilities.setTitle("COW Administration panel - Mailing Settings");
 
-  ctl.mailTo = "";
-
   mailData.getMailParameters()
     .success(function(data) {
       ctl.mailForm = data;
@@ -26,14 +24,13 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
     ctl.execution = true;
     console.log('Setting mail parameters');
 
-    ctl.mailForm.secure = document.getElementById('secure').checked;
-
     mailData.setMailParameters(ctl.mailForm)
       .error(function(error){
           $scope.$emit('createToast', appUtilities.createToast(error.toast));
       }).then(function(response){
           $scope.$emit('createToast', appUtilities.createToast(response.data.toast));
       }).finally(function(){
+          console.log(ctl.mailForm.secure);
           ctl.execution = false;
       });
   };
@@ -47,13 +44,13 @@ angular.module('cowApp').controller('stMailingCtrl', ['appUtilities', '$scope','
     var text    = "This is a test message from cow administration panel";
     var html    = "<p>This is a test message from cow administration panel</p>";
 
-    var mail     = mailData.createEmail(ctl.mailTo, subject, text, html);
+    var mail     = mailData.createEmail(ctl.mailTest.to, subject, text, html);
 
     mailData.sendMail(mail)
       .error(function(error){
           ctl.toast = appUtilities.createToast(error.toast);
       }).then(function(response){
-          ctl.toast = appUtilities.createToast(response.data.toast);
+          $scope.$emit('createToast', appUtilities.createToast(response.data.toast));
       }).finally(function() {
           ctl.execution = false;
       });

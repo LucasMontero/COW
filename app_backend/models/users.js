@@ -50,7 +50,7 @@ userSchema.methods.updatePassword = function(password){
  * @return Boolean Passwords match
  */
 userSchema.methods.validPassword = function(password) {
-  var hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  var hash = CRYPTO.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
   return this.hash === hash;
 };
 

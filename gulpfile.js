@@ -9,11 +9,9 @@ gulp.task('scripts', function() {
   gulp.src(['./app_frontend/*.js', './app_frontend/controllers/*.js', './app_frontend/services/*.js', './app_frontend/directives/*.js', '!./app_frontend/main.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('./main.js'))
-    //.pipe(uglify({mangle: true})) //Uncomment on production
-    .pipe(gulp.dest('app_frontend'))
+    .pipe(uglify({mangle: true})) //Uncomment on production
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('app_frontend'));
-
 });
 
 gulp.task('watch', function() {

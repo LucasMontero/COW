@@ -34,8 +34,9 @@ var onLoad = function(){
 	});
 }
 
-$(document).ready(onLoad)
-$(window).bind('page:change', onLoad)
+$(document).ready(onLoad);
+//$(window).bind('page:change', onLoad);
+
 
 
 
